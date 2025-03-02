@@ -1,10 +1,10 @@
----
+
 
 # 🌿 NutriFast: AI-Powered Meal Planning & Fasting Assistant
 
 **NutriFast** is an AI-driven, data-powered web application designed to optimize personalized nutrition, fasting schedules, and health tracking. Combining machine learning, rich data visualizations, and cloud scalability, NutriFast empowers users to take control of their health journey with actionable insights and recommendations.
 
----
+
 
 ## 🚀 Features
 - 🧠 **AI-Powered Meal Recommendations** (Keto, Vegan Keto, and more)
