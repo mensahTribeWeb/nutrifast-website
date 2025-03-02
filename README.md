@@ -96,7 +96,7 @@ nutrifast-capstone/
 ---
 
 ## 📚 Documentation
-- 📝 [Thesis Draft (LaTeX)](docs/thesis/nutrifast-thesis.tex)
+- 📝 [Thesis Draft (LaTeX)]()
 - 🗂️ Wireframes and Design Notes
 - 📑 API Documentation (Coming Soon)
 
