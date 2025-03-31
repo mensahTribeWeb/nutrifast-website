@@ -34,3 +34,4 @@ tailwind.config.js
 # Optional: Mac/Linux system files
 *.swp
 *.swo
+src/output.css
