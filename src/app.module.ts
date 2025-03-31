@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
+
 import { ReactiveFormsModule } from '@angular/forms';
+import { AppComponent } from './app/app.component'; // Corrected path to AppComponent
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
-import { environment } from '../environments/environment'; // Ensure correct path to environment file
+import { environment } from './environments/environment'; // Ensure correct path to environment file
 
 @NgModule({
   declarations: [AppComponent],
