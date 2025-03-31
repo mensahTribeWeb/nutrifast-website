@@ -1,15 +1,35 @@
 import { Routes } from '@angular/router';
-import { LoginPageComponent } from './pages/login/login-page.component';
-import { SignupPageComponent } from './pages/signup/signup-page.component';
-import { DashboardPageComponent } from './pages/dashboard/dashboard-page.component';
-import { ProfileSettingsPageComponent } from './pages/profile-settings/profile-settings-page.component';
-import { NotFoundPageComponent } from './pages/not-found/not-found-page.component';
 
+// Eager-loaded pages
+
+import { ForgotPasswordPageComponent } from './pages/forgot-password/forgot-password-page/forgot-password-page.component';
+// Ensure the correct path to the ForgotPasswordPageComponent
+// Lazy-loaded
 export const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: 'login', component: LoginPageComponent },
-  { path: 'signup', component: SignupPageComponent },
-  { path: 'dashboard', component: DashboardPageComponent },
-  { path: 'profile-settings', component: ProfileSettingsPageComponent },
-  { path: '**', component: NotFoundPageComponent }, // wildcard 404
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./pages/login/login.component').then((m) => m.LoginPageComponent),
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordPageComponent,
+  },
+  // {
+  //   path: 'signup',
+  //   component: SignupPageComponent,
+  // },
+  // {
+  //   path: 'dashboard',
+  //   component: DashboardPageComponent,
+  // },
+  // {
+  //   path: 'profile-settings',
+  //   component: ProfileSettingsPageComponent,
+  // },
+  // {
+  //   path: '**',
+  //   component: NotFoundPageComponent,
+  // },
 ];
