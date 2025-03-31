@@ -1,0 +1,27 @@
+.welcome-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  width: 100%;
+  min-height: 90vh;
+  text-align: center;
+}
+
+.welcome-text h1 {
+  font-size: 2.5rem;
+  color: var(--gray-900);
+}
+
+.welcome-text p {
+  font-size: 1.25rem;
+  color: var(--gray-700);
+  margin-bottom: 2rem;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
