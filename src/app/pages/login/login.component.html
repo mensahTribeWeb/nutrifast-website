@@ -1,35 +1,23 @@
-<div class="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded">
-  <h2 class="text-2xl font-bold mb-4">Login to NutriFast</h2>
+<form [formGroup]="form" (ngSubmit)="login()">
+  <label for="email">Email:</label>
+  <input id="email" formControlName="email" type="email" />
+  <div *ngIf="form.controls['email'].invalid && form.controls['email'].touched">
+    <small>Email is required and must be a valid email.</small>
+  </div>
 
-  <form [formGroup]="form" (ngSubmit)="login()">
-    <div class="mb-4">
-      <label class="block text-sm mb-1">Email</label>
-      <input
-        class="w-full border px-3 py-2 rounded"
-        formControlName="email"
-        type="email"
-        title="Enter your email address"
-        placeholder="Email address"
-      />
-    </div>
+  <label for="password">Password:</label>
+  <input id="password" formControlName="password" type="password" />
+  <div
+    *ngIf="
+      form.controls['password'].invalid && form.controls['password'].touched
+    "
+  >
+    <small>Password is required.</small>
+  </div>
 
-    <div class="mb-4">
-      <label class="block text-sm mb-1">Password</label>
-      <input
-        class="w-full border px-3 py-2 rounded"
-        formControlName="password"
-        type="password"
-        placeholder="Enter your password"
-      />
-    </div>
+  <button type="submit" [disabled]="form.invalid">Login</button>
 
-    <button
-      class="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded"
-      type="submit"
-    >
-      Login
-    </button>
-
-    <div *ngIf="error" class="text-red-500 mt-2">{{ error }}</div>
-  </form>
-</div>
+  <div *ngIf="error">
+    <p>{{ error }}</p>
+  </div>
+</form>
