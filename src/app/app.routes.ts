@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core'; // Import NgModule
 import { RouterModule, Routes } from '@angular/router'; // Import RouterModule and Routes
 
 import { ForgotPasswordPageComponent } from './pages/forgot-password/forgot-password-page/forgot-password-page.component';
+import { SignupComponent } from './pages/signup/signup.component';
 
-// import { SignupPageComponent } from './pages/signup/signup-page/signup-page.component';
 // import { DashboardPageComponent } from './pages/dashboard/dashboard-page/dashboard-page.component';
 // import { ProfileSettingsPageComponent } from './pages/profile-settings/profile-settings-page/profile-settings-page.component';
 // import { NotFoundPageComponent } from './pages/not-found/not-found-page/not-found-page.component';
@@ -19,10 +19,10 @@ export const routes: Routes = [
     path: 'forgot-password',
     component: ForgotPasswordPageComponent,
   },
-  // {
-  //   path: 'signup',
-  //   component: SignupPageComponent,
-  // },
+  {
+    path: 'signup',
+    component: SignupComponent,
+  },
   // {
   //   path: 'dashboard',
   //   component: DashboardPageComponent,
@@ -36,9 +36,3 @@ export const routes: Routes = [
   //   component: NotFoundPageComponent,
   // },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)], // Make sure RouterModule is imported here
-  exports: [RouterModule], // Export RouterModule to make the routes available
-})
-export class AppRoutingModule {}
