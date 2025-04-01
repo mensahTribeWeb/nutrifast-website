@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-forgot-password-page',
+  standalone: true,
   templateUrl: './forgot-password-page.component.html',
   imports: [CommonModule],
 })

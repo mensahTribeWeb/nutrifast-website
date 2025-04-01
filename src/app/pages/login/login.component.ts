@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login-page',
+  standalone: true,
   templateUrl: './login.component.html',
   imports: [CommonModule, ReactiveFormsModule],
 })
