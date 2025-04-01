@@ -1,36 +1,35 @@
 import { Component } from '@angular/core';
 import {
-  ReactiveFormsModule,
   FormBuilder,
   FormGroup,
   Validators,
+  ReactiveFormsModule,
 } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent {
-  form: FormGroup;
-  error: string | null = null;
+  signupForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
+    this.signupForm = this.fb.group({
+      fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
     });
   }
 
-  signup(): void {
-    if (this.form.valid) {
-      const { email, password } = this.form.value;
-      // Implement signup logic here
-      console.log('Signup successful with email:', email);
-    } else {
-      this.error = 'Please fill out the form correctly.';
+  onSubmit(): void {
+    if (this.signupForm.valid) {
+      console.log('Form Submitted', this.signupForm.value);
+      //
     }
   }
 }
