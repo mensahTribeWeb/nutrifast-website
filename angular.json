@@ -37,7 +37,10 @@
                 "glob": "favicon.ico"
               }
             ],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss",
+              "node_modules/font-awesome/css/font-awesome.min.css"
+            ],
             "scripts": []
           },
           "configurations": {

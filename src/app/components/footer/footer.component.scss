@@ -1,0 +1,62 @@
+.footer {
+  background-color: #a5d6a7; /* Lighter Green */
+  color: white;
+
+  .footer-logo {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+
+    a {
+      text-decoration: none;
+      color: white;
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #fbc02d; /* Kente Gold */
+      }
+    }
+  }
+
+  .footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1.3rem;
+
+    a {
+      color: white;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #fbc02d; /* Kente Gold */
+      }
+    }
+  }
+
+  .footer-copyright {
+    font-size: 0.9rem;
+    margin-top: 1.5rem;
+  }
+
+  .footer-built-with {
+    font-size: 0.9rem;
+    color: #fff;
+    margin-top: 1rem;
+    a {
+      color: #fbc02d; /* Kente Gold */
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
