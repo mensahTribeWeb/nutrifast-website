@@ -1,1 +1,55 @@
-<p>navbar works!</p>
+<nav class="navbar text-white py-4" [class.hidden]="!showNavbar">
+  <div class="container mx-auto flex justify-between items-center">
+    <!-- Logo Section -->
+    <a href="/" class="flex items-center">
+      <img
+        src="../../../assets/images/logo-1.png"
+        alt="NutriFast Logo"
+        class="h-8 lg:h-12"
+      />
+    </a>
+
+    <!-- Mobile Hamburger Menu Button -->
+    <div class="block lg:hidden">
+      <button (click)="toggleMenu()" class="text-white">
+        <span class="material-icons">menu</span>
+      </button>
+    </div>
+
+    <!-- Navbar Links (Desktop) -->
+    <div class="hidden lg:flex space-x-4">
+      <a href="/home" class="text-white hover:text-kente-gold">Home</a>
+      <a href="/about" class="text-white hover:text-kente-gold">About</a>
+      <a
+        href="/login"
+        *ngIf="!userLoggedIn"
+        class="text-white hover:text-kente-gold"
+        >Login</a
+      >
+      <a
+        href="/dashboard"
+        *ngIf="userLoggedIn"
+        class="text-white hover:text-kente-gold"
+        >Dashboard</a
+      >
+    </div>
+
+    <!-- Mobile Menu -->
+    <div *ngIf="showMobileMenu" class="lg:hidden">
+      <a href="/home" class="block text-white hover:text-kente-gold">Home</a>
+      <a href="/about" class="block text-white hover:text-kente-gold">About</a>
+      <a
+        href="/login"
+        *ngIf="!userLoggedIn"
+        class="block text-white hover:text-kente-gold"
+        >Login</a
+      >
+      <a
+        href="/dashboard"
+        *ngIf="userLoggedIn"
+        class="block text-white hover:text-kente-gold"
+        >Dashboard</a
+      >
+    </div>
+  </div>
+</nav>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'; // Import Router service
 
 @Component({
   selector: 'app-dashboard',
@@ -8,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
   userName: string | null = '';
-  router: any;
+
+  // Injecting the Router into the constructor
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     // Retrieve the user's name from localStorage when the dashboard is loaded
