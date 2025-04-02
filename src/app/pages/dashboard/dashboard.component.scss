@@ -1,0 +1,52 @@
+.dashboard-container {
+  background-color: #1a1a1a; /* Dark background for the dashboard */
+  color: #e0e0e0; /* Light text for readability */
+  min-height: 100vh;
+  padding: 2rem;
+
+  .heading {
+    color: #fbc02d; /* Kente Gold color for the heading */
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .card {
+    background-color: #333333; /* Darker background for cards */
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    margin-bottom: 2rem;
+
+    .card-title {
+      font-size: 1.5rem;
+      color: #fbc02d; /* Kente Gold */
+      margin-bottom: 1rem;
+    }
+
+    .card-content {
+      color: #e0e0e0; /* Light text */
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 1rem;
+    }
+
+    .btn {
+      background-color: #1e88e5; /* Kente Blue */
+      color: white;
+      padding: 0.75rem 2rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      margin-left: 1rem;
+
+      &:hover {
+        background-color: #e53935; /* Kente Red */
+      }
+    }
+  }
+}

@@ -1,11 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  standalone: true,
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
+  userName: string | null = '';
+  router: any;
 
+  ngOnInit(): void {
+    // Retrieve the user's name from localStorage when the dashboard is loaded
+    this.userName = localStorage.getItem('userName');
+  }
+
+  logout() {
+    // Clear user name from localStorage
+    localStorage.removeItem('userName');
+
+    // Redirect to the login page
+    this.router.navigate(['/login']);
+  }
 }

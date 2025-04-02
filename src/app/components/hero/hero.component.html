@@ -1,0 +1,24 @@
+<section class="bg-kente-blue text-white py-12 px-6 md:px-12">
+  <div class="hero-content max-w-7xl mx-auto text-center">
+    <h1 class="text-4xl font-extrabold leading-tight mb-4">
+      {{ title }}
+    </h1>
+    <p class="text-lg mb-8">
+      {{ description }}
+    </p>
+    <div class="cta-buttons flex justify-center gap-4">
+      <a
+        [routerLink]="buttonLink1"
+        class="cta-button bg-kente-gold text-black py-2 px-6 rounded-full hover:bg-kente-red transition"
+      >
+        {{ buttonText1 }}
+      </a>
+      <a
+        [routerLink]="buttonLink2"
+        class="cta-button bg-kente-green text-black py-2 px-6 rounded-full hover:bg-kente-red transition"
+      >
+        {{ buttonText2 }}
+      </a>
+    </div>
+  </div>
+</section>
