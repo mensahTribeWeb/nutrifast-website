@@ -6,3 +6,8 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+  [build]
+    command = "node generate-env.js && ng build --configuration=production"
+    publish = "dist/nutrifast"
+
