@@ -1,23 +1,87 @@
-<form [formGroup]="form" (ngSubmit)="login()">
-  <label for="email">Email:</label>
-  <input id="email" formControlName="email" type="email" />
-  <div *ngIf="form.controls['email'].invalid && form.controls['email'].touched">
-    <small>Email is required and must be a valid email.</small>
-  </div>
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+  *ngIf="showModal"
+>
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 space-y-6">
+    <div class="text-center">
+      <h1 class="text-2xl font-bold text-kente-black">Welcome Back 👋</h1>
+      <p class="text-sm text-kente-blue">Log in to your NutriFast account</p>
+    </div>
 
-  <label for="password">Password:</label>
-  <input id="password" formControlName="password" type="password" />
-  <div
-    *ngIf="
-      form.controls['password'].invalid && form.controls['password'].touched
-    "
-  >
-    <small>Password is required.</small>
-  </div>
+    <form [formGroup]="form" (ngSubmit)="login()" class="space-y-4">
+      <!-- Email -->
+      <div>
+        <label for="email" class="block text-sm font-medium text-kente-black"
+          >Email</label
+        >
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-kente-gold focus:border-kente-gold"
+          placeholder="you@example.com"
+        />
+        <div
+          *ngIf="
+            form.controls['email'].invalid && form.controls['email'].touched
+          "
+        >
+          <small class="text-kente-red"
+            >Email is required and must be valid.</small
+          >
+        </div>
+      </div>
 
-  <button type="submit" [disabled]="form.invalid">Login</button>
+      <!-- Password -->
+      <div>
+        <label for="password" class="block text-sm font-medium text-kente-black"
+          >Password</label
+        >
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:ring-kente-gold focus:border-kente-gold"
+          placeholder="••••••••"
+        />
+        <div
+          *ngIf="
+            form.controls['password'].invalid &&
+            form.controls['password'].touched
+          "
+        >
+          <small class="text-kente-red">Password is required.</small>
+        </div>
+      </div>
 
-  <div *ngIf="error">
-    <p>{{ error }}</p>
+      <!-- Submit -->
+      <button
+        type="submit"
+        [disabled]="form.invalid"
+        class="w-full py-2 px-4 bg-kente-gold text-white font-semibold rounded-lg hover:bg-kente-red disabled:opacity-50"
+      >
+        Login
+      </button>
+
+      <!-- Error Message -->
+      <div *ngIf="error">
+        <p class="text-kente-red text-sm text-center">{{ error }}</p>
+      </div>
+    </form>
+
+    <div class="text-center text-sm text-kente-black">
+      Don’t have an account?
+      <a routerLink="/register" class="text-kente-blue hover:underline"
+        >Sign up</a
+      >
+    </div>
+
+    <!-- Close Button -->
+    <button
+      (click)="closeModal()"
+      class="absolute top-4 right-4 text-kente-red text-xl"
+    >
+      &times;
+    </button>
   </div>
-</form>
+</div>

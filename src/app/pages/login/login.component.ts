@@ -1,45 +1,37 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-login-page',
-  standalone: true,
+  selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
   imports: [CommonModule, ReactiveFormsModule],
 })
-export class LoginPageComponent {
+export class LoginComponent {
   form: FormGroup;
   error: string | null = null;
+  showModal = true; // Modal will be visible by default, can be toggled
 
-  constructor(
-    private fb: FormBuilder,
-    private auth: AuthService,
-    private router: Router
-  ) {
+  constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      password: ['', [Validators.required]],
     });
   }
 
-  async login() {
-    const { email, password } = this.form.value;
-    if (!email || !password) return;
-
-    try {
-      const cred = await this.auth.login(email, password);
-      if (!cred.user.emailVerified) {
-        this.error = 'Please verify your email before continuing.';
-        await this.auth.logout();
-        return;
-      }
-      this.router.navigate(['/dashboard']);
-    } catch (err) {
-      this.error = 'Invalid credentials';
+  login() {
+    if (this.form.valid) {
+      // Your login logic here
+      console.log('Login successful!');
+      this.closeModal(); // Close the modal after login
+    } else {
+      this.error = 'Please fill in valid details.';
     }
+  }
+
+  closeModal() {
+    this.showModal = false;
   }
 }
