@@ -1,17 +1,10 @@
+<header class="app-header">
+  <nav>
+    <a routerLink="/home">Home</a>
+    <a routerLink="/profile">Profile</a>
+    <a routerLink="/login">Login</a>
+  </nav>
+</header>
 <main class="main">
-  <div class="welcome-container">
-    <div class="welcome-text">
-      <div class="bg-kente-gold text-kente-black p-4 rounded shadow-md">
-        Welcome to NutriFast
-      </div>
-
-      <p>Your personalized meal planner & fasting assistant.</p>
-      <div class="cta-buttons">
-        <a routerLink="/login" class="pill">Login</a>
-        <a routerLink="/signup" class="pill">Sign Up</a>
-      </div>
-    </div>
-  </div>
+  <router-outlet></router-outlet>
 </main>
-
-<router-outlet />
