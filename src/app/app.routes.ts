@@ -8,6 +8,7 @@ import { AboutComponent } from './components/about/about.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ProfileSettingsComponent } from './pages/profile-settings/profile-settings.component';
+import { AlertComponent } from './components/alert/alert.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirect to home
@@ -38,6 +39,7 @@ export const routes: Routes = [
     path: '**',
     component: NotFoundComponent,
   },
+  { path: 'alert', component: AlertComponent },
 ];
 
 @NgModule({

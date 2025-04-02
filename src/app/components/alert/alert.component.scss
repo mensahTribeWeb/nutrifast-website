@@ -1,0 +1,37 @@
+.alert {
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 5px;
+  position: relative;
+}
+
+.alert-success {
+  background-color: #43a047; /* Success Green */
+  color: white;
+}
+
+.alert-error {
+  background-color: #e53935; /* Error Red */
+  color: white;
+}
+
+.alert-info {
+  background-color: #1e88e5; /* Info Blue */
+  color: white;
+}
+
+.alert-warning {
+  background-color: #fbc02d; /* Warning Yellow */
+  color: black;
+}
+
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}

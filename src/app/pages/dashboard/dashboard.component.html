@@ -1,18 +1,45 @@
 <div class="dashboard-container">
+  <!-- Header Section -->
   <div class="header">
     <h1 class="text-2xl font-bold text-center text-white mb-4">
       Welcome back, {{ userName }}!
     </h1>
-    <!-- Display profile picture -->
+    <!-- Display Profile Picture -->
     <div class="profile-picture mb-4">
       <img
         src="assets/images/bg-1.png"
-        alt="User Avatar"
+        title="Default user avatar"
+        alt="Default user avatar"
         class="w-16 h-16 rounded-full border-2 border-gray-400 mx-auto"
       />
     </div>
   </div>
 
+  <!-- Success Alert -->
+  <app-alert
+    *ngIf="showSuccessAlert"
+    [message]="'You have successfully met your goal! Keep up the great work!'"
+    [type]="'success'"
+  >
+  </app-alert>
+
+  <!-- Error Alert -->
+  <app-alert
+    *ngIf="showErrorAlert"
+    [message]="'There was an issue with your last update. Please try again.'"
+    [type]="'error'"
+  >
+  </app-alert>
+
+  <!-- Info Alert -->
+  <app-alert
+    *ngIf="showInfoAlert"
+    [message]="'Don’t forget to log your meals for the day.'"
+    [type]="'info'"
+  >
+  </app-alert>
+
+  <!-- General Info Section -->
   <p class="text-center text-white mb-8">
     Here you can manage your meal plans, track progress, and adjust settings.
   </p>
@@ -24,15 +51,14 @@
       Track your meals, see calories, and adjust your plans to suit your goals.
     </p>
     <div class="card-footer flex justify-between">
-      <a href="#" class="btn">View Plan</a>
+      <a href="#" class="btn text-kente-blue hover:text-kente-gold"
+        >View Plan</a
+      >
       <div class="progress-bar w-full bg-gray-600 h-2 rounded-full">
         <div class="progress w-2/3 bg-kente-blue h-2 rounded-full"></div>
-        <!-- Progress bar with 2/3 progress -->
       </div>
     </div>
   </div>
-
-  <!-- Add more cards or sections here -->
 
   <!-- Logout Button -->
   <button
