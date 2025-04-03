@@ -1,1 +1,52 @@
-<p>fasting-tracker works!</p>
+<div class="fasting-tracker">
+  <div class="header">
+    <h2>{{ isFasting ? "You're Fasting!" : "Get Ready to Fast!" }}</h2>
+  </div>
+
+  <div class="progress-ring">
+    <!-- Display Time (Elapsed or Remaining) -->
+    <div class="time-display">
+      <h3>{{ isFasting ? "Elapsed Time" : "Time since last fast" }}</h3>
+      <p>{{ formatElapsedTime() }}</p>
+    </div>
+
+    <!-- Progress Ring -->
+    <div class="ring">
+      <div
+        class="ring-progress"
+        [style.stroke-dasharray]="calculateProgressPercentage() + ', 100'"
+      ></div>
+    </div>
+  </div>
+
+  <div class="fasting-tips">
+    <h3>Fasting Tips:</h3>
+    <ul>
+      <li>Drink water or herbal tea to stay hydrated.</li>
+      <li>Keep your mind off food.</li>
+      <li>Avoid high-intensity workouts during fasting.</li>
+    </ul>
+  </div>
+
+  <!-- Alert Section for Confirmation -->
+  <div *ngIf="isAlertVisible" class="alert">
+    <p>{{ alertMessage }}</p>
+    <button (click)="confirmStartFasting()">Start Fast</button>
+    <button (click)="cancelAlert()">Cancel</button>
+  </div>
+
+  <!-- Start/Stop Fasting Button -->
+  <div class="start-button-container">
+    <button (click)="isFasting ? stopFasting() : startFasting()">
+      {{ isFasting ? "End Fasting" : "Start Custom Fasting" }}
+    </button>
+  </div>
+
+  <!-- Custom Fasting Button -->
+  <div class="start-button-container">
+    <button (click)="showModal()">Start Custom Fasting</button>
+  </div>
+
+  <!-- Modal Component for Custom Fasting -->
+  <app-fasting-modal *ngIf="isModalVisible"></app-fasting-modal>
+</div>

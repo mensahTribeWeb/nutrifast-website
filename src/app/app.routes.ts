@@ -45,6 +45,13 @@ export const routes: Routes = [
     component: AnalyticsSummaryComponent,
   },
   {
+    path: 'fasting-tracker',
+    loadComponent: () =>
+      import('./components/fasting-tracker/fasting-tracker.component').then(
+        (m) => m.FastingTrackerComponent
+      ),
+  },
+  {
     path: '**',
     component: NotFoundComponent,
   },
