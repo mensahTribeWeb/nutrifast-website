@@ -1,0 +1,82 @@
+.analytics-summary-container {
+  padding-top: 4rem; /* Adjust space for navbar */
+  margin: 0 auto;
+  max-width: 1200px; /* Make sure it’s centered */
+}
+
+.key-metrics {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.metric-card {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 30%;
+  text-align: center;
+}
+
+.charts-section {
+  margin-bottom: 1rem;
+}
+
+.chart-placeholder {
+  background: #e0e0e0;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.goal-progress {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.weight-progress-section {
+  background-color: #f4f4f4;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.progress-card {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.weight-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.weight-item h4 {
+  font-weight: bold;
+}
+
+.progress-bar {
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  height: 10px;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.progress {
+  background-color: #1e88e5;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.progress-info {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  color: #1e88e5;
+}

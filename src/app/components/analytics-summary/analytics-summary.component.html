@@ -1,1 +1,63 @@
-<p>analytics-summary works!</p>
+<div class="analytics-summary-container pt-16">
+  <!-- Added pt-16 to push content down -->
+  <h2 class="text-center text-xl font-bold mb-4">Your Analytics Summary</h2>
+
+  <div class="key-metrics mb-6">
+    <!-- Added margin-bottom -->
+    <div class="metric-card">
+      <h3>Calories Consumed</h3>
+      <p>2,300 kcal</p>
+    </div>
+    <div class="metric-card">
+      <h3>Calories Burned</h3>
+      <p>2,500 kcal</p>
+    </div>
+    <div class="metric-card">
+      <h3>Weight Progress</h3>
+      <p>160 lbs</p>
+    </div>
+  </div>
+
+  <div class="charts-section mb-6">
+    <h3 class="text-center text-lg font-semibold mb-4">Meal Breakdown</h3>
+    <!-- Placeholder instead of chart -->
+    <div class="chart-placeholder">
+      <p>Chart Placeholder</p>
+    </div>
+  </div>
+
+  <div class="goal-progress mb-6">
+    <h3 class="text-center text-lg font-semibold mb-4">Goal Progress</h3>
+    <p>You're 75% towards your goal!</p>
+  </div>
+
+  <div class="weight-progress-section mb-8">
+    <h3 class="text-center text-xl font-semibold mb-4">Weight Progress</h3>
+
+    <div class="progress-card">
+      <div class="weight-info">
+        <div class="weight-item">
+          <h4>Start Weight:</h4>
+          <p>{{ startWeight }} lbs</p>
+        </div>
+        <div class="weight-item">
+          <h4>Current Weight:</h4>
+          <p>{{ currentWeight }} lbs</p>
+        </div>
+        <div class="weight-item">
+          <h4>Goal Weight:</h4>
+          <p>{{ goalWeight }} lbs</p>
+        </div>
+      </div>
+
+      <!-- Weight Progress Bar -->
+      <div class="progress-bar">
+        <div class="progress" [style.width]="progressPercentage + '%'"></div>
+      </div>
+
+      <div class="progress-info">
+        <p>{{ progressPercentage }}% of your goal achieved!</p>
+      </div>
+    </div>
+  </div>
+</div>
