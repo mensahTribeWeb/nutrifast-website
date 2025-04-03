@@ -35,7 +35,7 @@ export const routes: Routes = [
     component: DashboardComponent,
   },
   {
-    path: 'profile-settings',
+    path: 'settings',
     component: ProfileSettingsComponent,
   },
   { path: 'alert', component: AlertComponent },

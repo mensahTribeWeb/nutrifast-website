@@ -1,1 +1,219 @@
-<p>profile-settings works!</p>
+<div
+  class="profile-settings-container p-6 bg-white rounded-lg shadow-md w-full md:w-2/3 mx-auto mt-32"
+>
+  <h2 class="text-2xl font-semibold text-center mb-6">Profile Settings</h2>
+
+  <!-- Greeting Message -->
+  <div class="greeting-section mb-6">
+    <h3 class="text-xl text-gray-700 text-center">
+      {{ greetingMessage }} {{ userName ? userName : "" }}
+    </h3>
+  </div>
+
+  <!-- Image Upload Section -->
+  <div class="image-upload mb-6 text-center">
+    <label for="profileImage" class="block text-sm font-medium text-gray-700">
+      Upload Profile Image:
+    </label>
+    <input
+      type="file"
+      (change)="onImageSelect($event)"
+      accept="image/*"
+      id="profileImage"
+      class="mt-2 block w-full text-sm text-gray-500 border border-gray-300 rounded-md"
+    />
+    <div *ngIf="profileImageUrl" class="mt-4">
+      <img
+        [src]="profileImageUrl"
+        alt="Profile Image"
+        class="profile-image-preview w-24 h-24 rounded-full mx-auto"
+      />
+    </div>
+    <div *ngIf="imageUploadError" class="mt-2 text-red-500 text-sm">
+      <small>Only image files are allowed!</small>
+    </div>
+  </div>
+
+  <!-- Profile Form -->
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <!-- Personal Info Section -->
+    <div class="form-section grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="col-span-1">
+        <label for="age" class="block text-sm font-medium text-gray-700"
+          >Age:</label
+        >
+        <input
+          id="age"
+          type="number"
+          formControlName="age"
+          class="mt-1 block w-full px-4 py-2 text-sm border rounded-md"
+        />
+      </div>
+
+      <div class="col-span-1">
+        <label for="gender" class="block mt-4 text-sm font-medium text-gray-700"
+          >Gender:</label
+        >
+        <select
+          id="gender"
+          formControlName="gender"
+          class="mt-1 block w-full px-4 py-2 text-sm border rounded-md"
+        >
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="col-span-1">
+        <label for="height" class="block mt-4 text-sm font-medium text-gray-700"
+          >Height (in inches):</label
+        >
+        <input
+          id="height"
+          type="number"
+          formControlName="height"
+          class="mt-1 block w-full px-4 py-2 text-sm border rounded-md"
+        />
+      </div>
+
+      <div class="col-span-1">
+        <label for="weight" class="block mt-4 text-sm font-medium text-gray-700"
+          >Weight (lbs):</label
+        >
+        <input
+          id="weight"
+          type="number"
+          formControlName="weight"
+          class="mt-1 block w-full px-4 py-2 text-sm border rounded-md"
+        />
+      </div>
+    </div>
+
+    <!-- Activity Level -->
+    <div class="form-section">
+      <h3 class="text-xl font-semibold text-gray-800">Activity Level</h3>
+      <label for="activityLevel" class="block text-sm font-medium text-gray-700"
+        >Activity Level:</label
+      >
+      <select
+        id="activityLevel"
+        formControlName="activityLevel"
+        class="mt-1 block w-full px-4 py-2 text-sm border rounded-md"
+      >
+        <option value="sedentary">Sedentary</option>
+        <option value="light">Lightly Active</option>
+        <option value="moderate">Moderately Active</option>
+        <option value="active">Active</option>
+        <option value="veryActive">Very Active</option>
+      </select>
+    </div>
+
+    <!-- Dietary Preferences -->
+    <div class="form-section">
+      <h3 class="text-xl font-semibold text-gray-800">Dietary Preferences</h3>
+      <label for="goal" class="block text-sm font-medium text-gray-700"
+        >Goal:</label
+      >
+      <select
+        id="goal"
+        formControlName="goal"
+        class="mt-1 block w-full px-4 py-2 text-sm border rounded-md"
+      >
+        <option value="weightLoss">Weight Loss</option>
+        <option value="bulking">Bulking</option>
+        <option value="maintenance">Maintenance</option>
+      </select>
+
+      <label for="dietType" class="block mt-4 text-sm font-medium text-gray-700"
+        >Diet Type:</label
+      >
+      <select
+        id="dietType"
+        formControlName="dietType"
+        class="mt-1 block w-full px-4 py-2 text-sm border rounded-md"
+      >
+        <option value="regular">Regular</option>
+        <option value="vegan">Vegan</option>
+        <option value="keto">Keto</option>
+        <option value="paleo">Paleo</option>
+        <option value="vegetarian">Vegetarian</option>
+        <option value="glutenFree">Gluten-Free</option>
+      </select>
+
+      <label
+        for="allergies"
+        class="block mt-4 text-sm font-medium text-gray-700"
+        >Allergies (optional):</label
+      >
+      <input
+        id="allergies"
+        type="text"
+        formControlName="allergies"
+        class="mt-1 block w-full px-4 py-2 text-sm border rounded-md"
+      />
+
+      <label
+        for="cuisinePref"
+        class="block mt-4 text-sm font-medium text-gray-700"
+        >Cuisine Preferences (optional):</label
+      >
+      <input
+        id="cuisinePref"
+        type="text"
+        formControlName="cuisinePref"
+        class="mt-1 block w-full px-4 py-2 text-sm border rounded-md"
+      />
+    </div>
+
+    <!-- Fasting Preferences -->
+    <div class="form-section">
+      <h3 class="text-xl font-semibold text-gray-800">Fasting Preferences</h3>
+      <label for="fastingType" class="block text-sm font-medium text-gray-700"
+        >Fasting Type:</label
+      >
+      <select
+        id="fastingType"
+        formControlName="fastingType"
+        class="mt-1 block w-full px-4 py-2 text-sm border rounded-md"
+      >
+        <option value="16:8">16:8</option>
+        <option value="18:6">18:6</option>
+        <option value="omad">OMAD</option>
+        <option value="custom">Custom</option>
+      </select>
+
+      <label
+        for="eatingStart"
+        class="block mt-4 text-sm font-medium text-gray-700"
+        >Eating Start (optional):</label
+      >
+      <input
+        id="eatingStart"
+        type="time"
+        formControlName="eatingStart"
+        class="mt-1 block w-full px-4 py-2 text-sm border rounded-md"
+      />
+
+      <label
+        for="eatingEnd"
+        class="block mt-4 text-sm font-medium text-gray-700"
+        >Eating End (optional):</label
+      >
+      <input
+        id="eatingEnd"
+        type="time"
+        formControlName="eatingEnd"
+        class="mt-1 block w-full px-4 py-2 text-sm border rounded-md"
+      />
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="profileForm.invalid"
+      class="mt-6 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+    >
+      Save Profile
+    </button>
+  </form>
+</div>
