@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
-  imports: [FormsModule], // Import any necessary modules here
+  imports: [FormsModule],
 })
 export class FastingModalComponent {
   @Output() fastingConfirmed = new EventEmitter<{

@@ -12,6 +12,17 @@ import { AlertComponent } from './components/alert/alert.component';
 import { AnalyticsSummaryComponent } from './components/analytics-summary/analytics-summary.component'; // Adjust based on the correct path
 
 import { LoginComponent } from './pages/login/login.component';
+import { UserStatsComponent } from './components/user-stats/user-stats.component';
+
+import { Router } from '@angular/router';
+import { UserService } from './services/user.service';
+
+export class AppRoutes {
+  constructor(
+    private router: Router,
+    private userProfileService: UserService
+  ) {}
+}
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirect to home
@@ -34,10 +45,8 @@ export const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
   },
-  {
-    path: 'settings',
-    component: ProfileSettingsComponent,
-  },
+  { path: 'settings', component: ProfileSettingsComponent },
+  { path: 'user-stats', component: UserStatsComponent },
   { path: 'alert', component: AlertComponent },
 
   {
@@ -51,6 +60,7 @@ export const routes: Routes = [
         (m) => m.FastingTrackerComponent
       ),
   },
+
   {
     path: '**',
     component: NotFoundComponent,

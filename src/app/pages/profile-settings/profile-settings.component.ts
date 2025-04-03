@@ -1,33 +1,36 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
-  FormGroup,
   FormBuilder,
-  Validators,
+  FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
+import { UserService } from '../../services/user.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profile-settings',
-  standalone: true,
   templateUrl: './profile-settings.component.html',
   styleUrls: ['./profile-settings.component.scss'],
   imports: [CommonModule, ReactiveFormsModule],
 })
 export class ProfileSettingsComponent implements OnInit {
-  profileImageUrl: string | ArrayBuffer | null = null; // Store the selected image URL
-  imageUploadError: string = ''; // Store image error messages
-  profileForm: FormGroup; // Reactive form group for profile data
-  greetingMessage: string = 'Hello, '; // Dynamic greeting message
-  userName: string = 'John Doe'; // Placeholder for user's name
+  profileForm: FormGroup;
+  profileImageUrl: string | undefined; // For storing selected image URL
+  imageUploadError: string | undefined; // For image error messages
+  defaultImageUrl: string =
+    'https://images.pexels.com/photos/1759524/pexels-photo-1759524.jpeg?auto=compress&cs=tinysrgb&w=600'; // Unsplash default image URL
+  // Default image URL
 
-  constructor(private fb: FormBuilder) {
-    // Initialize the form with validators
+  greetingMessage: string = 'Good Morning';
+  userName: string = 'John Doe';
+
+  constructor(private fb: FormBuilder, private userService: UserService) {
     this.profileForm = this.fb.group({
-      age: ['', [Validators.required, Validators.min(18)]],
+      age: ['', Validators.required],
       gender: ['', Validators.required],
-      height: ['', [Validators.required, Validators.min(1)]],
-      weight: ['', [Validators.required, Validators.min(1)]],
+      height: ['', Validators.required],
+      weight: ['', Validators.required],
       activityLevel: ['', Validators.required],
       goal: ['', Validators.required],
       dietType: ['', Validators.required],
@@ -40,40 +43,34 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Additional initialization logic if needed
+    // Load user profile here
+    const profile = this.userService.getUserProfile();
+    if (profile) {
+      this.profileForm.patchValue(profile); // Populate the form with saved data
+    }
   }
 
-  // Method to handle image selection
-  onImageSelect(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input?.files?.length) {
-      const file = input.files[0];
+  // Handle image selection
+  onImageSelect(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
       const reader = new FileReader();
-      reader.onload = () => {
-        this.profileImageUrl = reader.result; // Store the image URL
+      reader.onload = (e: any) => {
+        this.profileImageUrl = e.target.result; // Set image URL to display
       };
-      reader.onerror = (error) => {
-        this.imageUploadError = 'Error uploading image. Please try again.';
-      };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file); // Read the file
+    } else {
+      this.imageUploadError = 'Only image files are allowed!';
     }
   }
 
   // Handle form submission
-  onSubmit(): void {
+  onSubmit() {
     if (this.profileForm.valid) {
-      console.log('User Profile:', this.profileForm.value);
-      // Call a service to save the profile data or process it
+      this.userService.saveUserProfile(this.profileForm.value);
+      alert('Profile updated successfully!');
     } else {
-      console.log('Form is invalid!');
-      this.markAllAsTouched(); // Mark all fields as touched to trigger validation messages
+      alert('Please fill in all required fields!');
     }
-  }
-
-  // Helper method to mark all form controls as touched
-  markAllAsTouched(): void {
-    Object.keys(this.profileForm.controls).forEach((key) => {
-      this.profileForm.controls[key].markAsTouched();
-    });
   }
 }

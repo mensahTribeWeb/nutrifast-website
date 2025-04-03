@@ -22,9 +22,9 @@
       id="profileImage"
       class="mt-2 block w-full text-sm text-gray-500 border border-gray-300 rounded-md"
     />
-    <div *ngIf="profileImageUrl" class="mt-4">
+    <div *ngIf="profileImageUrl || !profileImageUrl" class="mt-4">
       <img
-        [src]="profileImageUrl"
+        [src]="profileImageUrl || defaultImageUrl"
         alt="Profile Image"
         class="profile-image-preview w-24 h-24 rounded-full mx-auto"
       />
@@ -90,7 +90,7 @@
       </div>
     </div>
 
-    <!-- Activity Level -->
+    <!-- Activity Level Section -->
     <div class="form-section">
       <h3 class="text-xl font-semibold text-gray-800">Activity Level</h3>
       <label for="activityLevel" class="block text-sm font-medium text-gray-700"
@@ -109,7 +109,7 @@
       </select>
     </div>
 
-    <!-- Dietary Preferences -->
+    <!-- Dietary Preferences Section -->
     <div class="form-section">
       <h3 class="text-xl font-semibold text-gray-800">Dietary Preferences</h3>
       <label for="goal" class="block text-sm font-medium text-gray-700"
@@ -166,7 +166,7 @@
       />
     </div>
 
-    <!-- Fasting Preferences -->
+    <!-- Fasting Preferences Section -->
     <div class="form-section">
       <h3 class="text-xl font-semibold text-gray-800">Fasting Preferences</h3>
       <label for="fastingType" class="block text-sm font-medium text-gray-700"
@@ -208,6 +208,7 @@
       />
     </div>
 
+    <!-- Submit Button -->
     <button
       type="submit"
       [disabled]="profileForm.invalid"

@@ -1,1 +1,43 @@
-<p>user-stats works!</p>
+<div
+  class="user-stats-container p-6 bg-white rounded-lg shadow-md w-full md:w-2/3 mx-auto mt-32"
+>
+  <h2 class="text-2xl font-semibold text-center mb-6">User Stats</h2>
+
+  <div class="user-info mb-6" *ngIf="userStats">
+    <h3 class="text-xl text-gray-700">Hello, {{ userStats.userName }}!</h3>
+    <p>Age: {{ userStats.age }} years</p>
+    <p>Gender: {{ userStats.gender }}</p>
+    <p>Height: {{ userStats.height }} inches</p>
+    <p>Weight: {{ userStats.weight }} lbs</p>
+  </div>
+
+  <div class="activity-level mb-6">
+    <h3 class="text-xl font-semibold text-gray-800">Activity Level</h3>
+    <p>{{ userStats.activityLevel }}</p>
+  </div>
+
+  <div class="fasting-preferences mb-6">
+    <h3 class="text-xl font-semibold text-gray-800">Fasting Preferences</h3>
+    <p>Fasting Type: {{ userStats.fastingType }}</p>
+    <p>
+      Eating Window: {{ userStats.eatingStart }} to {{ userStats.eatingEnd }}
+    </p>
+  </div>
+
+  <div class="dietary-preferences mb-6">
+    <h3 class="text-xl font-semibold text-gray-800">Dietary Preferences</h3>
+    <p>Goal: {{ userStats.goal }}</p>
+    <p>Diet Type: {{ userStats.dietType }}</p>
+    <p>Cuisine Preferences: {{ userStats.cuisinePref || "None" }}</p>
+    <p>Allergies: {{ userStats.allergies || "None" }}</p>
+  </div>
+
+  <div class="text-center">
+    <button
+      class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+      (click)="goToProfileSettings()"
+    >
+      Edit Profile
+    </button>
+  </div>
+</div>
