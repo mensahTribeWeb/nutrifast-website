@@ -1,0 +1,11 @@
+.cta-section {
+  background: linear-gradient(to right, #fbc02d, #ffb600);
+}
+
+a {
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+  }
+}
