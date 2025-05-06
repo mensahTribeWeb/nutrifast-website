@@ -1,40 +1,46 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
 })
 export class NavbarComponent implements OnInit {
-  showNavbar = true; // Navbar visibility on scroll
-  lastScrollTop = 0; // Keep track of scroll position
-  userLoggedIn = false; // Set user login state (use actual logic here)
-  showMobileMenu = false; // Toggle for mobile menu visibility
+  showNavbar = true;
+  lastScrollTop = 0;
+  userLoggedIn = false;
+  showMobileMenu = false;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.userLoggedIn = !!localStorage.getItem('userName');
+  }
 
   @HostListener('window:scroll', ['$event'])
   onWindowScroll(event: Event) {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-    if (scrollTop > this.lastScrollTop) {
-      // If scrolling down, hide navbar
-      this.showNavbar = false;
-    } else {
-      // If scrolling up, show navbar
-      this.showNavbar = true;
-    }
-
-    this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // Ensure correct behavior for mobile or negative scroll
+    this.showNavbar = scrollTop <= this.lastScrollTop;
+    this.lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
   }
 
   toggleMenu() {
-    // Toggle the mobile menu visibility
     this.showMobileMenu = !this.showMobileMenu;
+  }
+
+  logout(): void {
+    localStorage.removeItem('userName');
+    this.userLoggedIn = false;
+    this.router.navigate(['/login']);
+  }
+
+  navigateAndCloseMenu(path: string): void {
+    this.showMobileMenu = false;
+    this.router.navigate([path]);
   }
 }

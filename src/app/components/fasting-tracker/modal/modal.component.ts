@@ -8,9 +8,11 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
 })
 export class FastingModalComponent {
+  isModalVisible: boolean = true; // or false, depending on when you show it
+
   @Output() fastingConfirmed = new EventEmitter<{
     startTime: string;
     endTime: string;
@@ -22,7 +24,6 @@ export class FastingModalComponent {
   endTime: string = '';
   weight: number | null = null;
 
-  // Save fasting data and emit event to parent
   saveFasting() {
     if (this.startTime && this.endTime && this.weight) {
       this.fastingConfirmed.emit({
@@ -30,13 +31,14 @@ export class FastingModalComponent {
         endTime: this.endTime,
         weight: this.weight,
       });
+      this.isModalVisible = false; // hide modal after saving
     } else {
       alert('Please fill in all fields');
     }
   }
 
-  // Emit cancel event
   cancelModal() {
     this.cancel.emit();
+    this.isModalVisible = false; // hide modal on cancel
   }
 }

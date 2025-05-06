@@ -5,33 +5,36 @@
   width: 100%;
   z-index: 10;
   transition: top 0.3s ease-in-out;
-  background-color: transparent; /* Make the navbar transparent */
-  color: white; /* Ensure the text color is readable on the hero section */
-  box-shadow: none; /* Optional: Remove any shadows to make it look clean */
+  background-color: transparent;
+  color: white;
+  box-shadow: none;
+  padding-bottom: 1rem; // ✅ add bottom padding
 
   &.hidden {
-    top: -100px; /* Hide navbar on scroll down */
+    top: -100px;
   }
 
   .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 1rem; // ✅ add margin below navbar to push page content down
   }
 
   a {
-    color: white; /* Set color to white to contrast with hero */
+    color: white;
     text-decoration: none;
     padding: 0.5rem 1rem;
+
     &:hover {
-      color: #fbc02d; /* Kente Gold */
+      color: #fbc02d; // Kente Gold
     }
   }
 
-  /* Logo */
-  .navbar img {
+  img {
     max-height: 50px;
     max-width: 100%;
+    margin-right: 0.5rem; // ✅ space between logo and text
   }
 
   .material-icons {
@@ -47,13 +50,10 @@
       display: block;
     }
 
-    .hidden {
-      display: block;
-    }
-
     .container {
       flex-direction: column;
       text-align: center;
+      margin-bottom: 1.5rem;
     }
   }
 }

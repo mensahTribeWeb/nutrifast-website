@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-meal-planner',
-  imports: [],
+  standalone: true,
   templateUrl: './meal-planner.component.html',
-  styleUrl: './meal-planner.component.scss'
+  styleUrls: ['./meal-planner.component.scss'],
+  imports: [CommonModule],
 })
-export class MealPlannerComponent {
-
-}
+export class MealPlannerComponent {}

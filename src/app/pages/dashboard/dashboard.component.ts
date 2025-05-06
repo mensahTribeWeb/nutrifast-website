@@ -1,49 +1,48 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'; // Import Router service
-import { AlertComponent } from '../../components/alert/alert.component'; // Import Alert component
-import { CommonModule } from '@angular/common'; // Import CommonModule for ngIf
+import { Router, RouterModule } from '@angular/router';
+import { AlertComponent } from '../../components/alert/alert.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  imports: [AlertComponent, CommonModule], // Import CommonModule here
+  imports: [AlertComponent, CommonModule, RouterModule], // ✅ Add RouterModule here
 })
 export class DashboardComponent implements OnInit {
   userName: string | null = '';
-  showSuccessAlert: boolean = false;
-  showErrorAlert: boolean = false;
-  showInfoAlert: boolean = false;
+  userStats = {
+    caloriesToday: 0,
+    fastingHours: 0,
+    weight: 0,
+  };
+
+  // Alerts
+  showSuccessAlert = false;
+  showErrorAlert = false;
+  showInfoAlert = false;
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    // Retrieve the user's name from localStorage when the dashboard is loaded
-    this.userName = localStorage.getItem('userName');
+    this.userName = localStorage.getItem('userName') || 'User';
+    this.userStats = {
+      caloriesToday: 1200,
+      fastingHours: 14,
+      weight: 160,
+    };
 
-    // Automatically show alerts when the dashboard loads (optional)
-    this.showSuccessAlert = true; // You can replace this with logic based on your conditions
-    setTimeout(() => {
-      this.showSuccessAlert = false;
-    }, 3000); // Hide after 3 seconds
-
+    this.showSuccessAlert = true;
+    setTimeout(() => (this.showSuccessAlert = false), 3000);
     this.showErrorAlert = true;
-    setTimeout(() => {
-      this.showErrorAlert = false;
-    }, 5000); // Hide after 5 seconds
-
+    setTimeout(() => (this.showErrorAlert = false), 5000);
     this.showInfoAlert = true;
-    setTimeout(() => {
-      this.showInfoAlert = false;
-    }, 7000); // Hide after 7 seconds
+    setTimeout(() => (this.showInfoAlert = false), 7000);
   }
 
-  logout() {
-    // Clear user name from localStorage
+  logout(): void {
     localStorage.removeItem('userName');
-
-    // Redirect to the login page
     this.router.navigate(['/login']);
   }
 }

@@ -16,6 +16,7 @@ import { UserStatsComponent } from './components/user-stats/user-stats.component
 
 import { Router } from '@angular/router';
 import { UserService } from './services/user.service';
+import { AuthGuard } from './auth.guard';
 
 export class AppRoutes {
   constructor(
@@ -28,11 +29,12 @@ export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // Redirect to home
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
-  {
-    path: 'login',
-    loadComponent: () =>
-      import('./pages/login/login.component').then((m) => m.LoginComponent),
-  },
+  // {
+  //   path: 'login',
+  //   loadComponent: () =>
+  //     import('./pages/login/login.component').then((m) => m.LoginComponent),
+  // },
+  { path: 'login', component: LoginComponent },
   {
     path: 'forgot-password',
     component: ForgotPasswordPageComponent,
@@ -41,10 +43,39 @@ export const routes: Routes = [
     path: 'signup',
     component: SignupComponent,
   },
+  // {
+  //   path: 'dashboard',
+  //   component: DashboardComponent,
+  //   canActivate: [AuthGuard],
+  // },
   {
     path: 'dashboard',
     component: DashboardComponent,
   },
+  {
+    path: 'meal-plan',
+    loadComponent: () =>
+      import('./components/meal-planner/meal-planner.component').then(
+        (m) => m.MealPlannerComponent
+      ),
+  },
+
+  {
+    path: 'fasting-tracker',
+    loadComponent: () =>
+      import('./components/fasting-tracker/fasting-tracker.component').then(
+        (m) => m.FastingTrackerComponent
+      ),
+  },
+
+  {
+    path: 'progress',
+    loadComponent: () =>
+      import('./components/progress-charts/progress-charts.component').then(
+        (m) => m.ProgressChartsComponent
+      ),
+  },
+
   { path: 'settings', component: ProfileSettingsComponent },
   { path: 'user-stats', component: UserStatsComponent },
   { path: 'alert', component: AlertComponent },
@@ -52,13 +83,6 @@ export const routes: Routes = [
   {
     path: 'analytics-summary',
     component: AnalyticsSummaryComponent,
-  },
-  {
-    path: 'fasting-tracker',
-    loadComponent: () =>
-      import('./components/fasting-tracker/fasting-tracker.component').then(
-        (m) => m.FastingTrackerComponent
-      ),
   },
 
   {

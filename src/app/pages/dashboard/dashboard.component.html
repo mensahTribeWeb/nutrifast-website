@@ -1,70 +1,107 @@
-<div class="dashboard-container">
-  <!-- Header Section -->
-  <div class="header">
-    <h1 class="text-2xl font-bold text-center text-white mb-4">
-      Welcome back, {{ userName }}!
-    </h1>
-    <!-- Display Profile Picture -->
-    <div class="profile-picture mb-4">
+<div class="dashboard-container p-4 sm:p-6 pt-20 max-w-7xl mx-auto">
+  <!-- Header -->
+  <div
+    class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6"
+  >
+    <div class="flex items-center mb-4 sm:mb-0">
       <img
         src="assets/images/bg-1.png"
-        title="Default user avatar"
-        alt="Default user avatar"
-        class="w-16 h-16 rounded-full border-2 border-gray-400 mx-auto"
+        alt="User Avatar"
+        class="w-12 h-12 rounded-full mr-4"
       />
-    </div>
-  </div>
-
-  <!-- Success Alert -->
-  <app-alert
-    *ngIf="showSuccessAlert"
-    [message]="'You have successfully met your goal! Keep up the great work!'"
-    [type]="'success'"
-  >
-  </app-alert>
-
-  <!-- Error Alert -->
-  <app-alert
-    *ngIf="showErrorAlert"
-    [message]="'There was an issue with your last update. Please try again.'"
-    [type]="'error'"
-  >
-  </app-alert>
-
-  <!-- Info Alert -->
-  <app-alert
-    *ngIf="showInfoAlert"
-    [message]="'Don’t forget to log your meals for the day.'"
-    [type]="'info'"
-  >
-  </app-alert>
-
-  <!-- General Info Section -->
-  <p class="text-center text-white mb-8">
-    Here you can manage your meal plans, track progress, and adjust settings.
-  </p>
-
-  <!-- Meal Plan Summary Card -->
-  <div class="card">
-    <h2 class="card-title">Meal Plan Summary</h2>
-    <p class="card-content">
-      Track your meals, see calories, and adjust your plans to suit your goals.
-    </p>
-    <div class="card-footer flex justify-between">
-      <a href="#" class="btn text-kente-blue hover:text-kente-gold"
-        >View Plan</a
-      >
-      <div class="progress-bar w-full bg-gray-600 h-2 rounded-full">
-        <div class="progress w-2/3 bg-kente-blue h-2 rounded-full"></div>
+      <div>
+        <h1 class="text-xl sm:text-3xl font-bold text-kente-green">
+          Welcome back, {{ userName }}!
+        </h1>
+        <p class="text-gray-400">Here’s your health summary for today.</p>
       </div>
     </div>
+    <button
+      (click)="logout()"
+      class="bg-kente-red text-white px-4 py-2 rounded hover:bg-kente-blue transition"
+    >
+      Logout
+    </button>
   </div>
 
-  <!-- Logout Button -->
-  <button
-    (click)="logout()"
-    class="bg-kente-red text-white py-2 px-6 rounded-full mt-4 block mx-auto hover:bg-kente-blue transition"
-  >
-    Logout
-  </button>
+  <!-- Quick Stats -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+    <div class="bg-white shadow p-4 rounded">
+      <h2 class="text-lg font-semibold mb-2 text-kente-gold">Calories Today</h2>
+      <p>{{ userStats.caloriesToday }} kcal</p>
+    </div>
+    <div class="bg-white shadow p-4 rounded">
+      <h2 class="text-lg font-semibold mb-2 text-kente-gold">Fasting Hours</h2>
+      <p>{{ userStats.fastingHours }} hours</p>
+    </div>
+    <div class="bg-white shadow p-4 rounded">
+      <h2 class="text-lg font-semibold mb-2 text-kente-gold">Current Weight</h2>
+      <p>{{ userStats.weight }} lbs</p>
+    </div>
+  </div>
+
+  <!-- Feature Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+    <div class="card bg-gray-800 p-4 rounded">
+      <h3 class="font-semibold text-kente-gold mb-2">Meal Plan Summary</h3>
+      <p>Track and adjust your personalized meal plan.</p>
+      <a routerLink="/meal-plan" class="text-kente-blue hover:underline"
+        >View Plan</a
+      >
+    </div>
+    <div class="card bg-gray-800 p-4 rounded">
+      <h3 class="font-semibold text-kente-gold mb-2">Fasting Tracker</h3>
+      <p>Manage your fasting schedule and goals.</p>
+      <a routerLink="/fasting-tracker" class="text-kente-blue hover:underline"
+        >Go to Tracker</a
+      >
+    </div>
+    <div class="card bg-gray-800 p-4 rounded">
+      <h3 class="font-semibold text-kente-gold mb-2">Progress Dashboard</h3>
+      <p>Check health trends and insights.</p>
+      <a routerLink="/progress" class="text-kente-blue hover:underline"
+        >View Progress</a
+      >
+    </div>
+    <div class="card bg-gray-800 p-4 rounded">
+      <h3 class="font-semibold text-kente-gold mb-2">Analytics Summary</h3>
+      <p>Review detailed performance stats.</p>
+      <a routerLink="/analytics-summary" class="text-kente-blue hover:underline"
+        >View Analytics</a
+      >
+    </div>
+    <div class="card bg-gray-800 p-4 rounded">
+      <h3 class="font-semibold text-kente-gold mb-2">Profile Settings</h3>
+      <p>Manage your account and preferences.</p>
+      <a routerLink="/settings" class="text-kente-blue hover:underline"
+        >Edit Profile</a
+      >
+    </div>
+    <div class="card bg-gray-800 p-4 rounded">
+      <h3 class="font-semibold text-kente-gold mb-2">Alerts & Notifications</h3>
+      <p>Check recent alerts and reminders.</p>
+      <a routerLink="/alert" class="text-kente-blue hover:underline"
+        >View Alerts</a
+      >
+    </div>
+  </div>
+
+  <!-- Alerts at Bottom -->
+  <div class="space-y-2">
+    <app-alert
+      *ngIf="showSuccessAlert"
+      [message]="'You have successfully met your goal! Keep up the great work!'"
+      [type]="'success'"
+    ></app-alert>
+    <app-alert
+      *ngIf="showErrorAlert"
+      [message]="'There was an issue with your last update. Please try again.'"
+      [type]="'error'"
+    ></app-alert>
+    <app-alert
+      *ngIf="showInfoAlert"
+      [message]="'Don’t forget to log your meals for the day.'"
+      [type]="'info'"
+    ></app-alert>
+  </div>
 </div>

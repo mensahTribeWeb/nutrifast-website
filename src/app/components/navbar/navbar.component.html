@@ -1,55 +1,63 @@
-<nav class="navbar text-white py-4" [class.hidden]="!showNavbar">
-  <div class="container mx-auto flex justify-between items-center">
+<nav class="navbar text-white py-4 mb-4" [class.hidden]="!showNavbar">
+  <div class="container mx-auto flex justify-between items-center px-4">
     <!-- Logo Section -->
-    <a href="/" class="flex items-center">
+    <a [routerLink]="'/home'" class="flex items-center space-x-2">
       <img
         src="../../../assets/images/logo-1.png"
         alt="NutriFast Logo"
         class="h-8 lg:h-12"
       />
+      <span class="text-lg font-bold">NutriFast</span>
     </a>
 
     <!-- Mobile Hamburger Menu Button -->
     <div class="block lg:hidden">
-      <button (click)="toggleMenu()" class="text-white">
-        <span class="material-icons">menu</span>
+      <button (click)="toggleMenu()" class="text-white focus:outline-none">
+        <span class="material-icons text-3xl">menu</span>
       </button>
     </div>
 
     <!-- Navbar Links (Desktop) -->
-    <div class="hidden lg:flex space-x-4">
-      <a href="/home" class="text-white hover:text-kente-gold">Home</a>
-      <a href="/about" class="text-white hover:text-kente-gold">About</a>
+    <div class="hidden lg:flex space-x-6">
+      <a [routerLink]="'/home'" class="hover:text-kente-gold">Home</a>
+      <a [routerLink]="'/about'" class="hover:text-kente-gold">About</a>
       <a
-        href="/login"
+        [routerLink]="'/login'"
         *ngIf="!userLoggedIn"
-        class="text-white hover:text-kente-gold"
-        >Login</a
+        class="hover:text-kente-gold"
       >
+        Login
+      </a>
       <a
-        href="/dashboard"
+        [routerLink]="'/dashboard'"
         *ngIf="userLoggedIn"
-        class="text-white hover:text-kente-gold"
-        >Dashboard</a
+        class="hover:text-kente-gold"
       >
+        Dashboard
+      </a>
     </div>
 
     <!-- Mobile Menu -->
-    <div *ngIf="showMobileMenu" class="lg:hidden">
-      <a href="/home" class="block text-white hover:text-kente-gold">Home</a>
-      <a href="/about" class="block text-white hover:text-kente-gold">About</a>
+    <div
+      *ngIf="showMobileMenu"
+      class="absolute top-16 left-0 w-full bg-gray-900 lg:hidden flex flex-col space-y-2 p-4"
+    >
+      <a [routerLink]="'/home'" class="hover:text-kente-gold">Home</a>
+      <a [routerLink]="'/about'" class="hover:text-kente-gold">About</a>
       <a
-        href="/login"
+        [routerLink]="'/login'"
         *ngIf="!userLoggedIn"
-        class="block text-white hover:text-kente-gold"
-        >Login</a
+        class="hover:text-kente-gold"
       >
+        Login
+      </a>
       <a
-        href="/dashboard"
+        [routerLink]="'/dashboard'"
         *ngIf="userLoggedIn"
-        class="block text-white hover:text-kente-gold"
-        >Dashboard</a
+        class="hover:text-kente-gold"
       >
+        Dashboard
+      </a>
     </div>
   </div>
 </nav>

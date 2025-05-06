@@ -1,48 +1,58 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router'; // Import Router
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
 })
 export class LoginComponent {
   form: FormGroup;
   error: string | null = null;
-  showModal = true; // Modal will be visible by default, can be toggled
+  showModal = true; // Modal is visible by default, can be toggled off
 
   constructor(private fb: FormBuilder, private router: Router) {
+    // Initialize form with email + password fields and validation
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
   }
 
+  // Called when the user clicks the login button
   login() {
     if (this.form.valid) {
-      // Mock login logic (replace with actual authentication logic)
       console.log('Login successful!');
-      this.onLoginSuccess(); // Call the method to handle successful login
+
+      // Call helper to handle post-login actions
+      this.onLoginSuccess();
     } else {
       this.error = 'Please fill in valid details.';
     }
   }
 
+  // Handles actions after successful login
   onLoginSuccess() {
-    // Mock user data, replace with actual user data after successful login
+    // Mock user data — in real app, replace with API response
     const user = { name: 'Nick Doe' };
 
-    // Store the user name in localStorage
+    // Save user name to localStorage for dashboard access
     localStorage.setItem('userName', user.name);
 
-    // After a successful login, redirect to the dashboard
+    // Redirect user to dashboard after login
     this.router.navigate(['/dashboard']);
   }
 
+  // Optional: closes modal if you are using it in the template
   closeModal() {
     this.showModal = false;
   }
