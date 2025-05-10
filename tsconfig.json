@@ -21,7 +21,7 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/environments/firebaseConfig.ts",
+    "src/environments/firebase-config.ts",
     "generate-env.ts"
   ],
   "angularCompilerOptions": {

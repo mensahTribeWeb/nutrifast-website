@@ -14,7 +14,7 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 
-import { firebaseConfig } from './environments/firebaseConfig';
+import { firebaseConfig } from './environments/firebase-config';
 import { appRoutes } from './app/app.routes'; // your routes file
 
 bootstrapApplication(AppComponent, {
