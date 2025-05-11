@@ -3,12 +3,10 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 10;
-  transition: top 0.3s ease-in-out;
+  z-index: 50;
   background-color: transparent;
   color: white;
-  box-shadow: none;
-  padding-bottom: 1rem; // ✅ add bottom padding
+  transition: top 0.3s ease-in-out;
 
   &.hidden {
     top: -100px;
@@ -18,7 +16,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem; // ✅ add margin below navbar to push page content down
+    padding: 1rem;
   }
 
   a {
@@ -31,10 +29,9 @@
     }
   }
 
-  img {
+  .navbar img {
     max-height: 50px;
     max-width: 100%;
-    margin-right: 0.5rem; // ✅ space between logo and text
   }
 
   .material-icons {
@@ -53,7 +50,6 @@
     .container {
       flex-direction: column;
       text-align: center;
-      margin-bottom: 1.5rem;
     }
   }
 }

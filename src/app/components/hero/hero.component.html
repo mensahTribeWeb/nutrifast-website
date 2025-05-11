@@ -1,23 +1,45 @@
-<section class="bg-kente-blue text-white py-12 px-6 md:px-12">
-  <div class="hero-content max-w-7xl mx-auto text-center">
-    <h1 class="text-4xl font-extrabold leading-tight mb-4">
-      {{ title }}
+<section class="relative w-full h-screen overflow-hidden">
+  <!-- Mobile & Tablet Hero Image -->
+  <img
+    src="assets/images/hero-illustration-3.png"
+    alt="NutriFast Hero"
+    class="absolute inset-0 w-full h-full object-cover lg:hidden z-0"
+  />
+
+  <!-- Large Screen Bowl Image -->
+  <img
+    src="assets/images/hero-bowl.png"
+    alt="NutriFast Bowl"
+    class="absolute inset-0 w-full h-full object-cover hidden lg:block z-0"
+  />
+
+  <!-- overlay to improve contrast -->
+  <div class="absolute inset-0 bg-black/50 pointer-events-none z-0"></div>
+
+  <!-- Hero Text Content -->
+  <div
+    class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 animate-fade-in"
+  >
+    <h1
+      class="text-4xl md:text-5xl font-extrabold text-kente-gold mb-4 drop-shadow-md"
+    >
+      Smart Nutrition, Smarter You
     </h1>
-    <p class="text-lg mb-8">
-      {{ description }}
+    <p class="text-white text-lg mb-6 max-w-xl">
+      Personalized meal plans and fasting guidance powered by AI.
     </p>
-    <div class="cta-buttons flex justify-center gap-4">
+    <div class="flex flex-wrap justify-center gap-4">
       <a
-        [routerLink]="buttonLink1"
-        class="cta-button bg-kente-gold text-black py-2 px-6 rounded-full hover:bg-kente-red transition"
+        [routerLink]="'/signup'"
+        class="bg-kente-gold text-black px-6 py-2 rounded-full font-semibold hover:bg-kente-red transition"
       >
-        {{ buttonText1 }}
+        Get Started
       </a>
       <a
-        [routerLink]="buttonLink2"
-        class="cta-button bg-kente-green text-black py-2 px-6 rounded-full hover:bg-kente-red transition"
+        [routerLink]="'/learn'"
+        class="bg-kente-blue text-white px-6 py-2 rounded-full font-semibold hover:bg-kente-green transition"
       >
-        {{ buttonText2 }}
+        Learn More
       </a>
     </div>
   </div>
