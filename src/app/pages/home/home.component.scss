@@ -1,59 +1,59 @@
-/* home.component.scss */
+// /* home.component.scss */
 
-/* Apply Kente colors */
-.main {
-  background-color: #e1f5fe; // Light blue background
-  padding: 20px;
-}
+// /* Apply Kente colors */
+// .main {
+//   background-color: #e1f5fe; // Light blue background
+//   padding: 20px;
+// }
 
-.welcome-container {
-  text-align: center;
-  margin-bottom: 30px;
-}
+// .welcome-container {
+//   text-align: center;
+//   margin-bottom: 30px;
+// }
 
-.welcome-text {
-  background-color: #fbc02d; /* Kente Gold */
-  color: #212121; /* Kente Black */
-  padding: 20px;
-  border-radius: 10px;
-}
+// .welcome-text {
+//   background-color: #fbc02d; /* Kente Gold */
+//   color: #212121; /* Kente Black */
+//   padding: 20px;
+//   border-radius: 10px;
+// }
 
-.cta-buttons {
-  margin-top: 20px;
-}
+// .cta-buttons {
+//   margin-top: 20px;
+// }
 
-.cta-buttons .pill {
-  background-color: #1e88e5; /* Kente Blue */
-  color: white;
-  padding: 10px 20px;
-  border-radius: 25px;
-  text-decoration: none;
-  margin: 0 10px;
-  font-weight: bold;
-}
+// .cta-buttons .pill {
+//   background-color: #1e88e5; /* Kente Blue */
+//   color: white;
+//   padding: 10px 20px;
+//   border-radius: 25px;
+//   text-decoration: none;
+//   margin: 0 10px;
+//   font-weight: bold;
+// }
 
-.cta-buttons .pill:hover {
-  background-color: #fbc02d; /* Hover effect with Kente Gold */
-}
+// .cta-buttons .pill:hover {
+//   background-color: #fbc02d; /* Hover effect with Kente Gold */
+// }
 
-.features {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 40px;
-}
+// .features {
+//   display: flex;
+//   justify-content: space-around;
+//   margin-top: 40px;
+// }
 
-.feature-item {
-  background-color: #fff;
-  padding: 20px;
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  text-align: center;
-}
+// .feature-item {
+//   background-color: #fff;
+//   padding: 20px;
+//   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+//   border-radius: 10px;
+//   text-align: center;
+// }
 
-.feature-item h3 {
-  color: #1e88e5; /* Kente Blue */
-}
+// .feature-item h3 {
+//   color: #1e88e5; /* Kente Blue */
+// }
 
-.feature-item p {
-  color: #212121; /* Kente Black */
-}
+// .feature-item p {
+//   color: #212121; /* Kente Black */
+// }
