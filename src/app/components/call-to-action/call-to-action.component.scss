@@ -1,11 +1,35 @@
 .cta-section {
-  background: linear-gradient(to right, #fbc02d, #ffb600);
-}
+  background-color: #fbc02d; // Kente Gold
+  padding: 4rem 1rem;
+  text-align: center;
 
-a {
-  transition: transform 0.2s ease;
+  h2 {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 2rem;
 
-  &:hover {
-    transform: translateY(-3px);
+    @media (min-width: 640px) {
+      font-size: 2.5rem;
+    }
+  }
+
+  p {
+    color: #ffffff;
+    font-size: 1.125rem;
+    margin-bottom: 1.5rem;
+  }
+
+  a {
+    background-color: #ffffff;
+    color: #fbc02d;
+    font-weight: 600;
+    padding: 0.5rem 1.5rem;
+    border-radius: 9999px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #f3f4f6;
+    }
   }
 }
