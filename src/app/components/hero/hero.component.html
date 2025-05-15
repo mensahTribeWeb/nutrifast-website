@@ -1,24 +1,26 @@
-<section class="relative w-full h-screen overflow-hidden">
+<section class="relative w-full h-screen overflow-hidden hero-section">
   <!-- Mobile & Tablet Hero Image -->
   <img
     src="assets/images/hero-illustration-3.png"
     alt="NutriFast Hero"
-    class="absolute inset-0 w-full h-full object-cover lg:hidden z-0"
+    class="absolute inset-0 w-full h-full object-cover lg:hidden z-0 hero-image lg-hidden"
   />
 
   <!-- Large Screen Bowl Image -->
   <img
     src="assets/images/hero-bowl.png"
     alt="NutriFast Bowl"
-    class="absolute inset-0 w-full h-full object-cover hidden lg:block z-0"
+    class="absolute inset-0 w-full h-full object-cover hidden lg:block z-0 hero-image"
   />
 
   <!-- overlay to improve contrast -->
-  <div class="absolute bottom-0 w-full h-px bg-kente-gold z-10"></div>
+  <div
+    class="absolute bottom-0 w-full h-px bg-kente-gold z-10 overlay-line"
+  ></div>
 
   <!-- Hero Text Content -->
   <div
-    class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 animate-fade-in"
+    class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 animate-fade-in hero-content"
   >
     <h1
       class="text-4xl md:text-5xl font-extrabold text-kente-gold mb-4 drop-shadow-md"
@@ -31,13 +33,13 @@
     <div class="flex flex-wrap justify-center gap-4">
       <a
         [routerLink]="'/signup'"
-        class="bg-kente-gold text-black px-6 py-2 rounded-full font-semibold hover:bg-kente-red transition"
+        class="bg-kente-gold text-black px-6 py-2 rounded-full font-semibold hover:bg-kente-red transition btn gold"
       >
         Get Started
       </a>
       <a
         [routerLink]="'/learn'"
-        class="bg-kente-blue text-white px-6 py-2 rounded-full font-semibold hover:bg-kente-green transition"
+        class="bg-kente-blue text-white px-6 py-2 rounded-full font-semibold hover:bg-kente-green transition btn blue"
       >
         Learn More
       </a>
