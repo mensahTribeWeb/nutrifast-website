@@ -8,19 +8,20 @@
         class="h-8 lg:h-12 w-auto max-w-[8rem]"
         loading="lazy"
       />
-
       <span class="text-lg font-bold">NutriFast</span>
     </a>
 
     <!-- Mobile Hamburger Menu Button -->
-    <div class="block lg:hidden">
+    <div class="mobile-toggle">
       <button (click)="toggleMenu()" class="text-white focus:outline-none">
-        <span class="material-icons text-3xl">menu</span>
+        <span class="material-icons text-3xl">
+          {{ showMobileMenu ? "close" : "menu" }}
+        </span>
       </button>
     </div>
 
     <!-- Navbar Links (Desktop) -->
-    <div class="hidden lg:flex space-x-6">
+    <div class="desktop-menu">
       <a [routerLink]="'/home'" class="hover:text-kente-gold">Home</a>
       <a [routerLink]="'/about'" class="hover:text-kente-gold">About</a>
       <a
@@ -40,26 +41,33 @@
     </div>
 
     <!-- Mobile Menu -->
-    <div
-      *ngIf="showMobileMenu"
-      class="absolute top-16 left-0 w-full bg-gray-900 lg:hidden flex flex-col space-y-2 p-4"
-    >
-      <a [routerLink]="'/home'" class="hover:text-kente-gold">Home</a>
-      <a [routerLink]="'/about'" class="hover:text-kente-gold">About</a>
+    <div *ngIf="showMobileMenu" class="mobile-menu">
+      <a
+        [routerLink]="'/home'"
+        class="hover:text-kente-gold"
+        (click)="closeMenu()"
+        >Home</a
+      >
+      <a
+        [routerLink]="'/about'"
+        class="hover:text-kente-gold"
+        (click)="closeMenu()"
+        >About</a
+      >
       <a
         [routerLink]="'/login'"
         *ngIf="!userLoggedIn"
         class="hover:text-kente-gold"
+        (click)="closeMenu()"
+        >Login</a
       >
-        Login
-      </a>
       <a
         [routerLink]="'/dashboard'"
         *ngIf="userLoggedIn"
         class="hover:text-kente-gold"
+        (click)="closeMenu()"
+        >Dashboard</a
       >
-        Dashboard
-      </a>
     </div>
   </div>
 </nav>

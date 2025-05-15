@@ -72,10 +72,14 @@ section.hero-section {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1rem;
+    align-items: center;
+    margin-top: 1rem; /* matches mt-4 */
+    gap: 1rem; /* fixes button spacing */
 
     a {
       padding: 0.5rem 1.5rem;
+      min-width: 140px;
+      text-align: center;
       border-radius: 9999px;
       font-weight: 600;
       text-decoration: none;
@@ -84,7 +88,6 @@ section.hero-section {
       &.gold {
         background-color: #fbc02d;
         color: #000;
-
         &:hover {
           background-color: #e53935;
           color: #fff;
@@ -94,7 +97,6 @@ section.hero-section {
       &.blue {
         background-color: #1e88e5;
         color: #fff;
-
         &:hover {
           background-color: #43a047;
         }

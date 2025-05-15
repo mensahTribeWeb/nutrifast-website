@@ -10,6 +10,10 @@ import { Router, RouterModule } from '@angular/router';
   imports: [CommonModule, RouterModule],
 })
 export class NavbarComponent implements OnInit {
+  closeMenu() {
+    this.showMobileMenu = false;
+  }
+
   showNavbar = true;
   lastScrollTop = 0;
   userLoggedIn = false;
