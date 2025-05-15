@@ -13,7 +13,8 @@ section {
     z-index: 0;
   }
 
-  .lg-hidden {
+  // Only show on mobile/tablet
+  .lg\:hidden {
     display: block;
 
     @media (min-width: 1024px) {
@@ -21,7 +22,8 @@ section {
     }
   }
 
-  .lg-block {
+  // Only show on desktop
+  .lg\:block {
     display: none;
 
     @media (min-width: 1024px) {
@@ -29,12 +31,13 @@ section {
     }
   }
 
+  // Gold line overlay at bottom
   .overlay-line {
     position: absolute;
     bottom: 0;
     width: 100%;
     height: 1px;
-    background-color: #fbc02d; // kente-gold
+    background-color: #fbc02d; // Kente Gold
     z-index: 10;
   }
 
@@ -47,19 +50,20 @@ section {
     align-items: center;
     height: 100%;
     text-align: center;
-    padding: 0 1rem;
-    animation: fade-in 1s ease-in-out;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    animation: fade-in 0.8s ease-in-out both;
   }
 
   h1 {
-    font-size: 2.25rem;
+    font-size: 2.25rem; // Tailwind's text-4xl
     font-weight: 800;
-    color: #fbc02d;
+    color: #fbc02d; // Kente Gold
     margin-bottom: 1rem;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
     @media (min-width: 768px) {
-      font-size: 3rem;
+      font-size: 3rem; // Tailwind's md:text-5xl
     }
   }
 
@@ -67,7 +71,7 @@ section {
     color: white;
     font-size: 1.125rem;
     margin-bottom: 1.5rem;
-    max-width: 36rem;
+    max-width: 36rem; // Tailwind's max-w-xl
   }
 
   .button-group {
@@ -77,40 +81,38 @@ section {
     gap: 1rem;
 
     a {
-      display: inline-block;
       padding: 0.5rem 1.5rem;
       border-radius: 9999px;
       font-weight: 600;
       text-decoration: none;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s ease-in-out;
 
       &.gold {
         background-color: #fbc02d;
-        color: black;
+        color: #000;
 
         &:hover {
-          background-color: #e53935; // kente-red
-          color: white;
+          background-color: #e53935; // Kente Red
+          color: #fff;
         }
       }
 
       &.blue {
-        background-color: #1e88e5; // kente-blue
-        color: white;
+        background-color: #1e88e5; // Kente Blue
+        color: #fff;
 
         &:hover {
-          background-color: #43a047; // kente-green
+          background-color: #43a047; // Kente Green
         }
       }
     }
   }
 }
 
-//  fade-in animation
 @keyframes fade-in {
   0% {
     opacity: 0;
-    transform: translateY(1rem);
+    transform: translateY(10px);
   }
   100% {
     opacity: 1;
