@@ -1,7 +1,9 @@
+/* Ensure consistent box sizing */
 .navbar,
 .navbar * {
   box-sizing: border-box;
 }
+
 // Navbar styles
 .navbar {
   position: fixed;
@@ -34,23 +36,27 @@
   }
 
   a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     color: white;
     text-decoration: none;
     padding: 0.5rem 1rem;
     font-weight: 500;
 
+    span {
+      white-space: nowrap;
+    }
+
     &:hover {
       color: #fbc02d; // Kente Gold
     }
-  }
 
-  img {
-    height: 2rem;
-    width: auto;
-    max-width: 8rem;
-
-    @media (min-width: 1024px) {
-      height: 3rem;
+    img {
+      height: 2.5rem;
+      width: 2.5rem;
+      border-radius: 9999px;
+      object-fit: cover;
     }
   }
 
