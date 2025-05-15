@@ -47,58 +47,60 @@ section.hero-section {
     text-align: center;
     padding: 0 1rem;
     animation: fade-in 0.8s ease-in-out both;
-  }
 
-  h1 {
-    font-size: 2.25rem;
-    font-weight: 800;
-    color: #fbc02d;
-    margin-bottom: 1rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: #fbc02d;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
-    @media (min-width: 768px) {
-      font-size: 3rem;
-    }
-  }
-
-  p {
-    color: white;
-    font-size: 1.125rem;
-    margin-bottom: 1.5rem;
-    max-width: 36rem;
-  }
-
-  .button-group {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1rem; /* matches mt-4 */
-    gap: 1rem; /* fixes button spacing */
-
-    a {
-      padding: 0.5rem 1.5rem;
-      min-width: 140px;
-      text-align: center;
-      border-radius: 9999px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: background-color 0.3s ease-in-out;
-
-      &.gold {
-        background-color: #fbc02d;
-        color: #000;
-        &:hover {
-          background-color: #e53935;
-          color: #fff;
-        }
+      @media (min-width: 768px) {
+        font-size: 3rem;
       }
+    }
 
-      &.blue {
-        background-color: #1e88e5;
-        color: #fff;
-        &:hover {
-          background-color: #43a047;
+    p {
+      color: white;
+      font-size: 1.125rem;
+      margin-bottom: 1.5rem;
+      max-width: 36rem;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      margin-top: 1rem;
+      gap: 1rem; // fallback for gap-4
+
+      a {
+        padding: 0.5rem 1.5rem;
+        border-radius: 9999px;
+        font-weight: 600;
+        text-align: center;
+        text-decoration: none;
+        min-width: 140px;
+        transition: background-color 0.3s ease;
+
+        &.gold {
+          background-color: #fbc02d;
+          color: #000;
+
+          &:hover {
+            background-color: #e53935;
+            color: #fff;
+          }
+        }
+
+        &.blue {
+          background-color: #1e88e5;
+          color: #fff;
+
+          &:hover {
+            background-color: #43a047;
+          }
         }
       }
     }
