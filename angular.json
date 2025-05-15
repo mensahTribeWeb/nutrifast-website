@@ -107,6 +107,9 @@
               }
             ],
             "styles": ["src/styles.scss", "src/output.css"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src"]
+            },
             "scripts": [],
             "builderMode": "browser"
           }
