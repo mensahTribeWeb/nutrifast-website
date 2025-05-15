@@ -1,69 +1,75 @@
-section {
+.hero-section {
   position: relative;
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  padding-top: 5rem; // Matches Tailwind's pt-20
 
-  img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
+  @media (min-width: 1024px) {
+    padding-top: 8rem; // Matches lg:pt-32 if needed later
   }
+}
 
-  // Only show on mobile/tablet
-  .lg\:hidden {
-    display: block;
+.hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
 
-    @media (min-width: 1024px) {
-      display: none;
-    }
-  }
+.lg-hidden {
+  display: block;
 
-  // Only show on desktop
-  .lg\:block {
+  @media (min-width: 1024px) {
     display: none;
-
-    @media (min-width: 1024px) {
-      display: block;
-    }
   }
+}
 
-  // Gold line overlay at bottom
-  .overlay-line {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
-    background-color: #fbc02d; // Kente Gold
-    z-index: 10;
+.lg-block {
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: block;
   }
+}
 
-  .content {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    text-align: center;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    animation: fade-in 0.8s ease-in-out both;
+.overlay-line {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #fbc02d; // kente-gold
+  z-index: 10;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 5rem); // Account for navbar space
+  text-align: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  animation: fade-in 0.8s ease-in-out both;
+
+  @media (min-width: 1024px) {
+    height: calc(100vh - 8rem); // Adjust for lg:pt-32
   }
 
   h1 {
     font-size: 2.25rem; // Tailwind's text-4xl
     font-weight: 800;
-    color: #fbc02d; // Kente Gold
+    color: #fbc02d;
     margin-bottom: 1rem;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
     @media (min-width: 768px) {
-      font-size: 3rem; // Tailwind's md:text-5xl
+      font-size: 3rem; // md:text-5xl
     }
   }
 
@@ -71,7 +77,7 @@ section {
     color: white;
     font-size: 1.125rem;
     margin-bottom: 1.5rem;
-    max-width: 36rem; // Tailwind's max-w-xl
+    max-width: 36rem; // max-w-xl
   }
 
   .button-group {
@@ -80,7 +86,7 @@ section {
     justify-content: center;
     gap: 1rem;
 
-    a {
+    .btn {
       padding: 0.5rem 1.5rem;
       border-radius: 9999px;
       font-weight: 600;
@@ -89,20 +95,20 @@ section {
 
       &.gold {
         background-color: #fbc02d;
-        color: #000;
+        color: black;
 
         &:hover {
-          background-color: #e53935; // Kente Red
-          color: #fff;
+          background-color: #e53935; // kente-red
+          color: white;
         }
       }
 
       &.blue {
-        background-color: #1e88e5; // Kente Blue
-        color: #fff;
+        background-color: #1e88e5;
+        color: white;
 
         &:hover {
-          background-color: #43a047; // Kente Green
+          background-color: #43a047; // kente-green
         }
       }
     }
@@ -112,7 +118,7 @@ section {
 @keyframes fade-in {
   0% {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(1rem);
   }
   100% {
     opacity: 1;
