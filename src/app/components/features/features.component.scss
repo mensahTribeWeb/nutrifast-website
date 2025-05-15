@@ -1,18 +1,82 @@
-.features-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
+.features-section {
+  position: relative;
+  background-color: #f3f4f6;
+  padding: 3rem 1rem;
+  overflow: hidden;
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
+  .feature-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: url("/assets/images/feature-bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.08;
+    z-index: 0;
+  }
+
+  .features-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 1.5rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .feature-card {
+    position: relative;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease-in-out;
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #fbc02d; // Kente Gold
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: #333;
+      font-size: 1rem;
+    }
+
+    &.in-view {
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    @media (hover: hover) and (min-width: 768px) {
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+      }
+    }
   }
 }
 
-.feature-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

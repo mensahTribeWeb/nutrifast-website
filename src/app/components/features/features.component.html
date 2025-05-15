@@ -1,23 +1,36 @@
-<section class="features-section bg-gray-100 py-12">
-  <div class="max-w-7xl mx-auto px-6 text-center">
-    <h2 class="text-3xl font-bold mb-4">Our Features</h2>
-    <p class="text-lg mb-10">
+<section class="features-section relative bg-gray-100 overflow-hidden">
+  <!-- Background -->
+  <div class="feature-bg-overlay"></div>
+
+  <!-- Main Content -->
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h2 class="text-3xl sm:text-4xl font-bold text-kente-blue text-center mb-4">
+      Our Features
+    </h2>
+    <p class="text-lg text-gray-800 text-center mb-10">
       NutriFast helps you plan your meals, track fasting, and stay on top of
       your health goals.
     </p>
+
     <div class="features-grid grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="feature-card bg-white p-6 rounded-lg shadow-md">
-        <h3 class="text-xl font-semibold mb-2">Smart Meal Plans</h3>
+      <div class="feature-card" #featureCard>
+        <h3 class="text-xl font-semibold mb-2 text-kente-gold">
+          Smart Meal Plans
+        </h3>
         <p>
           Personalized meal recommendations based on your preferences and goals.
         </p>
       </div>
-      <div class="feature-card bg-white p-6 rounded-lg shadow-md">
-        <h3 class="text-xl font-semibold mb-2">Fasting Tracker</h3>
+      <div class="feature-card" #featureCard>
+        <h3 class="text-xl font-semibold mb-2 text-kente-gold">
+          Fasting Tracker
+        </h3>
         <p>Track your fasting windows and monitor progress over time.</p>
       </div>
-      <div class="feature-card bg-white p-6 rounded-lg shadow-md">
-        <h3 class="text-xl font-semibold mb-2">Progress Dashboard</h3>
+      <div class="feature-card" #featureCard>
+        <h3 class="text-xl font-semibold mb-2 text-kente-gold">
+          Progress Dashboard
+        </h3>
         <p>Visualize your progress with easy-to-understand charts and stats.</p>
       </div>
     </div>
