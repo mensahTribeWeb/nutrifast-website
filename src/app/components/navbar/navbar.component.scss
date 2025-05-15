@@ -1,55 +1,79 @@
-// .navbar {
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   z-index: 50;
-//   background-color: transparent;
-//   color: white;
-//   transition: top 0.3s ease-in-out;
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  background-color: transparent;
+  color: white;
+  transition: top 0.3s ease-in-out;
+  padding: 1rem 0;
+  margin-bottom: 1rem;
 
-//   &.hidden {
-//     top: -100px;
-//   }
+  &.hidden {
+    top: -100px;
+  }
 
-//   .container {
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     padding: 1rem;
-//   }
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+  }
 
-//   a {
-//     color: white;
-//     text-decoration: none;
-//     padding: 0.5rem 1rem;
+  a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
 
-//     &:hover {
-//       color: #fbc02d; // Kente Gold
-//     }
-//   }
+    &:hover {
+      color: #fbc02d; // Kente Gold
+    }
+  }
 
-//   .navbar img {
-//     max-height: 50px;
-//     max-width: 100%;
-//   }
+  img {
+    height: 2rem; // ~h-8
+    max-width: 8rem;
+    width: auto;
 
-//   .material-icons {
-//     font-size: 2rem;
-//   }
+    @media (min-width: 1024px) {
+      height: 3rem; // ~lg:h-12
+    }
+  }
 
-//   .lg\:hidden {
-//     display: none;
-//   }
+  .material-icons {
+    font-size: 2rem;
+  }
 
-//   @media (max-width: 1024px) {
-//     .lg\:hidden {
-//       display: block;
-//     }
+  // Hide/show mobile nav button
+  .lg\:hidden {
+    display: none;
 
-//     .container {
-//       flex-direction: column;
-//       text-align: center;
-//     }
-//   }
-// }
+    @media (max-width: 1024px) {
+      display: block;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .container {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  // Mobile menu dropdown styling fallback
+  .mobile-menu {
+    position: absolute;
+    top: 4rem;
+    left: 0;
+    width: 100%;
+    background-color: #1f2937; // Tailwind's gray-900
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+}
