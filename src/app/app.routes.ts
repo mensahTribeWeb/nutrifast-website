@@ -8,10 +8,9 @@ import { AboutComponent } from './components/about/about.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ProfileSettingsComponent } from './pages/profile-settings/profile-settings.component';
-import { AlertComponent } from './components/alert/alert.component';
-import { AnalyticsSummaryComponent } from './components/analytics-summary/analytics-summary.component';
 import { LoginComponent } from './pages/login/login.component';
 import { UserStatsComponent } from './components/user-stats/user-stats.component';
+import { AnalyticsSummaryComponent } from './components/analytics-summary/analytics-summary.component';
 // import { AuthGuard } from './auth.guard'; // optional
 
 export const appRoutes: Routes = [
@@ -22,6 +21,11 @@ export const appRoutes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordPageComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'user-stats', component: UserStatsComponent },
+  { path: 'analytics-summary', component: AnalyticsSummaryComponent },
+  { path: 'settings', component: ProfileSettingsComponent },
+
+  // Lazy-loaded components
   {
     path: 'meal-plan',
     loadComponent: () =>
@@ -43,9 +47,14 @@ export const appRoutes: Routes = [
         (m) => m.ProgressChartsComponent
       ),
   },
-  { path: 'settings', component: ProfileSettingsComponent },
-  { path: 'user-stats', component: UserStatsComponent },
-  { path: 'alert', component: AlertComponent },
-  { path: 'analytics-summary', component: AnalyticsSummaryComponent },
+  {
+    path: 'alert',
+    loadComponent: () =>
+      import('./components/alert/alert.component').then(
+        (m) => m.AlertComponent
+      ),
+  },
+
+  // Wildcard route (404 fallback)
   { path: '**', component: NotFoundComponent },
 ];
