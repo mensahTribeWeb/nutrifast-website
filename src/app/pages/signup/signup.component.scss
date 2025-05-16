@@ -1,67 +1,83 @@
 :host {
   display: block;
   min-height: 100vh;
-  padding: 6rem 1rem 2rem; // extra top padding for nav space
+  padding: 6rem 1rem 2rem; // space for navbar
   background: linear-gradient(to bottom right, #ffb600, #009a44);
 }
 
+/* Card container */
 .form-container {
   max-width: 28rem;
   margin: 0 auto;
   background-color: #ffffff;
-  border-radius: 1rem;
+  border-radius: 1.5rem;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
   padding: 2rem;
 }
 
+/* Title */
 h1 {
-  font-size: 1.875rem;
-  font-weight: bold;
+  font-size: 1.875rem; // text-3xl
   text-align: center;
+  font-weight: bold;
   color: #009a44;
-  margin-bottom: 1.25rem;
-}
-
-.form-group {
   margin-bottom: 1rem;
+
+  @media (min-width: 640px) {
+    font-size: 2.25rem; // text-4xl
+  }
 }
 
-input {
+/* Form group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Inputs */
+.input {
   width: 100%;
-  padding: 0.5rem 0.75rem;
+  padding: 0.625rem 0.75rem;
+  font-size: 1rem;
   border: 1px solid #d1d5db;
   border-radius: 0.5rem;
   outline: none;
-  transition: border-color 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-input:focus {
+.input:focus {
   border-color: #ffb600;
   box-shadow: 0 0 0 3px rgba(255, 182, 0, 0.25);
 }
 
-button {
+/* Button */
+.btn {
   width: 100%;
-  margin-top: 1.25rem;
   background-color: #009a44;
   color: #ffffff;
   font-weight: 600;
   padding: 0.75rem;
   border-radius: 0.5rem;
-  transition: background-color 0.3s;
+  font-size: 1rem;
+  margin-top: 1rem;
   border: none;
+  transition: background-color 0.3s ease-in-out;
 }
 
-button:hover {
+.btn:hover {
   background-color: #007a36;
 }
 
+/* Paragraph below button */
 p {
   font-size: 0.875rem;
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 1.25rem;
+  color: #374151;
 }
 
+/* Login link */
 a {
   color: #ffb600;
   font-weight: 600;
