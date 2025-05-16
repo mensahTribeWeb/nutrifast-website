@@ -1,107 +1,115 @@
-<div class="dashboard-container p-4 sm:p-6 pt-20 max-w-7xl mx-auto">
+<div class="pt-20 md:pt-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-10">
   <!-- Header -->
   <div
-    class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6"
+    class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
   >
-    <div class="flex items-center mb-4 sm:mb-0">
+    <div class="flex items-center space-x-4">
       <img
         src="assets/images/bg-1.png"
-        alt="User Avatar"
-        class="w-12 h-12 rounded-full mr-4"
+        alt="User"
+        class="w-12 h-12 rounded-full object-cover"
       />
       <div>
-        <h1 class="text-xl sm:text-3xl font-bold text-kente-green">
+        <h1 class="text-2xl sm:text-3xl font-bold text-kente-green">
           Welcome back, {{ userName }}!
         </h1>
-        <p class="text-gray-400">Here’s your health summary for today.</p>
+        <p class="text-gray-300 text-sm sm:text-base">
+          Here’s your health summary for today.
+        </p>
       </div>
     </div>
     <button
       (click)="logout()"
-      class="bg-kente-red text-white px-4 py-2 rounded hover:bg-kente-blue transition"
+      class="bg-kente-red text-white px-4 py-2 rounded-lg hover:bg-kente-blue transition"
     >
       Logout
     </button>
   </div>
 
-  <!-- Quick Stats -->
-  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-    <div class="bg-white shadow p-4 rounded">
-      <h2 class="text-lg font-semibold mb-2 text-kente-gold">Calories Today</h2>
-      <p>{{ userStats.caloriesToday }} kcal</p>
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div class="bg-white text-center rounded-lg shadow p-4">
+      <h2 class="text-kente-gold text-lg font-semibold">Calories Today</h2>
+      <p class="text-gray-800 text-xl font-medium">
+        {{ userStats.caloriesToday }} kcal
+      </p>
     </div>
-    <div class="bg-white shadow p-4 rounded">
-      <h2 class="text-lg font-semibold mb-2 text-kente-gold">Fasting Hours</h2>
-      <p>{{ userStats.fastingHours }} hours</p>
+    <div class="bg-white text-center rounded-lg shadow p-4">
+      <h2 class="text-kente-gold text-lg font-semibold">Fasting Hours</h2>
+      <p class="text-gray-800 text-xl font-medium">
+        {{ userStats.fastingHours }} hrs
+      </p>
     </div>
-    <div class="bg-white shadow p-4 rounded">
-      <h2 class="text-lg font-semibold mb-2 text-kente-gold">Current Weight</h2>
-      <p>{{ userStats.weight }} lbs</p>
+    <div class="bg-white text-center rounded-lg shadow p-4">
+      <h2 class="text-kente-gold text-lg font-semibold">Current Weight</h2>
+      <p class="text-gray-800 text-xl font-medium">
+        {{ userStats.weight }} lbs
+      </p>
     </div>
   </div>
 
   <!-- Feature Cards -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-    <div class="card bg-gray-800 p-4 rounded">
-      <h3 class="font-semibold text-kente-gold mb-2">Meal Plan Summary</h3>
-      <p>Track and adjust your personalized meal plan.</p>
-      <a routerLink="/meal-plan" class="text-kente-blue hover:underline"
-        >View Plan</a
-      >
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div
+      class="feature-card bg-kente-black text-white p-5 rounded-xl shadow hover:shadow-lg transition"
+      #featureCard
+    >
+      <h3 class="text-kente-gold font-semibold mb-2">Meal Plan Summary</h3>
+      <p class="mb-2">Track and adjust your personalized meal plan.</p>
+      <a routerLink="/meal-plan" class="text-kente-blue underline">View Plan</a>
     </div>
-    <div class="card bg-gray-800 p-4 rounded">
-      <h3 class="font-semibold text-kente-gold mb-2">Fasting Tracker</h3>
-      <p>Manage your fasting schedule and goals.</p>
-      <a routerLink="/fasting-tracker" class="text-kente-blue hover:underline"
+
+    <div
+      class="feature-card bg-kente-black text-white p-5 rounded-xl shadow hover:shadow-lg transition"
+      #featureCard
+    >
+      <h3 class="text-kente-gold font-semibold mb-2">Fasting Tracker</h3>
+      <p class="mb-2">Manage your fasting schedule and goals.</p>
+      <a routerLink="/fasting-tracker" class="text-kente-blue underline"
         >Go to Tracker</a
       >
     </div>
-    <div class="card bg-gray-800 p-4 rounded">
-      <h3 class="font-semibold text-kente-gold mb-2">Progress Dashboard</h3>
-      <p>Check health trends and insights.</p>
-      <a routerLink="/progress" class="text-kente-blue hover:underline"
+
+    <div
+      class="feature-card bg-kente-black text-white p-5 rounded-xl shadow hover:shadow-lg transition"
+      #featureCard
+    >
+      <h3 class="text-kente-gold font-semibold mb-2">Progress Dashboard</h3>
+      <p class="mb-2">Check health trends and insights.</p>
+      <a routerLink="/progress" class="text-kente-blue underline"
         >View Progress</a
       >
     </div>
-    <div class="card bg-gray-800 p-4 rounded">
-      <h3 class="font-semibold text-kente-gold mb-2">Analytics Summary</h3>
-      <p>Review detailed performance stats.</p>
-      <a routerLink="/analytics-summary" class="text-kente-blue hover:underline"
+
+    <div
+      class="feature-card bg-kente-black text-white p-5 rounded-xl shadow hover:shadow-lg transition"
+      #featureCard
+    >
+      <h3 class="text-kente-gold font-semibold mb-2">Analytics Summary</h3>
+      <p class="mb-2">Review detailed performance stats.</p>
+      <a routerLink="/analytics-summary" class="text-kente-blue underline"
         >View Analytics</a
       >
     </div>
-    <div class="card bg-gray-800 p-4 rounded">
-      <h3 class="font-semibold text-kente-gold mb-2">Profile Settings</h3>
-      <p>Manage your account and preferences.</p>
-      <a routerLink="/settings" class="text-kente-blue hover:underline"
+
+    <div
+      class="feature-card bg-kente-black text-white p-5 rounded-xl shadow hover:shadow-lg transition"
+      #featureCard
+    >
+      <h3 class="text-kente-gold font-semibold mb-2">Profile Settings</h3>
+      <p class="mb-2">Manage your account and preferences.</p>
+      <a routerLink="/settings" class="text-kente-blue underline"
         >Edit Profile</a
       >
     </div>
-    <div class="card bg-gray-800 p-4 rounded">
-      <h3 class="font-semibold text-kente-gold mb-2">Alerts & Notifications</h3>
-      <p>Check recent alerts and reminders.</p>
-      <a routerLink="/alert" class="text-kente-blue hover:underline"
-        >View Alerts</a
-      >
-    </div>
-  </div>
 
-  <!-- Alerts at Bottom -->
-  <div class="space-y-2">
-    <app-alert
-      *ngIf="showSuccessAlert"
-      [message]="'You have successfully met your goal! Keep up the great work!'"
-      [type]="'success'"
-    ></app-alert>
-    <app-alert
-      *ngIf="showErrorAlert"
-      [message]="'There was an issue with your last update. Please try again.'"
-      [type]="'error'"
-    ></app-alert>
-    <app-alert
-      *ngIf="showInfoAlert"
-      [message]="'Don’t forget to log your meals for the day.'"
-      [type]="'info'"
-    ></app-alert>
+    <div
+      class="feature-card bg-kente-black text-white p-5 rounded-xl shadow hover:shadow-lg transition"
+      #featureCard
+    >
+      <h3 class="text-kente-gold font-semibold mb-2">Alerts & Notifications</h3>
+      <p class="mb-2">Check recent alerts and reminders.</p>
+      <a routerLink="/alert" class="text-kente-blue underline">View Alerts</a>
+    </div>
   </div>
 </div>

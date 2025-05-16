@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { AlertComponent } from '../../components/alert/alert.component';
-import { CommonModule } from '@angular/common';
+import {
+  Component,
+  QueryList,
+  OnInit,
+  AfterViewInit,
+  ViewChildren,
+  ElementRef,
+} from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true,
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  imports: [AlertComponent, CommonModule, RouterModule], // ✅ Add RouterModule here
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
   userName: string | null = '';
   userStats = {
     caloriesToday: 0,
@@ -18,10 +21,7 @@ export class DashboardComponent implements OnInit {
     weight: 0,
   };
 
-  // Alerts
-  showSuccessAlert = false;
-  showErrorAlert = false;
-  showInfoAlert = false;
+  @ViewChildren('featureCard') featureCards!: QueryList<ElementRef>;
 
   constructor(private router: Router) {}
 
@@ -32,13 +32,23 @@ export class DashboardComponent implements OnInit {
       fastingHours: 14,
       weight: 160,
     };
+  }
 
-    this.showSuccessAlert = true;
-    setTimeout(() => (this.showSuccessAlert = false), 3000);
-    this.showErrorAlert = true;
-    setTimeout(() => (this.showErrorAlert = false), 5000);
-    this.showInfoAlert = true;
-    setTimeout(() => (this.showInfoAlert = false), 7000);
+  ngAfterViewInit(): void {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    this.featureCards.forEach((card) => {
+      observer.observe(card.nativeElement);
+    });
   }
 
   logout(): void {
