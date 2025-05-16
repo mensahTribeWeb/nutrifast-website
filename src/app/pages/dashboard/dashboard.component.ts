@@ -1,6 +1,5 @@
 import {
   Component,
-  QueryList,
   OnInit,
   AfterViewInit,
   ViewChildren,
@@ -8,9 +7,13 @@ import {
   Inject,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
@@ -22,7 +25,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     weight: 0,
   };
 
-  @ViewChildren('featureCard') featureCards!: QueryList<ElementRef>;
+  @ViewChildren('featureCard') featureCards!: ElementRef[];
 
   constructor(@Inject(Router) private router: Router) {}
 
@@ -36,20 +39,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-
-    this.featureCards.forEach((card) => {
-      observer.observe(card.nativeElement);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+        }
+      });
     });
+
+    this.featureCards.forEach((card) => observer.observe(card.nativeElement));
   }
 
   logout(): void {
