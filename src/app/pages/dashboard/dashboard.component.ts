@@ -5,6 +5,7 @@ import {
   AfterViewInit,
   ViewChildren,
   ElementRef,
+  Inject,
 } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -23,7 +24,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   @ViewChildren('featureCard') featureCards!: QueryList<ElementRef>;
 
-  constructor(private router: Router) {}
+  constructor(@Inject(Router) private router: Router) {}
 
   ngOnInit(): void {
     this.userName = localStorage.getItem('userName') || 'User';

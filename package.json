@@ -36,6 +36,7 @@
     "@angular/cli": "^19.2.4",
     "@ngx-env/builder": "^19.0.4",
     "@tailwindcss/typography": "^0.5.16",
+    "@types/firebase": "^2.4.32",
     "@types/jasmine": "^5.1.7",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.15.18",
