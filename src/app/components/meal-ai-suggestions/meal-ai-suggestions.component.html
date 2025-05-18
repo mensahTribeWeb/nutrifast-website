@@ -1,1 +1,52 @@
-<p>meal-ai-suggestions works!</p>
+<div class="meal-ai-container">
+  <h2>AI-Powered Meal Suggestions</h2>
+
+  <form (ngSubmit)="getSuggestions()">
+    <label>
+      Calories:
+      <input type="number" [(ngModel)]="filters.calories" name="calories" />
+    </label>
+    <label>
+      Protein (g):
+      <input type="number" [(ngModel)]="filters.protein" name="protein" />
+    </label>
+    <label>
+      Fat (g):
+      <input type="number" [(ngModel)]="filters.fat" name="fat" />
+    </label>
+    <label>
+      Carbs (g):
+      <input type="number" [(ngModel)]="filters.carbs" name="carbs" />
+    </label>
+
+    <button type="submit">Get Suggestions</button>
+  </form>
+
+  <div *ngIf="loading">Loading suggestions...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <table *ngIf="suggestions.length > 0">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Calories</th>
+        <th>Protein</th>
+        <th>Fat</th>
+        <th>Carbs</th>
+        <th>Fiber</th>
+        <th>Portion (g)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let meal of suggestions">
+        <td>{{ meal.name }}</td>
+        <td>{{ meal.calories }}</td>
+        <td>{{ meal.protein }}</td>
+        <td>{{ meal.fat }}</td>
+        <td>{{ meal.carbs }}</td>
+        <td>{{ meal.fiber }}</td>
+        <td>{{ meal.portion_g }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,6 +1,8 @@
 // frontend/src/app/models/meal.model.ts
 
 export interface Meal {
+  portion_g: any;
+  fiber: any;
   /** your database will usually return an id */
   id?: number;
 
