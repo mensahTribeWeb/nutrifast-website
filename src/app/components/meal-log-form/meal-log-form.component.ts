@@ -1,11 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-meal-log-form',
-  imports: [],
+  selector: 'app-meal-planner',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './meal-log-form.component.html',
-  styleUrl: './meal-log-form.component.scss'
+  styleUrls: ['./meal-log-form.component.scss'],
 })
-export class MealLogFormComponent {
-
-}
+export class MealLogFormComponent {}

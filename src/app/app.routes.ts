@@ -11,6 +11,7 @@ import { ProfileSettingsComponent } from './pages/profile-settings/profile-setti
 import { LoginComponent } from './pages/login/login.component';
 import { UserStatsComponent } from './components/user-stats/user-stats.component';
 import { AnalyticsSummaryComponent } from './components/analytics-summary/analytics-summary.component';
+import { MealLogFormComponent } from './components/meal-log-form/meal-log-form.component';
 // import { AuthGuard } from './auth.guard'; // optional
 
 export const appRoutes: Routes = [
@@ -33,6 +34,9 @@ export const appRoutes: Routes = [
         (m) => m.MealPlannerComponent
       ),
   },
+
+  { path: 'meal-log-form', component: MealLogFormComponent },
+
   {
     path: 'fasting-tracker',
     loadComponent: () =>
