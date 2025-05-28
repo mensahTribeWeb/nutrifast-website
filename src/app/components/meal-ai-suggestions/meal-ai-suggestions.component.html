@@ -1,52 +1,99 @@
-<div class="meal-ai-container">
-  <h2>AI-Powered Meal Suggestions</h2>
+<div class="max-w-3xl mx-auto mt-24 px-4 sm:px-6 lg:px-8 text-white">
+  <h2 class="text-2xl font-bold text-kente-gold mb-6 text-center">
+    Log a New Meal
+  </h2>
 
-  <form (ngSubmit)="getSuggestions()">
-    <label>
-      Calories:
-      <input type="number" [(ngModel)]="filters.calories" name="calories" />
-    </label>
-    <label>
-      Protein (g):
-      <input type="number" [(ngModel)]="filters.protein" name="protein" />
-    </label>
-    <label>
-      Fat (g):
-      <input type="number" [(ngModel)]="filters.fat" name="fat" />
-    </label>
-    <label>
-      Carbs (g):
-      <input type="number" [(ngModel)]="filters.carbs" name="carbs" />
-    </label>
+  <form
+    (ngSubmit)="submitMeal()"
+    #mealForm="ngForm"
+    class="grid grid-cols-1 gap-6 bg-gray-800 p-6 rounded-lg shadow-md"
+  >
+    <div>
+      <label class="block text-sm font-medium mb-1">Meal Name</label>
+      <input
+        type="text"
+        name="name"
+        [(ngModel)]="meal.name"
+        class="w-full rounded bg-gray-900 text-white px-4 py-2 border border-gray-600"
+        placeholder="e.g. Grilled Chicken Salad"
+        required
+      />
+    </div>
 
-    <button type="submit">Get Suggestions</button>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div>
+        <label class="block text-sm mb-1">Calories</label>
+        <input
+          type="number"
+          name="calories"
+          [(ngModel)]="meal.calories"
+          class="w-full rounded bg-gray-900 text-white px-3 py-2 border border-gray-600"
+          title="Calories"
+          placeholder="Enter calories"
+        />
+      </div>
+      <div>
+        <label class="block text-sm mb-1">Protein (g)</label>
+        <input
+          type="number"
+          name="protein"
+          [(ngModel)]="meal.protein"
+          class="w-full rounded bg-gray-900 text-white px-3 py-2 border border-gray-600"
+          title="Protein in grams"
+          placeholder="Enter protein (g)"
+        />
+      </div>
+      <div>
+        <label class="block text-sm mb-1">Carbs (g)</label>
+        <input
+          type="number"
+          name="carbs"
+          [(ngModel)]="meal.carbs"
+          class="w-full rounded bg-gray-900 text-white px-3 py-2 border border-gray-600"
+          title="Carbohydrates in grams"
+          placeholder="Enter carbs (g)"
+        />
+      </div>
+      <div>
+        <label class="block text-sm mb-1">Fat (g)</label>
+        <input
+          type="number"
+          name="fat"
+          [(ngModel)]="meal.fat"
+          class="w-full rounded bg-gray-900 text-white px-3 py-2 border border-gray-600"
+          title="Fat in grams"
+          placeholder="Enter fat (g)"
+        />
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button
+        type="submit"
+        class="bg-kente-gold text-black font-semibold px-6 py-2 rounded-full hover:bg-kente-red transition"
+      >
+        Save Meal
+      </button>
+    </div>
   </form>
 
-  <div *ngIf="loading">Loading suggestions...</div>
-  <div *ngIf="error" class="error">{{ error }}</div>
+  <div *ngIf="successMessage" class="mt-4 text-green-400 text-center">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="mt-4 text-red-400 text-center">
+    {{ errorMessage }}
+  </div>
 
-  <table *ngIf="suggestions.length > 0">
-    <thead>
-      <tr>
-        <th>Description</th>
-        <th>Calories</th>
-        <th>Protein</th>
-        <th>Fat</th>
-        <th>Carbs</th>
-        <th>Fiber</th>
-        <th>Portion (g)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let meal of suggestions">
-        <td>{{ meal.name }}</td>
-        <td>{{ meal.calories }}</td>
-        <td>{{ meal.protein }}</td>
-        <td>{{ meal.fat }}</td>
-        <td>{{ meal.carbs }}</td>
-        <td>{{ meal.fiber }}</td>
-        <td>{{ meal.portion_g }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- 🆕 Recommended Meals Section -->
+  <div *ngIf="recommendedMeals.length > 0" class="mt-12">
+    <h3 class="text-xl font-bold text-kente-gold mb-4 text-center">
+      Recommended Meals
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <app-meal-card
+        *ngFor="let meal of recommendedMeals"
+        [meal]="meal"
+      ></app-meal-card>
+    </div>
+  </div>
 </div>

@@ -5,6 +5,7 @@ import { FeaturesComponent } from '../../components/features/features.component'
 import { CallToActionComponent } from '../../components/call-to-action/call-to-action.component';
 import { GalleryComponent } from '../../components/gallery/gallery.component';
 import { TestimonialsComponent } from '../../components/testimonials/testimonials.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,7 @@ import { TestimonialsComponent } from '../../components/testimonials/testimonial
     CallToActionComponent,
     GalleryComponent,
     TestimonialsComponent,
+    RouterModule,
   ],
 
   templateUrl: './home.component.html',

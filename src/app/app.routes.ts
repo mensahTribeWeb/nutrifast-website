@@ -65,6 +65,7 @@ export const appRoutes: Routes = [
       import(
         './components/meal-ai-suggestions/meal-ai-suggestions.component'
       ).then((m) => m.MealAiSuggestionsComponent),
+    title: 'AI Meal Suggestions',
   },
 
   // Wildcard route (404 fallback)

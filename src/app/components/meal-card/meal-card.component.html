@@ -1,0 +1,24 @@
+<div
+  class="bg-gray-800 rounded-lg p-4 shadow-lg text-white border border-gray-700 hover:shadow-xl transition"
+>
+  <img
+    *ngIf="meal.image_url"
+    [src]="meal.image_url"
+    alt="{{ meal.name }}"
+    class="w-full h-48 object-cover rounded mb-3"
+  />
+  <h3 class="text-lg font-bold text-kente-gold mb-2">{{ meal.name }}</h3>
+  <p class="text-sm text-gray-400 mb-1">Calories: {{ meal.calories }}</p>
+  <p class="text-sm text-gray-400 mb-1">Protein: {{ meal.protein }}g</p>
+  <p class="text-sm text-gray-400 mb-1">Carbs: {{ meal.carbs }}g</p>
+  <p class="text-sm text-gray-400 mb-1">Fat: {{ meal.fat }}g</p>
+
+  <div *ngIf="meal.tags?.length" class="mt-2 text-sm text-kente-blue">
+    <span
+      *ngFor="let tag of meal.tags"
+      class="inline-block bg-gray-700 text-white px-2 py-1 rounded-full mr-1 mb-1"
+    >
+      #{{ tag }}
+    </span>
+  </div>
+</div>
