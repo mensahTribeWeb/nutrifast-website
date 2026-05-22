@@ -1,126 +1,85 @@
-<div class="pt-20 md:pt-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-10">
-  <!-- Header -->
-  <div
-    class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
-  >
-    <div class="flex items-center space-x-4">
-      <img
-        src="assets/images/bg-1.png"
-        alt="User"
-        class="w-12 h-12 rounded-full object-cover border-2 border-kente-gold"
-      />
+<section class="dashboard-page">
+  <header class="dashboard-header">
+    <div class="user-block">
+      <img src="assets/images/bg-1.png" alt="User profile" />
       <div>
-        <h1 class="text-2xl sm:text-3xl font-bold text-kente-green">
-          Welcome back, {{ userName }}!
-        </h1>
-        <p class="text-gray-300 text-sm sm:text-base">
-          Here’s your health summary for today.
-        </p>
+        <p class="eyebrow">Dashboard</p>
+        <h1>Welcome back, {{ userName }}!</h1>
+        <p>Here's your health summary for today.</p>
       </div>
     </div>
-    <button
-      (click)="logout()"
-      class="bg-kente-red text-white px-4 py-2 rounded-lg hover:bg-kente-blue transition"
+
+    <button type="button" class="logout-button" (click)="logout()">Logout</button>
+  </header>
+
+  <div class="stats-grid">
+    <article
+      *ngFor="let stat of statCards"
+      class="stat-card"
+      [class]="'stat-card ' + stat.tone"
     >
-      Logout
-    </button>
+      <span>{{ stat.label }}</span>
+      <strong>{{ stat.value }}</strong>
+      <p>{{ stat.detail }}</p>
+      <button
+        *ngIf="stat.action === 'weight'"
+        type="button"
+        class="card-action"
+        (click)="openWeightEditor()"
+      >
+        Update Weight
+      </button>
+    </article>
   </div>
 
-  <!-- Stats Cards -->
-  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-    <div class="bg-white text-center rounded-lg shadow p-4">
-      <h2 class="text-kente-gold text-lg font-semibold">Calories Today</h2>
-      <p class="text-gray-800 text-xl font-medium">
-        {{ userStats.caloriesToday }} kcal
-      </p>
-    </div>
-    <div class="bg-white text-center rounded-lg shadow p-4">
-      <h2 class="text-kente-gold text-lg font-semibold">Fasting Hours</h2>
-      <p class="text-gray-800 text-xl font-medium">
-        {{ userStats.fastingHours }} hrs
-      </p>
-    </div>
-    <div class="bg-white text-center rounded-lg shadow p-4">
-      <h2 class="text-kente-gold text-lg font-semibold">Current Weight</h2>
-      <p class="text-gray-800 text-xl font-medium">
-        {{ userStats.weight }} lbs
-      </p>
-    </div>
+  <div *ngIf="isWeightEditorOpen" class="weight-modal">
+    <section
+      class="weight-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="weight-dialog-title"
+    >
+      <h2 id="weight-dialog-title">Update Weight</h2>
+      <p>Log today's weigh-in so your dashboard, progress, and analytics stay aligned.</p>
+
+      <label for="dashboardWeight">Current Weight (lbs)</label>
+      <input
+        id="dashboardWeight"
+        type="number"
+        min="1"
+        step="0.1"
+        [(ngModel)]="weightInput"
+      />
+
+      <p *ngIf="weightMessage" class="weight-message">{{ weightMessage }}</p>
+
+      <div class="weight-actions">
+        <button type="button" class="save-weight" (click)="saveWeight()">Save Weight</button>
+        <button type="button" class="cancel-weight" (click)="closeWeightEditor()">Cancel</button>
+      </div>
+    </section>
   </div>
 
-  <!-- Feature Cards -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    <div
-      class="feature-card bg-kente-black text-white p-5 rounded-xl shadow hover:shadow-lg transition"
-      #featureCard
-    >
-      <h3 class="text-kente-gold font-semibold mb-2">Meal Plan Summary</h3>
-      <p class="mb-2">Track and adjust your personalized meal plan.</p>
-      <a routerLink="/meal-plan" class="text-kente-blue underline">View Plan</a>
+  <section class="insights-strip">
+    <div>
+      <h2>Today's Focus</h2>
+      <p>Small actions that keep the plan moving.</p>
     </div>
+    <ul>
+      <li *ngFor="let item of insightItems">{{ item }}</li>
+    </ul>
+  </section>
 
-    <div
-      class="feature-card bg-kente-black text-white p-5 rounded-xl shadow hover:shadow-lg transition"
+  <div class="feature-grid">
+    <article
+      *ngFor="let card of featureCards"
+      class="feature-card"
       #featureCard
     >
-      <h3 class="text-kente-gold font-semibold mb-2">AI Meal Suggestions</h3>
-      <p class="mb-2">Get intelligent meal ideas based on your goals.</p>
-      <a routerLink="/meal-ai" class="text-kente-blue underline">
-        Try AI Planner
-      </a>
-    </div>
-
-    <div
-      class="feature-card bg-kente-black text-white p-5 rounded-xl shadow hover:shadow-lg transition"
-      #featureCard
-    >
-      <h3 class="text-kente-gold font-semibold mb-2">Fasting Tracker</h3>
-      <p class="mb-2">Manage your fasting schedule and goals.</p>
-      <a routerLink="/fasting-tracker" class="text-kente-blue underline"
-        >Go to Tracker</a
-      >
-    </div>
-
-    <div
-      class="feature-card bg-kente-black text-white p-5 rounded-xl shadow hover:shadow-lg transition"
-      #featureCard
-    >
-      <h3 class="text-kente-gold font-semibold mb-2">Progress Dashboard</h3>
-      <p class="mb-2">Check health trends and insights.</p>
-      <a routerLink="/progress" class="text-kente-blue underline"
-        >View Progress</a
-      >
-    </div>
-
-    <div
-      class="feature-card bg-kente-black text-white p-5 rounded-xl shadow hover:shadow-lg transition"
-      #featureCard
-    >
-      <h3 class="text-kente-gold font-semibold mb-2">Analytics Summary</h3>
-      <p class="mb-2">Review detailed performance stats.</p>
-      <a routerLink="/analytics-summary" class="text-kente-blue underline"
-        >View Analytics</a
-      >
-    </div>
-
-    <div
-      class="feature-card bg-kente-black text-white p-5 rounded-xl shadow hover:shadow-lg transition"
-      #featureCard
-    >
-      <h3 class="text-kente-gold font-semibold mb-2">Profile Settings</h3>
-      <p class="mb-2">Manage your account and preferences.</p>
-      <a routerLink="/settings" class="text-kente-blue underline"
-        >Edit Profile</a
-      >
-    </div>
-
-    <div
-      class="feature-card bg-kente-black text-white p-5 rounded-xl shadow hover:shadow-lg transition"
-      #featureCard
-    >
-      <h3 class="text-kente-gold font-semibold mb-2">Alerts & Notifications</h3>
-      <p class="mb-2">Check recent alerts and reminders.</p>
-      <a routerLink="/alert" class="text-kente-blue underline">View Alerts</a>
-    </div>
+      <span class="status-pill">{{ card.status }}</span>
+      <h3>{{ card.title }}</h3>
+      <p>{{ card.description }}</p>
+      <a [routerLink]="card.route">{{ card.action }}</a>
+    </article>
   </div>
-</div>
+</section>

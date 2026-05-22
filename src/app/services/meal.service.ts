@@ -23,12 +23,22 @@ export class MealService {
     fat?: number;
     carbs?: number;
   }): Observable<Meal[]> {
+    const params = Object.fromEntries(
+      Object.entries(filters).filter(([, value]) => value !== undefined)
+    );
+
     return this.http.get<Meal[]>(
       `${environment.apiBaseUrl}/api/v1/ai/recommend`,
       {
-        params: filters,
+        params,
       }
     );
+  }
+
+  searchFoods(query: string): Observable<Meal[]> {
+    return this.http.get<Meal[]>(`${this.baseUrl}/search`, {
+      params: { q: query },
+    });
   }
 
   /** Add a new meal */

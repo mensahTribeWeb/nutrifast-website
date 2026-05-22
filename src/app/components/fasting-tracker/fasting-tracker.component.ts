@@ -1,65 +1,111 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FastingModalComponent } from './modal/modal.component'; // Ensure correct relative path
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FastingModalComponent } from './modal/modal.component';
 
 @Component({
   selector: 'app-fasting-tracker',
   standalone: true,
   templateUrl: './fasting-tracker.component.html',
   styleUrls: ['./fasting-tracker.component.scss'],
-  imports: [CommonModule, FastingModalComponent], // Import modal component here
+  imports: [CommonModule, FastingModalComponent],
 })
-export class FastingTrackerComponent implements OnInit {
-  // Removed duplicate implementation of formatElapsedTime
-  isFasting: boolean = false;
-  isModalVisible: boolean = false; // Controls modal visibility
-  alertMessage: string = 'Please confirm to start your fast.';
-  isAlertVisible: boolean = true; // Controls the alert visibility
+export class FastingTrackerComponent implements OnInit, OnDestroy {
+  isFasting = false;
+  isModalVisible = false;
+  targetHours = 16;
+  startTime: Date | null = null;
+  endTime: Date | null = null;
+  lastFastEndedAt: Date | null = null;
+  now = Date.now();
+  private timerId: ReturnType<typeof setInterval> | null = null;
 
-  constructor() {}
+  ngOnInit(): void {
+    this.timerId = setInterval(() => {
+      this.now = Date.now();
+    }, 1000);
+  }
 
-  ngOnInit(): void {}
+  ngOnDestroy(): void {
+    if (this.timerId) {
+      clearInterval(this.timerId);
+    }
+  }
 
-  // Show the modal
-  showModal() {
+  startFasting(): void {
+    this.startTime = new Date();
+    this.endTime = new Date(this.startTime.getTime() + this.targetHours * 60 * 60 * 1000);
+    this.isFasting = true;
+  }
+
+  stopFasting(): void {
+    this.isFasting = false;
+    this.lastFastEndedAt = new Date();
+    this.startTime = null;
+    this.endTime = null;
+  }
+
+  showModal(): void {
     this.isModalVisible = true;
   }
 
-  // Hide the modal
-  cancelModal() {
+  cancelModal(): void {
     this.isModalVisible = false;
   }
 
-  // Start fasting logic
-  startFasting() {
+  handleCustomFasting(fast: { startTime: string; endTime: string; weight: number }): void {
+    this.startTime = new Date(fast.startTime);
+    this.endTime = new Date(fast.endTime);
+    this.targetHours = Math.max(
+      1,
+      Math.round((this.endTime.getTime() - this.startTime.getTime()) / 36_000) / 100
+    );
     this.isFasting = true;
-    // Add additional logic to track fasting progress
+    this.isModalVisible = false;
   }
 
-  // Stop fasting logic
-  stopFasting() {
-    this.isFasting = false;
-    // Reset progress or perform additional actions
-  }
-
-  // Logic for starting fast when alert confirms
-  confirmStartFasting() {
-    this.isAlertVisible = false;
-    this.startFasting();
-  }
-
-  // Cancel alert
-  cancelAlert() {
-    this.isAlertVisible = false;
-  }
-
-  // Calculate the fasting progress percentage (for the progress ring)
   calculateProgressPercentage(): number {
-    return 75; // Placeholder
+    if (!this.isFasting || !this.startTime || !this.endTime) {
+      return 0;
+    }
+
+    const totalMs = this.endTime.getTime() - this.startTime.getTime();
+    const elapsedMs = this.now - this.startTime.getTime();
+    return Math.min(100, Math.max(0, (elapsedMs / totalMs) * 100));
   }
 
-  // Format the elapsed time (you can use actual logic for time formatting)
+  getProgressBackground(): string {
+    const progress = this.calculateProgressPercentage();
+    return `conic-gradient(#4caf50 ${progress}%, #1e3a8a ${progress}% 100%)`;
+  }
+
   formatElapsedTime(): string {
-    return '4 hours 32 minutes'; // Placeholder
+    if (this.isFasting && this.startTime) {
+      return this.formatClockTime(this.now - this.startTime.getTime());
+    }
+
+    if (this.lastFastEndedAt) {
+      return this.formatClockTime(this.now - this.lastFastEndedAt.getTime());
+    }
+
+    return '00:00:00';
+  }
+
+  formatRemainingTime(): string {
+    if (!this.isFasting || !this.endTime) {
+      return `${this.targetHours} hour target`;
+    }
+
+    return this.formatClockTime(Math.max(0, this.endTime.getTime() - this.now));
+  }
+
+  private formatClockTime(ms: number): string {
+    const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    return [hours, minutes, seconds]
+      .map((value) => value.toString().padStart(2, '0'))
+      .join(':');
   }
 }

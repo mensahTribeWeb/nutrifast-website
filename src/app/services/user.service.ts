@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-interface UserProfile {
+export interface UserProfile {
   userName: string;
   age: number;
   gender: string;
@@ -20,14 +20,15 @@ interface UserProfile {
   providedIn: 'root',
 })
 export class UserService {
-  private userProfileKey = 'userProfile'; // Key for local storage
+  private readonly legacyUserProfileKey = 'userProfile';
 
   constructor() {}
 
-  // Get user profile from local storage
   getUserProfile(): UserProfile | null {
     try {
-      const profile = localStorage.getItem(this.userProfileKey);
+      const profile =
+        localStorage.getItem(this.activeProfileKey) ||
+        localStorage.getItem(this.legacyUserProfileKey);
       if (profile) {
         return JSON.parse(profile);
       }
@@ -38,16 +39,30 @@ export class UserService {
     }
   }
 
-  // Save user profile to local storage
   saveUserProfile(profile: UserProfile): void {
     try {
-      localStorage.setItem(this.userProfileKey, JSON.stringify(profile));
+      const normalizedProfile = {
+        ...profile,
+        userName: profile.userName || this.currentUserName,
+      };
+
+      localStorage.setItem(this.activeProfileKey, JSON.stringify(normalizedProfile));
+      localStorage.setItem(this.legacyUserProfileKey, JSON.stringify(normalizedProfile));
+      localStorage.setItem('userName', normalizedProfile.userName);
+
+      const weight = Number(profile.weight);
+      if (weight > 0) {
+        localStorage.setItem('currentWeight', (Math.round(weight * 10) / 10).toString());
+      }
+
+      window.dispatchEvent(
+        new CustomEvent('nutrifastProfileUpdated', { detail: normalizedProfile })
+      );
     } catch (error) {
       console.error('Error saving user profile to localStorage', error);
     }
   }
 
-  // Update user profile (overwrite or merge data)
   updateUserProfile(updatedData: Partial<UserProfile>): void {
     const currentProfile = this.getUserProfile();
     if (currentProfile) {
@@ -58,28 +73,48 @@ export class UserService {
     }
   }
 
-  // Clear user profile data (logout)
   clearUserProfile(): void {
-    localStorage.removeItem(this.userProfileKey);
+    localStorage.removeItem(this.activeProfileKey);
+    localStorage.removeItem(this.legacyUserProfileKey);
   }
 
-  // Set default profile if no profile is found in localStorage
   initializeDefaultProfile(): void {
-    const defaultProfile: UserProfile = {
-      userName: 'John Doe',
-      age: 25,
-      gender: 'male',
-      height: 180,
-      weight: 75,
+    if (!this.getUserProfile()) {
+      this.saveUserProfile(this.getDefaultProfile());
+    }
+  }
+
+  getDefaultProfile(): UserProfile {
+    const storedWeight = Number(localStorage.getItem('currentWeight'));
+
+    return {
+      userName: this.currentUserName,
+      age: 30,
+      gender: 'female',
+      height: 66,
+      weight: storedWeight > 0 ? storedWeight : 159.4,
       activityLevel: 'moderate',
       goal: 'weightLoss',
       dietType: 'regular',
       fastingType: '16:8',
+      eatingStart: '12:00',
+      eatingEnd: '20:00',
     };
+  }
 
-    // Save default profile if none exists in localStorage
-    if (!this.getUserProfile()) {
-      this.saveUserProfile(defaultProfile);
-    }
+  private get activeProfileKey(): string {
+    return `userProfile:${this.currentUserKey}`;
+  }
+
+  private get currentUserName(): string {
+    return localStorage.getItem('userName') || 'Nick Doe';
+  }
+
+  private get currentUserKey(): string {
+    return this.currentUserName
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '') || 'guest';
   }
 }

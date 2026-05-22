@@ -1,1 +1,89 @@
-<p>progress-charts works!</p>
+<section class="progress-page">
+  <header class="page-header">
+    <p class="eyebrow">Progress Dashboard</p>
+    <h2>Health Trends</h2>
+    <p>Review your weekly weight, fasting, calories, and plan consistency.</p>
+  </header>
+
+  <div class="summary-grid">
+    <article
+      *ngFor="let metric of summaryMetrics"
+      class="summary-tile"
+      [class]="'summary-tile ' + metric.tone"
+    >
+      <span>{{ metric.label }}</span>
+      <strong>{{ metric.value }}</strong>
+      <p>{{ metric.detail }}</p>
+    </article>
+  </div>
+
+  <div class="dashboard-grid">
+    <section class="trend-panel weight-panel">
+      <div class="panel-header">
+        <div>
+          <h3>Weight Trend</h3>
+          <p>Daily weigh-ins across the last seven days.</p>
+        </div>
+        <strong>{{ weightDelta }} lbs</strong>
+      </div>
+
+      <div class="weight-strip" aria-label="Weight trend by day">
+        <article *ngFor="let day of progressDays" class="weight-day">
+          <span class="day-label">{{ day.day }}</span>
+          <strong>{{ day.weight.toFixed(1) }}</strong>
+          <span class="unit">lbs</span>
+          <div class="weight-meter">
+            <span [style.height.%]="weightPosition(day.weight)"></span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="trend-panel">
+      <div class="panel-header">
+        <div>
+          <h3>Calories</h3>
+          <p>Daily intake against your weekly pattern.</p>
+        </div>
+        <strong>{{ averageCalories }} avg</strong>
+      </div>
+
+      <div class="bar-chart calories">
+        <div *ngFor="let day of progressDays" class="bar-column">
+          <div class="bar-track">
+            <span [style.height.%]="calorieHeight(day.calories)"></span>
+          </div>
+          <small>{{ day.day }}</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="trend-panel">
+      <div class="panel-header">
+        <div>
+          <h3>Fasting Hours</h3>
+          <p>How consistently you hit your fasting window.</p>
+        </div>
+        <strong>{{ averageFasting }} avg</strong>
+      </div>
+
+      <div class="bar-chart fasting">
+        <div *ngFor="let day of progressDays" class="bar-column">
+          <div class="bar-track">
+            <span [style.height.%]="fastingHeight(day.fastingHours)"></span>
+          </div>
+          <small>{{ day.day }}</small>
+        </div>
+      </div>
+    </section>
+
+    <aside class="trend-panel insights-panel">
+      <h3>Weekly Insights</h3>
+      <ul>
+        <li>Best fasting consistency was Friday with a 17 hour window.</li>
+        <li>Average intake stayed near your target at {{ averageCalories }} kcal.</li>
+        <li>Weight is trending down by {{ weightDeltaAbs }} lbs this week.</li>
+      </ul>
+    </aside>
+  </div>
+</section>

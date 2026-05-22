@@ -1,6 +1,134 @@
-<a
-  routerLink="/meal-log-form"
-  class="inline-block bg-kente-blue text-white px-4 py-2 rounded hover:bg-kente-gold transition"
->
-  Add Meal
-</a>
+<div class="max-w-3xl mx-auto mt-24 px-4 sm:px-6 lg:px-8 text-white">
+  <h2 class="text-2xl font-bold text-kente-gold mb-6 text-center">
+    Log a New Meal
+  </h2>
+
+  <form
+    (ngSubmit)="submitMeal()"
+    #mealForm="ngForm"
+    class="grid grid-cols-1 gap-6 bg-gray-800 p-6 rounded-lg shadow-md"
+  >
+    <div>
+      <label class="block text-sm font-medium mb-1">Meal Name</label>
+      <input
+        type="text"
+        name="name"
+        [(ngModel)]="meal.name"
+        (input)="searchFoods()"
+        class="w-full rounded bg-gray-900 text-white px-4 py-2 border border-gray-600"
+        placeholder="Search USDA foods, e.g. hummus or chicken"
+        required
+      />
+      <p *ngIf="lookupMessage" class="mt-2 text-sm text-green-300">
+        {{ lookupMessage }}
+      </p>
+      <div
+        *ngIf="searchResults.length > 0"
+        class="mt-3 overflow-hidden rounded border border-gray-600 bg-gray-900"
+      >
+        <button
+          *ngFor="let food of searchResults"
+          type="button"
+          class="block w-full border-b border-gray-700 px-4 py-3 text-left hover:bg-gray-700"
+          (click)="selectFood(food)"
+        >
+          <span class="block font-semibold">{{ food.name }}</span>
+          <span class="text-sm text-gray-300">
+            {{ food.calories | number : '1.0-0' }} kcal,
+            {{ food.protein | number : '1.0-1' }}g protein,
+            {{ food.carbs | number : '1.0-1' }}g carbs,
+            {{ food.fat | number : '1.0-1' }}g fat
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div>
+        <label class="block text-sm mb-1">Calories</label>
+        <input
+          type="number"
+          name="calories"
+          [(ngModel)]="meal.calories"
+          class="w-full rounded bg-gray-900 text-white px-3 py-2 border border-gray-600"
+          title="Calories"
+          placeholder="Enter calories"
+        />
+      </div>
+      <div>
+        <label class="block text-sm mb-1">Protein (g)</label>
+        <input
+          type="number"
+          name="protein"
+          [(ngModel)]="meal.protein"
+          class="w-full rounded bg-gray-900 text-white px-3 py-2 border border-gray-600"
+          title="Protein in grams"
+          placeholder="Enter protein (g)"
+        />
+      </div>
+      <div>
+        <label class="block text-sm mb-1">Carbs (g)</label>
+        <input
+          type="number"
+          name="carbs"
+          [(ngModel)]="meal.carbs"
+          class="w-full rounded bg-gray-900 text-white px-3 py-2 border border-gray-600"
+          title="Carbohydrates in grams"
+          placeholder="Enter carbs (g)"
+        />
+      </div>
+      <div>
+        <label class="block text-sm mb-1">Fat (g)</label>
+        <input
+          type="number"
+          name="fat"
+          [(ngModel)]="meal.fat"
+          class="w-full rounded bg-gray-900 text-white px-3 py-2 border border-gray-600"
+          title="Fat in grams"
+          placeholder="Enter fat (g)"
+        />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm mb-1">Fiber (g)</label>
+        <input
+          type="number"
+          name="fiber"
+          [(ngModel)]="meal.fiber"
+          class="w-full rounded bg-gray-900 text-white px-3 py-2 border border-gray-600"
+          title="Fiber in grams"
+          placeholder="Enter fiber (g)"
+        />
+      </div>
+      <div>
+        <label class="block text-sm mb-1">Portion (g)</label>
+        <input
+          type="number"
+          name="portion_g"
+          [(ngModel)]="meal.portion_g"
+          class="w-full rounded bg-gray-900 text-white px-3 py-2 border border-gray-600"
+          title="Portion in grams"
+          placeholder="Enter portion (g)"
+        />
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button
+        type="submit"
+        class="bg-kente-gold text-black font-semibold px-6 py-2 rounded-full hover:bg-kente-red transition"
+      >
+        Save Meal
+      </button>
+    </div>
+  </form>
+
+  <div *ngIf="successMessage" class="mt-4 text-green-400 text-center">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="mt-4 text-red-400 text-center">
+    {{ errorMessage }}
+  </div>
+</div>

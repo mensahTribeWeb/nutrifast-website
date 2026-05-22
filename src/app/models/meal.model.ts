@@ -1,11 +1,13 @@
 // frontend/src/app/models/meal.model.ts
 
 export interface Meal {
-  tags: any;
-  image_url: any;
+  tags?: string[];
+  image_url?: string;
   description: string;
-  portion_g: any;
-  fiber: any;
+  portion_g?: number;
+  fiber?: number;
+  fdc_id?: number;
+  recommendation_score?: number;
   /** your database will usually return an id */
   id?: number;
 

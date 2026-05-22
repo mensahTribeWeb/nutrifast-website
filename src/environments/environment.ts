@@ -1,8 +1,8 @@
 import firebaseConfig from './firebase-config';
 
 export const environment = {
-  production: true,
-  apiBaseUrl: 'https://nutrifast-backend.onrender.com',
+  production: false,
+  apiBaseUrl: 'http://localhost:8000',
   firebaseConfig: {
     apiKey: import.meta.env['NG_APP_FIREBASE_API_KEY'],
     authDomain: import.meta.env['NG_APP_FIREBASE_AUTH_DOMAIN'],

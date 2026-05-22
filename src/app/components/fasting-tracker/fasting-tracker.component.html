@@ -1,52 +1,62 @@
-<div class="fasting-tracker">
-  <div class="header">
-    <h2>{{ isFasting ? "You're Fasting!" : "Get Ready to Fast!" }}</h2>
-  </div>
+<section class="fasting-tracker">
+  <div class="tracker-shell">
+    <header class="tracker-header">
+      <p class="eyebrow">Fasting Tracker</p>
+      <h2>{{ isFasting ? "You're Fasting" : "Get Ready to Fast" }}</h2>
+      <p>
+        {{ isFasting ? "Stay hydrated and keep an eye on your remaining window." : "Start a standard fast or create a custom schedule." }}
+      </p>
+    </header>
 
-  <div class="progress-ring">
-    <!-- Display Time (Elapsed or Remaining) -->
-    <div class="time-display">
-      <h3>{{ isFasting ? "Elapsed Time" : "Time since last fast" }}</h3>
-      <p>{{ formatElapsedTime() }}</p>
+    <div class="tracker-grid">
+      <div class="timer-panel">
+        <div class="ring" [style.background]="getProgressBackground()">
+          <div class="ring-center">
+            <span>{{ isFasting ? "Elapsed" : "Ready" }}</span>
+            <strong>{{ formatElapsedTime() }}</strong>
+          </div>
+        </div>
+
+        <div class="timer-details">
+          <div>
+            <span>Status</span>
+            <strong>{{ isFasting ? "Active fast" : "Not fasting" }}</strong>
+          </div>
+          <div>
+            <span>{{ isFasting ? "Remaining" : "Default goal" }}</span>
+            <strong>{{ formatRemainingTime() }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <aside class="tips-panel">
+        <h3>Fasting Tips</h3>
+        <ul>
+          <li>Drink water or herbal tea to stay hydrated.</li>
+          <li>Keep busy during your normal snack windows.</li>
+          <li>Choose lighter workouts while your fast is active.</li>
+        </ul>
+      </aside>
     </div>
 
-    <!-- Progress Ring -->
-    <div class="ring">
-      <div
-        class="ring-progress"
-        [style.stroke-dasharray]="calculateProgressPercentage() + ', 100'"
-      ></div>
+    <div class="action-row">
+      <button
+        type="button"
+        class="primary-action"
+        (click)="isFasting ? stopFasting() : startFasting()"
+      >
+        {{ isFasting ? "End Fast" : "Start Fast" }}
+      </button>
+      <button type="button" class="secondary-action" (click)="showModal()">
+        Custom Schedule
+      </button>
     </div>
+
   </div>
 
-  <div class="fasting-tips">
-    <h3>Fasting Tips:</h3>
-    <ul>
-      <li>Drink water or herbal tea to stay hydrated.</li>
-      <li>Keep your mind off food.</li>
-      <li>Avoid high-intensity workouts during fasting.</li>
-    </ul>
-  </div>
-
-  <!-- Alert Section for Confirmation -->
-  <div *ngIf="isAlertVisible" class="alert">
-    <p>{{ alertMessage }}</p>
-    <button (click)="confirmStartFasting()">Start Fast</button>
-    <button (click)="cancelAlert()">Cancel</button>
-  </div>
-
-  <!-- Start/Stop Fasting Button -->
-  <div class="start-button-container">
-    <button (click)="isFasting ? stopFasting() : startFasting()">
-      {{ isFasting ? "End Fasting" : "Start Custom Fasting" }}
-    </button>
-  </div>
-
-  <!-- Custom Fasting Button -->
-  <div class="start-button-container">
-    <button (click)="showModal()">Start Custom Fasting</button>
-  </div>
-
-  <!-- Modal Component for Custom Fasting -->
-  <app-fasting-modal *ngIf="isModalVisible"></app-fasting-modal>
-</div>
+  <app-fasting-modal
+    *ngIf="isModalVisible"
+    (fastingConfirmed)="handleCustomFasting($event)"
+    (cancel)="cancelModal()"
+  ></app-fasting-modal>
+</section>

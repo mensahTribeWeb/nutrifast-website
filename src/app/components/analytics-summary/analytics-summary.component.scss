@@ -1,82 +1,314 @@
-.analytics-summary-container {
-  padding-top: 4rem; /* Adjust space for navbar */
-  margin: 0 auto;
-  max-width: 1200px; /* Make sure it’s centered */
+:host {
+  background: #121212;
+  color: #fff;
+  display: block;
+  min-height: calc(100vh - 160px);
 }
 
-.key-metrics {
-  display: flex;
+.analytics-page {
+  margin: 0 auto;
+  max-width: 1180px;
+  padding: 6rem 1rem 3rem;
+}
+
+.analytics-header {
+  margin-bottom: 2rem;
+  text-align: center;
+
+  .eyebrow {
+    color: #4caf50;
+    font-weight: 800;
+    margin: 0 0 0.35rem;
+  }
+
+  h2 {
+    color: #ffbf00;
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin: 0;
+  }
+
+  p {
+    color: #d6d6d6;
+    margin: 0.75rem auto 0;
+    max-width: 620px;
+  }
+}
+
+.metric-grid {
+  display: grid;
   gap: 1rem;
-  justify-content: space-between;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 1.5rem;
+}
+
+.metric-card,
+.panel {
+  background: #1c1c1c;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
 .metric-card {
-  background: #fff;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 30%;
-  text-align: center;
+  padding: 1.1rem;
+
+  span {
+    color: #bfc5d2;
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 0.45rem;
+  }
+
+  strong {
+    display: block;
+    font-size: 1.55rem;
+    line-height: 1.1;
+  }
+
+  p {
+    color: #d6d6d6;
+    font-size: 0.9rem;
+    margin: 0.55rem 0 0;
+  }
+
+  &.gold strong {
+    color: #ffbf00;
+  }
+
+  &.green strong {
+    color: #4caf50;
+  }
+
+  &.blue strong {
+    color: #1e88e5;
+  }
+
+  &.red strong {
+    color: #ef4444;
+  }
 }
 
-.charts-section {
-  margin-bottom: 1rem;
+.analytics-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr 1fr;
 }
 
-.chart-placeholder {
-  background: #e0e0e0;
-  height: 200px;
+.panel {
+  padding: 1.25rem;
+}
+
+.panel-heading {
+  align-items: start;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+
+  h3 {
+    color: #ffbf00;
+    font-size: 1.2rem;
+    margin: 0;
+  }
+
+  p {
+    color: #d6d6d6;
+    margin: 0.35rem 0 0;
+  }
+
+  strong {
+    color: #4caf50;
+    white-space: nowrap;
+  }
+}
+
+.goal-panel,
+.calories-panel {
+  grid-column: span 1;
 }
 
 .goal-progress {
-  margin-top: 1rem;
-  text-align: center;
+  background: #111827;
+  border-radius: 999px;
+  height: 16px;
+  overflow: hidden;
+
+  span {
+    background: #4caf50;
+    border-radius: inherit;
+    display: block;
+    height: 100%;
+    min-width: 10px;
+  }
 }
 
-.weight-progress-section {
-  background-color: #f4f4f4;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.weight-row {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 1.2rem;
+
+  div {
+    background: #111827;
+    border-radius: 0.6rem;
+    padding: 0.85rem;
+  }
+
+  span {
+    color: #bfc5d2;
+    display: block;
+    font-size: 0.82rem;
+  }
+
+  strong {
+    color: #fff;
+    display: block;
+    margin-top: 0.35rem;
+  }
 }
 
-.progress-card {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 8px;
+.macro-list {
+  display: grid;
+  gap: 1rem;
 }
 
-.weight-info {
+.macro-item {
+  align-items: center;
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: 115px 1fr 46px;
+}
+
+.macro-label {
+  align-items: center;
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+  gap: 0.45rem;
+
+  strong {
+    color: #fff;
+  }
+
+  small {
+    color: #bfc5d2;
+  }
 }
 
-.weight-item h4 {
-  font-weight: bold;
-}
-
-.progress-bar {
-  background-color: #e0e0e0;
-  border-radius: 8px;
+.macro-dot {
+  border-radius: 999px;
+  display: inline-block;
   height: 10px;
-  margin-top: 1rem;
-  width: 100%;
+  width: 10px;
 }
 
-.progress {
-  background-color: #1e88e5;
+.macro-track {
+  background: #111827;
+  border-radius: 999px;
+  height: 12px;
+  overflow: hidden;
+
+  span {
+    border-radius: inherit;
+    display: block;
+    height: 100%;
+  }
+}
+
+.protein {
+  background: #4caf50;
+}
+
+.carbs {
+  background: #1e88e5;
+}
+
+.fat {
+  background: #ffbf00;
+}
+
+.macro-percent {
+  color: #d6d6d6;
+  font-weight: 800;
+  text-align: right;
+}
+
+.calorie-bars {
+  align-items: end;
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: repeat(7, 1fr);
+  height: 250px;
+}
+
+.calorie-column {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   height: 100%;
-  border-radius: 8px;
 }
 
-.progress-info {
-  text-align: center;
-  font-size: 1.2rem;
-  margin-top: 1rem;
-  color: #1e88e5;
+.bar-track {
+  align-items: end;
+  background: #111827;
+  border-radius: 999px;
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  width: 100%;
+
+  span {
+    background: #ffbf00;
+    border-radius: 999px 999px 0 0;
+    display: block;
+    min-height: 6px;
+    width: 100%;
+  }
+}
+
+small {
+  color: #bfc5d2;
+}
+
+.insight-panel {
+  h3 {
+    color: #ffbf00;
+    margin: 0 0 1rem;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+
+  li {
+    color: #f1f1f1;
+    margin-bottom: 0.85rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .metric-grid,
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .metric-grid,
+  .weight-row {
+    grid-template-columns: 1fr;
+  }
+
+  .macro-item {
+    grid-template-columns: 1fr;
+  }
+
+  .macro-percent {
+    text-align: left;
+  }
+
+  .panel-heading {
+    flex-direction: column;
+  }
 }

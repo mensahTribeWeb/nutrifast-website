@@ -1,7 +1,7 @@
 // src/environments/environment.ts
 
 export const environment = {
-  production: false,
+  production: true,
   apiBaseUrl: 'https://nutrifast-backend.onrender.com',
   firebaseConfig: {
     apiKey: import.meta.env['NG_APP_FIREBASE_API_KEY'],

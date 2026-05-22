@@ -1,0 +1,267 @@
+:host {
+  display: block;
+  min-height: calc(100vh - 160px);
+  background: #121212;
+  color: #fff;
+}
+
+.progress-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 6rem 1rem 3rem;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  .eyebrow {
+    color: #4caf50;
+    font-weight: 800;
+    margin: 0 0 0.35rem;
+  }
+
+  h2 {
+    color: #ffbf00;
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin: 0;
+  }
+
+  p {
+    color: #d6d6d6;
+    margin: 0.75rem auto 0;
+    max-width: 620px;
+  }
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.summary-tile {
+  background: #1c1c1c;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.75rem;
+  padding: 1.1rem;
+
+  span {
+    color: #bfc5d2;
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+  }
+
+  strong {
+    display: block;
+    font-size: 1.55rem;
+    line-height: 1.1;
+  }
+
+  p {
+    color: #d6d6d6;
+    font-size: 0.9rem;
+    margin: 0.55rem 0 0;
+  }
+
+  &.green strong {
+    color: #4caf50;
+  }
+
+  &.gold strong {
+    color: #ffbf00;
+  }
+
+  &.blue strong {
+    color: #1e88e5;
+  }
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 1.25rem;
+}
+
+.trend-panel {
+  background: #1c1c1c;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  padding: 1.25rem;
+}
+
+.weight-panel {
+  grid-column: span 2;
+}
+
+.panel-header {
+  align-items: start;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  h3 {
+    color: #ffbf00;
+    font-size: 1.2rem;
+    margin: 0;
+  }
+
+  p {
+    color: #d6d6d6;
+    margin: 0.35rem 0 0;
+  }
+
+  strong {
+    color: #4caf50;
+    font-size: 1.2rem;
+    white-space: nowrap;
+  }
+}
+
+.weight-strip {
+  background: #111827;
+  border-radius: 0.65rem;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.75rem;
+  min-height: 220px;
+  padding: 1rem;
+}
+
+.weight-day {
+  background: #1c1c1c;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.65rem;
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
+  justify-items: center;
+  min-width: 0;
+  padding: 0.8rem 0.55rem;
+
+  .day-label {
+    color: #bfc5d2;
+    font-size: 0.85rem;
+    font-weight: 800;
+  }
+
+  strong {
+    color: #fff;
+    font-size: 1.2rem;
+    line-height: 1.1;
+    margin-top: 0.45rem;
+  }
+
+  .unit {
+    color: #8f9aad;
+    font-size: 0.75rem;
+    margin-top: 0.15rem;
+  }
+}
+
+.weight-meter {
+  align-items: end;
+  background: rgba(76, 175, 80, 0.12);
+  border-radius: 999px;
+  display: flex;
+  height: 86px;
+  margin-top: 0.75rem;
+  overflow: hidden;
+  width: 14px;
+
+  span {
+    background: #4caf50;
+    border-radius: 999px;
+    display: block;
+    min-height: 8px;
+    width: 100%;
+  }
+}
+
+.bar-chart {
+  align-items: end;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.65rem;
+  height: 240px;
+}
+
+.bar-column {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: 100%;
+}
+
+.bar-track {
+  align-items: end;
+  background: #111827;
+  border-radius: 999px;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  width: 100%;
+
+  span {
+    border-radius: 999px 999px 0 0;
+    display: block;
+    min-height: 6px;
+    width: 100%;
+  }
+}
+
+.calories .bar-track span {
+  background: #ffbf00;
+}
+
+.fasting .bar-track span {
+  background: #4caf50;
+}
+
+small {
+  color: #bfc5d2;
+}
+
+.insights-panel {
+  h3 {
+    color: #ffbf00;
+    margin: 0 0 1rem;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+
+  li {
+    color: #f1f1f1;
+    margin-bottom: 0.85rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .summary-grid,
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .weight-panel {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .panel-header {
+    flex-direction: column;
+  }
+}
