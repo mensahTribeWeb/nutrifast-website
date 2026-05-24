@@ -183,7 +183,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.userName = localStorage.getItem('userName') || 'NutriFast User';
-    this.currentWeight = this.userService.getCurrentWeight(this.currentWeight);
+    const weightGoals = this.userService.getWeightGoals();
+    this.startingWeight = weightGoals.startWeight;
+    this.currentWeight = weightGoals.currentWeight;
     this.weightInput = this.currentWeight;
   }
 

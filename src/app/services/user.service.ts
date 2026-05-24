@@ -52,6 +52,8 @@ export interface UserProfile {
   gender: string;
   height: number;
   weight: number;
+  startWeight: number;
+  goalWeight: number;
   activityLevel: string;
   goal: string;
   dietType: string;
@@ -60,6 +62,13 @@ export interface UserProfile {
   fastingType: string;
   eatingStart?: string;
   eatingEnd?: string;
+}
+
+export interface ProgressEntry {
+  date: string;
+  weight: number;
+  calories: number;
+  fastingHours: number;
 }
 
 @Injectable({
@@ -89,17 +98,20 @@ export class UserService {
   /** Save profile details and keep the scoped current-weight value synchronized. */
   saveUserProfile(profile: UserProfile): void {
     try {
-      const normalizedProfile = {
+      const currentWeight = this.normalizeWeight(profile.weight, this.getCurrentWeight(159.4));
+      const normalizedProfile: UserProfile = {
         ...profile,
         userName: profile.userName || this.currentUserName,
+        weight: currentWeight,
+        startWeight: this.normalizeWeight(profile.startWeight, Math.max(currentWeight, 162.4)),
+        goalWeight: this.normalizeWeight(profile.goalWeight, 150),
       };
 
       localStorage.setItem(this.activeProfileKey, JSON.stringify(normalizedProfile));
       localStorage.setItem('userName', normalizedProfile.userName);
 
-      const weight = Number(profile.weight);
-      if (weight > 0) {
-        this.saveCurrentWeight(weight);
+      if (normalizedProfile.weight > 0) {
+        this.saveCurrentWeight(normalizedProfile.weight);
       }
 
       window.dispatchEvent(
@@ -126,6 +138,7 @@ export class UserService {
     localStorage.removeItem(this.activeProfileKey);
     localStorage.removeItem(this.activeWeightKey);
     localStorage.removeItem(this.activeMealsKey);
+    localStorage.removeItem(this.activeProgressKey);
   }
 
   /** Create a default profile only when the active user does not already have one. */
@@ -137,18 +150,34 @@ export class UserService {
 
   /** Build neutral starter values for a new capstone prototype profile. */
   getDefaultProfile(): UserProfile {
+    const currentWeight = this.getCurrentWeight(159.4);
+
     return {
       userName: this.currentUserName,
       age: 30,
       gender: 'other',
       height: 66,
-      weight: this.getCurrentWeight(159.4),
+      weight: currentWeight,
+      startWeight: Math.max(currentWeight, 162.4),
+      goalWeight: 150,
       activityLevel: 'moderate',
       goal: 'weightLoss',
       dietType: 'regular',
       fastingType: '16:8',
       eatingStart: '12:00',
       eatingEnd: '20:00',
+    };
+  }
+
+  /** Return the active user's start, current, and goal weights with safe fallbacks. */
+  getWeightGoals(): { startWeight: number; currentWeight: number; goalWeight: number } {
+    const profile = this.getUserProfile();
+    const currentWeight = this.getCurrentWeight(159.4);
+
+    return {
+      startWeight: this.normalizeWeight(profile?.startWeight, Math.max(currentWeight, 162.4)),
+      currentWeight,
+      goalWeight: this.normalizeWeight(profile?.goalWeight, 150),
     };
   }
 
@@ -206,6 +235,51 @@ export class UserService {
     localStorage.setItem(this.activeMealsKey, JSON.stringify(updatedMeals));
   }
 
+  /** Return saved progress entries for the active user, ordered by date. */
+  getProgressEntries(): ProgressEntry[] {
+    try {
+      const progressEntries = localStorage.getItem(this.activeProgressKey);
+      const entries = progressEntries ? JSON.parse(progressEntries) : [];
+
+      return Array.isArray(entries)
+        ? entries
+            .filter((entry) => this.isValidProgressEntry(entry))
+            .sort((first, second) => first.date.localeCompare(second.date))
+        : [];
+    } catch (error) {
+      console.error('Error parsing progress entries from localStorage', error);
+      return [];
+    }
+  }
+
+  /** Save or replace one daily progress entry for the active user. */
+  saveProgressEntry(entry: ProgressEntry): ProgressEntry {
+    const normalizedEntry: ProgressEntry = {
+      date: entry.date,
+      weight: this.normalizeWeight(entry.weight, this.getCurrentWeight(159.4)),
+      calories: this.normalizeNumber(entry.calories, 0),
+      fastingHours: this.normalizeNumber(entry.fastingHours, 0),
+    };
+
+    const updatedEntries = [
+      ...this.getProgressEntries().filter((savedEntry) => savedEntry.date !== normalizedEntry.date),
+      normalizedEntry,
+    ]
+      .sort((first, second) => first.date.localeCompare(second.date))
+      .slice(-30);
+
+    localStorage.setItem(this.activeProgressKey, JSON.stringify(updatedEntries));
+    this.saveCurrentWeight(normalizedEntry.weight);
+
+    return normalizedEntry;
+  }
+
+  /** Remove one daily progress entry for the active user. */
+  deleteProgressEntry(date: string): void {
+    const updatedEntries = this.getProgressEntries().filter((entry) => entry.date !== date);
+    localStorage.setItem(this.activeProgressKey, JSON.stringify(updatedEntries));
+  }
+
   private get activeProfileKey(): string {
     return `userProfile:${this.activeUserKey}`;
   }
@@ -216,6 +290,10 @@ export class UserService {
 
   private get activeMealsKey(): string {
     return `savedMeals:${this.activeUserKey}`;
+  }
+
+  private get activeProgressKey(): string {
+    return `progressEntries:${this.activeUserKey}`;
   }
 
   private get currentUserName(): string {
@@ -240,5 +318,29 @@ export class UserService {
     }
 
     return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  }
+
+  private normalizeWeight(value: number | undefined, fallback: number): number {
+    const numericValue = Number(value);
+    const normalizedFallback = Math.round(fallback * 10) / 10;
+
+    return numericValue > 0 ? Math.round(numericValue * 10) / 10 : normalizedFallback;
+  }
+
+  private normalizeNumber(value: number | undefined, fallback: number): number {
+    const numericValue = Number(value);
+    return Number.isFinite(numericValue) && numericValue >= 0
+      ? Math.round(numericValue * 10) / 10
+      : fallback;
+  }
+
+  private isValidProgressEntry(entry: ProgressEntry): boolean {
+    return Boolean(
+      entry &&
+        /^\d{4}-\d{2}-\d{2}$/.test(entry.date) &&
+        Number(entry.weight) > 0 &&
+        Number(entry.calories) >= 0 &&
+        Number(entry.fastingHours) >= 0
+    );
   }
 }

@@ -96,11 +96,15 @@ Copyright (c) 2026 Nicholas D. Mensah
       <div class="panel-heading">
         <div>
           <h3>Macro Breakdown</h3>
-          <p>Estimated calorie share by macro group.</p>
+          <p>Calorie share from saved meal logs.</p>
         </div>
       </div>
 
-      <div class="macro-list">
+      <p *ngIf="macroItems.length === 0" class="empty-state">
+        No meal macros logged yet. Save meals from the meal log to populate this chart.
+      </p>
+
+      <div *ngIf="macroItems.length > 0" class="macro-list">
         <article *ngFor="let macro of macroItems" class="macro-item">
           <div class="macro-label">
             <span class="macro-dot" [class]="macro.tone"></span>
@@ -119,19 +123,23 @@ Copyright (c) 2026 Nicholas D. Mensah
       <div class="panel-heading">
         <div>
           <h3>Calorie Pattern</h3>
-          <p>Last seven days of logged intake.</p>
+          <p>Last seven days from saved progress entries.</p>
         </div>
-        <strong>{{ caloriesConsumed }} today</strong>
+        <strong>{{ caloriesConsumed > 0 ? caloriesConsumed + ' today' : 'No entry today' }}</strong>
       </div>
 
       <div class="calorie-bars">
-        <div *ngFor="let day of calorieDays" class="calorie-column">
+        <div *ngFor="let day of calorieDays" class="calorie-column" [class.no-entry]="!day.hasEntry">
           <div class="bar-track">
             <span [style.height.%]="calorieHeight(day.calories)"></span>
           </div>
           <small>{{ day.day }}</small>
         </div>
       </div>
+
+      <p *ngIf="currentWeekEntries.length === 0" class="empty-state">
+        Save daily progress entries to replace this empty calorie pattern.
+      </p>
     </section>
 
     <aside class="panel insight-panel">

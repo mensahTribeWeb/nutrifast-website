@@ -139,7 +139,150 @@ Copyright (c) 2026 Nicholas D. Mensah
   padding: 1.25rem;
 }
 
+.entry-panel {
+  margin-bottom: 1.5rem;
+}
+
+.entry-form {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+
+  label {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  span {
+    color: #ffffff;
+    font-weight: 800;
+  }
+
+  input {
+    background: #111827;
+    border: 1px solid #536174;
+    border-radius: 0.45rem;
+    color: #ffffff;
+    font-size: 1rem;
+    min-height: 48px;
+    padding: 0.75rem;
+    width: 100%;
+
+    &:focus {
+      border-color: #fbc02d;
+      outline: 2px solid rgba(251, 192, 45, 0.35);
+    }
+  }
+
+  button {
+    align-self: end;
+    background: #1e88e5;
+    border: 0;
+    border-radius: 999px;
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 900;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+
+    &:hover {
+      background: #43a047;
+    }
+  }
+}
+
+.entry-message {
+  color: #9ee6a1;
+  font-weight: 800;
+  margin: 1rem 0 0;
+}
+
+.entry-list {
+  background: #111827;
+  border-radius: 0.65rem;
+  margin-top: 1.25rem;
+  padding: 1rem;
+}
+
+.entry-list-header {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+
+  h4 {
+    color: #ffbf00;
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  span {
+    color: #9ee6a1;
+    font-weight: 800;
+  }
+}
+
+.empty-entry-message {
+  color: #d6d6d6;
+  margin: 0;
+}
+
+.entry-table {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.entry-row {
+  align-items: center;
+  background: #1c1c1c;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.55rem;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1.4fr repeat(3, minmax(90px, 1fr)) auto;
+  padding: 0.75rem;
+
+  strong {
+    color: #ffffff;
+    display: block;
+  }
+
+  small {
+    color: #bfc5d2;
+    display: block;
+    margin-top: 0.2rem;
+  }
+
+  button {
+    background: #ef4444;
+    border: 0;
+    border-radius: 999px;
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 900;
+    padding: 0.55rem 0.85rem;
+
+    &:hover {
+      background: #dc2626;
+    }
+  }
+}
+
+.entry-row-heading {
+  background: transparent;
+  border: 0;
+  color: #bfc5d2;
+  font-size: 0.82rem;
+  font-weight: 900;
+  padding-block: 0.2rem;
+}
+
 .weight-panel {
+  grid-column: span 2;
+}
+
+.weight-goal-panel {
   grid-column: span 2;
 }
 
@@ -178,15 +321,140 @@ Copyright (c) 2026 Nicholas D. Mensah
   padding: 1rem;
 }
 
+.goal-layout {
+  align-items: center;
+  display: grid;
+  grid-template-columns: minmax(220px, 0.42fr) 1fr;
+  gap: 1.5rem;
+}
+
+.weight-ring {
+  display: grid;
+  min-height: 240px;
+  place-items: center;
+  position: relative;
+}
+
+.weight-ring svg {
+  height: 220px;
+  transform: rotate(-90deg);
+  width: 220px;
+}
+
+.ring-base,
+.ring-progress {
+  fill: none;
+  stroke-width: 9;
+}
+
+.ring-base {
+  stroke: rgba(255, 255, 255, 0.1);
+}
+
+.ring-progress {
+  stroke: #4caf50;
+  stroke-linecap: round;
+  pathLength: 100;
+  transition: stroke-dasharray 0.25s ease;
+}
+
+.ring-content {
+  display: grid;
+  inset: 0;
+  place-content: center;
+  position: absolute;
+  text-align: center;
+
+  span,
+  small {
+    color: #bfc5d2;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  strong {
+    color: #ffffff;
+    font-size: 3rem;
+    line-height: 1;
+    margin-top: 0.3rem;
+  }
+}
+
+.goal-details {
+  display: grid;
+  gap: 1.15rem;
+}
+
+.goal-stat-row,
+.goal-note-grid {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.goal-stat-row article,
+.goal-note-grid p {
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.65rem;
+  margin: 0;
+  padding: 1rem;
+}
+
+.goal-stat-row span,
+.goal-note-grid span {
+  color: #bfc5d2;
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.45rem;
+}
+
+.goal-stat-row strong,
+.goal-note-grid strong {
+  color: #ffffff;
+  display: block;
+  font-size: 1.3rem;
+}
+
+.goal-progress-track {
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  height: 18px;
+  overflow: hidden;
+}
+
+.goal-progress-track span {
+  background: linear-gradient(90deg, #4caf50, #ffbf00);
+  border-radius: inherit;
+  display: block;
+  height: 100%;
+  min-width: 8px;
+}
+
+.goal-note-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .weight-day {
   background: #1c1c1c;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 0.65rem;
+  color: inherit;
+  cursor: pointer;
   display: grid;
-  grid-template-rows: auto auto auto 1fr;
+  font: inherit;
+  grid-template-rows: auto auto auto auto 1fr;
   justify-items: center;
   min-width: 0;
   padding: 0.8rem 0.55rem;
+  text-align: center;
+
+  &:hover {
+    border-color: rgba(76, 175, 80, 0.55);
+    transform: translateY(-1px);
+  }
 
   .day-label {
     color: #bfc5d2;
@@ -205,6 +473,21 @@ Copyright (c) 2026 Nicholas D. Mensah
     color: #8f9aad;
     font-size: 0.75rem;
     margin-top: 0.15rem;
+  }
+}
+
+.entry-state {
+  background: rgba(255, 191, 0, 0.12);
+  border-radius: 999px;
+  color: #ffbf00;
+  font-size: 0.65rem;
+  font-weight: 900;
+  margin-top: 0.45rem;
+  padding: 0.2rem 0.45rem;
+
+  &.saved {
+    background: rgba(76, 175, 80, 0.16);
+    color: #9ee6a1;
   }
 }
 
@@ -237,10 +520,19 @@ Copyright (c) 2026 Nicholas D. Mensah
 
 .bar-column {
   align-items: center;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   height: 100%;
+  padding: 0;
+
+  &:hover .bar-track {
+    outline: 2px solid rgba(251, 192, 45, 0.35);
+  }
 }
 
 .bar-track {
@@ -296,8 +588,28 @@ small {
     grid-template-columns: 1fr;
   }
 
+  .entry-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .entry-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .entry-row-heading {
+    display: none;
+  }
+
   .weight-panel {
     grid-column: auto;
+  }
+
+  .weight-goal-panel {
+    grid-column: auto;
+  }
+
+  .goal-layout {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -306,7 +618,29 @@ small {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .entry-form {
+    grid-template-columns: 1fr;
+  }
+
+  .entry-list-header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .entry-row {
+    grid-template-columns: 1fr;
+  }
+
   .panel-header {
     flex-direction: column;
+  }
+
+  .goal-stat-row,
+  .goal-note-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .weight-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

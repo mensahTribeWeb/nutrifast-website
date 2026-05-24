@@ -67,8 +67,24 @@ Copyright (c) 2026 Nicholas D. Mensah
 
       <div class="summary-list">
         <div>
+          <span>Goal Progress</span>
+          <strong>{{ goalProgressPercentage }}%</strong>
+        </div>
+        <div>
+          <span>Start Weight</span>
+          <strong>{{ startWeight.toFixed(1) }} lbs</strong>
+        </div>
+        <div>
           <span>Current Weight</span>
           <strong>{{ currentWeight.toFixed(1) }} lbs</strong>
+        </div>
+        <div>
+          <span>Goal Weight</span>
+          <strong>{{ goalWeight.toFixed(1) }} lbs</strong>
+        </div>
+        <div>
+          <span>Remaining</span>
+          <strong>{{ weightRemaining.toFixed(1) }} lbs</strong>
         </div>
         <div>
           <span>Goal</span>
@@ -119,6 +135,16 @@ Copyright (c) 2026 Nicholas D. Mensah
       <section class="form-section">
         <h3>Nutrition Goals</h3>
         <div class="form-grid">
+          <label>
+            <span>Start Weight (lbs)</span>
+            <input type="number" min="1" step="0.1" formControlName="startWeight" />
+          </label>
+
+          <label>
+            <span>Goal Weight (lbs)</span>
+            <input type="number" min="1" step="0.1" formControlName="goalWeight" />
+          </label>
+
           <label>
             <span>Activity Level</span>
             <select formControlName="activityLevel">

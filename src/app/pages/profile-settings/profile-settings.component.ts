@@ -75,7 +75,9 @@ export class ProfileSettingsComponent implements OnInit {
       age: [null, [Validators.required, Validators.min(1)]],
       gender: ['', Validators.required],
       height: [null, [Validators.required, Validators.min(1)]],
+      startWeight: [null, [Validators.required, Validators.min(1)]],
       weight: [null, [Validators.required, Validators.min(1)]],
+      goalWeight: [null, [Validators.required, Validators.min(1)]],
       activityLevel: ['', Validators.required],
       goal: ['', Validators.required],
       dietType: ['', Validators.required],
@@ -88,9 +90,17 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const profile =
-      this.userService.getUserProfile() ?? this.userService.getDefaultProfile();
-    this.profileForm.patchValue(profile);
+    const defaultProfile = this.userService.getDefaultProfile();
+    const savedProfile = this.userService.getUserProfile();
+    const weightGoals = this.userService.getWeightGoals();
+
+    this.profileForm.patchValue({
+      ...defaultProfile,
+      ...savedProfile,
+      startWeight: weightGoals.startWeight,
+      weight: weightGoals.currentWeight,
+      goalWeight: weightGoals.goalWeight,
+    });
   }
 
   get activeUserName(): string {
@@ -110,6 +120,28 @@ export class ProfileSettingsComponent implements OnInit {
 
   get currentWeight(): number {
     return Number(this.profileForm.get('weight')?.value) || 0;
+  }
+
+  get startWeight(): number {
+    return Number(this.profileForm.get('startWeight')?.value) || 0;
+  }
+
+  get goalWeight(): number {
+    return Number(this.profileForm.get('goalWeight')?.value) || 0;
+  }
+
+  get weightRemaining(): number {
+    return Math.max(0, Math.round(Math.abs(this.currentWeight - this.goalWeight) * 10) / 10);
+  }
+
+  get goalProgressPercentage(): number {
+    const totalChange = Math.abs(this.startWeight - this.goalWeight);
+    if (totalChange <= 0) {
+      return 100;
+    }
+
+    const completedChange = Math.abs(this.startWeight - this.currentWeight);
+    return Math.min(100, Math.max(0, Math.round((completedChange / totalChange) * 100)));
   }
 
   get selectedGoal(): string {

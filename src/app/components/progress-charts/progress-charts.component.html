@@ -62,7 +62,160 @@ Copyright (c) 2026 Nicholas D. Mensah
     </article>
   </div>
 
+  <section class="trend-panel entry-panel">
+    <div class="panel-header">
+      <div>
+        <h3>Daily Progress Entry</h3>
+        <p>Update any day in the current week to refresh the charts.</p>
+      </div>
+      <strong>{{ savedEntryCount }}/7 saved</strong>
+    </div>
+
+    <form class="entry-form" (ngSubmit)="saveDailyProgress()">
+      <label>
+        <span>Date</span>
+        <input
+          type="date"
+          name="progressDate"
+          [(ngModel)]="progressDraft.date"
+        />
+      </label>
+
+      <label>
+        <span>Weight (lbs)</span>
+        <input
+          type="number"
+          min="1"
+          step="0.1"
+          name="progressWeight"
+          [(ngModel)]="progressDraft.weight"
+        />
+      </label>
+
+      <label>
+        <span>Calories</span>
+        <input
+          type="number"
+          min="0"
+          step="1"
+          name="progressCalories"
+          [(ngModel)]="progressDraft.calories"
+        />
+      </label>
+
+      <label>
+        <span>Fasting Hours</span>
+        <input
+          type="number"
+          min="0"
+          step="0.25"
+          name="progressFasting"
+          [(ngModel)]="progressDraft.fastingHours"
+        />
+      </label>
+
+      <button type="submit">Save Daily Progress</button>
+    </form>
+
+    <p *ngIf="saveMessage" class="entry-message">{{ saveMessage }}</p>
+
+    <div class="entry-list">
+      <div class="entry-list-header">
+        <h4>Saved Entries</h4>
+        <span>{{ savedEntryCount }} current-week entries</span>
+      </div>
+
+      <p *ngIf="weeklySavedEntries.length === 0" class="empty-entry-message">
+        No saved progress entries yet. Save a daily entry to replace the starter chart values.
+      </p>
+
+      <div *ngIf="weeklySavedEntries.length > 0" class="entry-table" aria-label="Saved progress entries">
+        <div class="entry-row entry-row-heading">
+          <span>Date</span>
+          <span>Weight</span>
+          <span>Calories</span>
+          <span>Fasting</span>
+          <span>Action</span>
+        </div>
+
+        <div *ngFor="let entry of weeklySavedEntries" class="entry-row">
+          <span>
+            <strong>{{ entry.day }}</strong>
+            <small>{{ formatEntryDate(entry.date) }}</small>
+          </span>
+          <span>{{ entry.weight.toFixed(1) }} lbs</span>
+          <span>{{ entry.calories }} kcal</span>
+          <span>{{ entry.fastingHours }} hrs</span>
+          <button type="button" (click)="deleteDailyProgress(entry.date)">Remove</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <div class="dashboard-grid">
+    <section class="trend-panel weight-goal-panel">
+      <div class="panel-header">
+        <div>
+          <h3>Weight Goal Progress</h3>
+          <p>Start, current, and goal weight with estimated progress.</p>
+        </div>
+        <strong>{{ goalProgressPercentage }}%</strong>
+      </div>
+
+      <div class="goal-layout">
+        <div class="weight-ring" aria-label="Current weight and goal progress">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Weight goal progress">
+            <circle class="ring-base" cx="60" cy="60" r="50" pathLength="100"></circle>
+            <circle
+              class="ring-progress"
+              cx="60"
+              cy="60"
+              r="50"
+              pathLength="100"
+              [attr.stroke-dasharray]="goalProgressPercentage + ' 100'"
+            ></circle>
+          </svg>
+          <div class="ring-content">
+            <span>Current</span>
+            <strong>{{ currentWeight.toFixed(1) }}</strong>
+            <small>lbs</small>
+          </div>
+        </div>
+
+        <div class="goal-details">
+          <div class="goal-stat-row">
+            <article>
+              <span>Start</span>
+              <strong>{{ startWeight.toFixed(1) }} lbs</strong>
+            </article>
+            <article>
+              <span>Goal</span>
+              <strong>{{ goalWeight.toFixed(1) }} lbs</strong>
+            </article>
+            <article>
+              <span>Remaining</span>
+              <strong>{{ weightRemaining.toFixed(1) }} lbs</strong>
+            </article>
+          </div>
+
+          <div class="goal-progress-track">
+            <span [style.width.%]="goalProgressPercentage"></span>
+          </div>
+
+          <div class="goal-note-grid">
+            <p>
+              <span>Weekly trend</span>
+              <strong>{{ weightDelta }} lbs</strong>
+            </p>
+            <p>
+              <span>Estimated goal date</span>
+              <strong>{{ estimatedGoalDate }}</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="trend-panel weight-panel">
       <div class="panel-header">
         <div>
@@ -73,14 +226,22 @@ Copyright (c) 2026 Nicholas D. Mensah
       </div>
 
       <div class="weight-strip" aria-label="Weight trend by day">
-        <article *ngFor="let day of progressDays" class="weight-day">
+        <button
+          *ngFor="let day of progressDays"
+          class="weight-day"
+          type="button"
+          (click)="selectProgressDay(day)"
+        >
           <span class="day-label">{{ day.day }}</span>
           <strong>{{ day.weight.toFixed(1) }}</strong>
           <span class="unit">lbs</span>
+          <span class="entry-state" [class.saved]="day.hasSavedEntry">
+            {{ day.hasSavedEntry ? 'Saved' : 'Starter' }}
+          </span>
           <div class="weight-meter">
             <span [style.height.%]="weightPosition(day.weight)"></span>
           </div>
-        </article>
+        </button>
       </div>
     </section>
 
@@ -94,12 +255,17 @@ Copyright (c) 2026 Nicholas D. Mensah
       </div>
 
       <div class="bar-chart calories">
-        <div *ngFor="let day of progressDays" class="bar-column">
+        <button
+          *ngFor="let day of progressDays"
+          class="bar-column"
+          type="button"
+          (click)="selectProgressDay(day)"
+        >
           <div class="bar-track">
             <span [style.height.%]="calorieHeight(day.calories)"></span>
           </div>
           <small>{{ day.day }}</small>
-        </div>
+        </button>
       </div>
     </section>
 
@@ -113,21 +279,30 @@ Copyright (c) 2026 Nicholas D. Mensah
       </div>
 
       <div class="bar-chart fasting">
-        <div *ngFor="let day of progressDays" class="bar-column">
+        <button
+          *ngFor="let day of progressDays"
+          class="bar-column"
+          type="button"
+          (click)="selectProgressDay(day)"
+        >
           <div class="bar-track">
             <span [style.height.%]="fastingHeight(day.fastingHours)"></span>
           </div>
           <small>{{ day.day }}</small>
-        </div>
+        </button>
       </div>
     </section>
 
     <aside class="trend-panel insights-panel">
       <h3>Weekly Insights</h3>
       <ul>
-        <li>Best fasting consistency was Friday with a 17 hour window.</li>
+        <li *ngIf="bestFastingDay">
+          Best fasting consistency was {{ bestFastingDay.day }} with a
+          {{ bestFastingDay.fastingHours }} hour window.
+        </li>
         <li>Average intake stayed near your target at {{ averageCalories }} kcal.</li>
-        <li>Weight is trending down by {{ weightDeltaAbs }} lbs this week.</li>
+        <li>{{ weeklyWeightInsight }}</li>
+        <li>{{ savedEntryCount }} daily entries are saved for this week.</li>
       </ul>
     </aside>
   </div>

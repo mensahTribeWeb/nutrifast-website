@@ -45,14 +45,17 @@ Copyright (c) 2026 Nicholas D. Mensah
 
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
+import { FormsModule } from '@angular/forms';
+import { ProgressEntry, UserService } from '../../services/user.service';
 
 type ProgressDay = {
+  date: string;
   day: string;
   calories: number;
   fastingHours: number;
   weight: number;
   adherence: number;
+  hasSavedEntry: boolean;
 };
 
 type SummaryMetric = {
@@ -65,32 +68,61 @@ type SummaryMetric = {
 @Component({
   selector: 'app-progress-charts',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './progress-charts.component.html',
   styleUrl: './progress-charts.component.scss',
 })
 export class ProgressChartsComponent implements OnInit {
   progressDays: ProgressDay[] = [];
+  progressDraft: ProgressEntry = {
+    date: '',
+    weight: 159.4,
+    calories: 1235,
+    fastingHours: 16,
+  };
+  saveMessage: string | null = null;
 
   readonly fastingMax = 18;
+  readonly fastingTarget = 16;
+  readonly calorieTarget = 1350;
+  currentWeight = 159.4;
+  startWeight = 162.4;
+  goalWeight = 150;
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
+    const weightGoals = this.userService.getWeightGoals();
+    this.startWeight = weightGoals.startWeight;
+    this.currentWeight = weightGoals.currentWeight;
+    this.goalWeight = weightGoals.goalWeight;
     this.progressDays = this.buildProgressDays();
+    this.setDraftFromDay(this.progressDays[this.progressDays.length - 1]);
   }
 
   get calorieMax(): number {
-    return Math.max(...this.progressDays.map((day) => day.calories));
+    return Math.max(...this.progressDays.map((day) => day.calories), this.calorieTarget, 1);
+  }
+
+  get fastingScaleMax(): number {
+    return Math.max(...this.progressDays.map((day) => day.fastingHours), this.fastingMax);
   }
 
   get averageCalories(): number {
+    if (this.progressDays.length === 0) {
+      return 0;
+    }
+
     return Math.round(
       this.progressDays.reduce((sum, day) => sum + day.calories, 0) / this.progressDays.length
     );
   }
 
   get averageFasting(): string {
+    if (this.progressDays.length === 0) {
+      return '0.0';
+    }
+
     return (
       this.progressDays.reduce((sum, day) => sum + day.fastingHours, 0) /
       this.progressDays.length
@@ -98,6 +130,10 @@ export class ProgressChartsComponent implements OnInit {
   }
 
   get averageAdherence(): number {
+    if (this.progressDays.length === 0) {
+      return 0;
+    }
+
     return Math.round(
       this.progressDays.reduce((sum, day) => sum + day.adherence, 0) / this.progressDays.length
     );
@@ -113,8 +149,64 @@ export class ProgressChartsComponent implements OnInit {
     return (lastDay.weight - firstDay.weight).toFixed(1);
   }
 
+  get savedEntryCount(): number {
+    return this.progressDays.filter((day) => day.hasSavedEntry).length;
+  }
+
+  get weeklySavedEntries(): ProgressDay[] {
+    return this.progressDays.filter((day) => day.hasSavedEntry).slice().reverse();
+  }
+
+  get bestFastingDay(): ProgressDay | null {
+    if (this.progressDays.length === 0) {
+      return null;
+    }
+
+    return this.progressDays.reduce((bestDay, currentDay) =>
+      currentDay.fastingHours > bestDay.fastingHours ? currentDay : bestDay
+    );
+  }
+
   get weightDeltaAbs(): string {
     return Math.abs(Number(this.weightDelta)).toFixed(1);
+  }
+
+  get weightLost(): number {
+    return Math.max(0, Math.round(Math.abs(this.startWeight - this.currentWeight) * 10) / 10);
+  }
+
+  get weightRemaining(): number {
+    return Math.max(0, Math.round(Math.abs(this.currentWeight - this.goalWeight) * 10) / 10);
+  }
+
+  get goalProgressPercentage(): number {
+    const totalChange = Math.abs(this.startWeight - this.goalWeight);
+    if (totalChange <= 0) {
+      return 100;
+    }
+
+    return Math.min(100, Math.max(0, Math.round((this.weightLost / totalChange) * 100)));
+  }
+
+  get estimatedGoalDate(): string {
+    if (this.weightRemaining <= 0) {
+      return 'Goal reached';
+    }
+
+    const weeklyLoss = Number(this.weightDeltaAbs);
+    if (weeklyLoss <= 0) {
+      return 'Needs more weigh-ins';
+    }
+
+    const weeksRemaining = Math.ceil(this.weightRemaining / weeklyLoss);
+    const estimatedDate = new Date();
+    estimatedDate.setDate(estimatedDate.getDate() + weeksRemaining * 7);
+
+    return estimatedDate.toLocaleDateString([], {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
   }
 
   get summaryMetrics(): SummaryMetric[] {
@@ -132,9 +224,9 @@ export class ProgressChartsComponent implements OnInit {
         tone: 'green',
       },
       {
-        label: 'Weight Change',
-        value: `${this.weightDelta} lbs`,
-        detail: 'Since Monday',
+        label: 'Goal Progress',
+        value: `${this.goalProgressPercentage}%`,
+        detail: `${this.weightRemaining.toFixed(1)} lbs remaining`,
         tone: 'blue',
       },
       {
@@ -146,12 +238,26 @@ export class ProgressChartsComponent implements OnInit {
     ];
   }
 
+  get weeklyWeightInsight(): string {
+    const weeklyChange = Number(this.weightDelta);
+
+    if (weeklyChange < 0) {
+      return `Weight is trending down by ${this.weightDeltaAbs} lbs this week.`;
+    }
+
+    if (weeklyChange > 0) {
+      return `Weight is trending up by ${this.weightDeltaAbs} lbs this week.`;
+    }
+
+    return 'Weight held steady this week.';
+  }
+
   calorieHeight(calories: number): number {
     return Math.round((calories / this.calorieMax) * 100);
   }
 
   fastingHeight(hours: number): number {
-    return Math.round((hours / this.fastingMax) * 100);
+    return Math.round((hours / this.fastingScaleMax) * 100);
   }
 
   weightPosition(weight: number): number {
@@ -163,18 +269,128 @@ export class ProgressChartsComponent implements OnInit {
     return Math.round(20 + ((weight - min) / range) * 80);
   }
 
-  private buildProgressDays(): ProgressDay[] {
-    const currentWeight = this.userService.getCurrentWeight(159.4);
-
-    return [
-      { day: 'Mon', calories: 1420, fastingHours: 14, weight: currentWeight + 3.0, adherence: 82 },
-      { day: 'Tue', calories: 1360, fastingHours: 15, weight: currentWeight + 2.4, adherence: 86 },
-      { day: 'Wed', calories: 1280, fastingHours: 16, weight: currentWeight + 1.8, adherence: 91 },
-      { day: 'Thu', calories: 1325, fastingHours: 16, weight: currentWeight + 1.4, adherence: 88 },
-      { day: 'Fri', calories: 1210, fastingHours: 17, weight: currentWeight + 0.8, adherence: 94 },
-      { day: 'Sat', calories: 1490, fastingHours: 14, weight: currentWeight + 0.4, adherence: 80 },
-      { day: 'Sun', calories: 1235, fastingHours: 16, weight: currentWeight, adherence: 92 },
-    ];
+  selectProgressDay(day: ProgressDay): void {
+    this.setDraftFromDay(day);
+    this.saveMessage = null;
   }
 
+  saveDailyProgress(): void {
+    if (!this.progressDraft.date) {
+      this.saveMessage = 'Choose a date before saving progress.';
+      return;
+    }
+
+    if (
+      this.progressDraft.weight <= 0 ||
+      this.progressDraft.calories < 0 ||
+      this.progressDraft.fastingHours < 0
+    ) {
+      this.saveMessage = 'Enter valid weight, calorie, and fasting values.';
+      return;
+    }
+
+    const savedEntry = this.userService.saveProgressEntry(this.progressDraft);
+    const weightGoals = this.userService.getWeightGoals();
+    this.startWeight = weightGoals.startWeight;
+    this.currentWeight = weightGoals.currentWeight;
+    this.goalWeight = weightGoals.goalWeight;
+    this.progressDays = this.buildProgressDays();
+    this.setDraftFromEntry(savedEntry);
+    this.saveMessage = 'Daily progress saved.';
+  }
+
+  deleteDailyProgress(date: string): void {
+    this.userService.deleteProgressEntry(date);
+    this.progressDays = this.buildProgressDays();
+    this.setDraftFromDay(this.progressDays[this.progressDays.length - 1]);
+    this.saveMessage = 'Progress entry removed.';
+  }
+
+  formatEntryDate(dateKey: string): string {
+    return new Date(`${dateKey}T00:00:00`).toLocaleDateString([], {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  }
+
+  private buildProgressDays(): ProgressDay[] {
+    const dates = this.getLastSevenDateKeys();
+    const savedEntries = new Map(
+      this.userService.getProgressEntries().map((entry) => [entry.date, entry])
+    );
+    const weeklyChange = this.currentWeight - this.startWeight;
+    const starterCalories = [1420, 1360, 1280, 1325, 1210, 1490, 1235];
+    const starterFastingHours = [14, 15, 16, 16, 17, 14, 16];
+
+    return dates.map((date, index) => {
+      const savedEntry = savedEntries.get(date);
+      const estimatedWeight = this.startWeight + weeklyChange * (index / Math.max(dates.length - 1, 1));
+      const calories = savedEntry?.calories ?? starterCalories[index];
+      const fastingHours = savedEntry?.fastingHours ?? starterFastingHours[index];
+
+      return {
+        date,
+        day: this.formatDayLabel(date),
+        calories,
+        fastingHours,
+        weight: this.roundOneDecimal(savedEntry?.weight ?? estimatedWeight),
+        adherence: this.calculateAdherence(calories, fastingHours),
+        hasSavedEntry: Boolean(savedEntry),
+      };
+    });
+  }
+
+  private calculateAdherence(calories: number, fastingHours: number): number {
+    const calorieScore = Math.max(
+      0,
+      100 - Math.abs(calories - this.calorieTarget) / this.calorieTarget * 100
+    );
+    const fastingScore = Math.min(100, fastingHours / this.fastingTarget * 100);
+
+    return Math.round(calorieScore * 0.55 + fastingScore * 0.45);
+  }
+
+  private setDraftFromDay(day?: ProgressDay): void {
+    if (!day) {
+      return;
+    }
+
+    this.progressDraft = {
+      date: day.date,
+      weight: day.weight,
+      calories: day.calories,
+      fastingHours: day.fastingHours,
+    };
+  }
+
+  private setDraftFromEntry(entry: ProgressEntry): void {
+    this.progressDraft = { ...entry };
+  }
+
+  private getLastSevenDateKeys(): string[] {
+    const dates: string[] = [];
+    const today = new Date();
+
+    for (let index = 6; index >= 0; index -= 1) {
+      const date = new Date(today);
+      date.setDate(today.getDate() - index);
+      dates.push(this.toDateKey(date));
+    }
+
+    return dates;
+  }
+
+  private toDateKey(date: Date): string {
+    const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+    return localDate.toISOString().slice(0, 10);
+  }
+
+  private formatDayLabel(dateKey: string): string {
+    return new Date(`${dateKey}T00:00:00`).toLocaleDateString([], { weekday: 'short' });
+  }
+
+  private roundOneDecimal(value: number): number {
+    return Math.round(value * 10) / 10;
+  }
 }
