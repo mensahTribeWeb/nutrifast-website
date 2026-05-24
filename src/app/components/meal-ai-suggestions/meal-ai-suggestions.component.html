@@ -43,78 +43,73 @@ Copyright (c) 2026 Nicholas D. Mensah
 ============================================================================
 -->
 
-<div class="max-w-6xl mx-auto mt-24 px-4 sm:px-6 lg:px-8 text-white">
-  <h2 class="text-2xl font-bold text-kente-gold mb-6 text-center">
+<div class="meal-ai-page">
+  <h2 class="meal-ai-title">
     AI Meal Suggestions
   </h2>
 
   <form
     (ngSubmit)="getSuggestions()"
-    class="grid grid-cols-1 md:grid-cols-4 gap-4 bg-gray-800 p-6 rounded-lg shadow-md"
+    class="meal-ai-form"
   >
-    <div>
-      <label class="block text-sm mb-1">Max Calories</label>
+    <div class="filter-grid">
+    <div class="filter-field">
+      <label>Max Calories</label>
       <input
         type="number"
         name="calories"
         [(ngModel)]="filters.calories"
-        class="w-full rounded bg-gray-900 text-white px-3 py-2 border border-gray-600"
         placeholder="700"
       />
     </div>
-    <div>
-      <label class="block text-sm mb-1">Min Protein (g)</label>
+    <div class="filter-field">
+      <label>Min Protein (g)</label>
       <input
         type="number"
         name="protein"
         [(ngModel)]="filters.protein"
-        class="w-full rounded bg-gray-900 text-white px-3 py-2 border border-gray-600"
         placeholder="15"
       />
     </div>
-    <div>
-      <label class="block text-sm mb-1">Max Carbs (g)</label>
+    <div class="filter-field">
+      <label>Max Carbs (g)</label>
       <input
         type="number"
         name="carbs"
         [(ngModel)]="filters.carbs"
-        class="w-full rounded bg-gray-900 text-white px-3 py-2 border border-gray-600"
         placeholder="Optional"
       />
     </div>
-    <div>
-      <label class="block text-sm mb-1">Max Fat (g)</label>
+    <div class="filter-field">
+      <label>Max Fat (g)</label>
       <input
         type="number"
         name="fat"
         [(ngModel)]="filters.fat"
-        class="w-full rounded bg-gray-900 text-white px-3 py-2 border border-gray-600"
         placeholder="Optional"
       />
     </div>
+    </div>
 
-    <div class="md:col-span-4 text-center">
-      <button
-        type="submit"
-        class="bg-kente-gold text-black font-semibold px-6 py-2 rounded-full hover:bg-kente-red transition"
-      >
+    <div class="action-row">
+      <button type="submit" class="find-button">
         Find Meals
       </button>
     </div>
   </form>
 
-  <div *ngIf="loading" class="mt-6 text-center text-gray-300">
+  <div *ngIf="loading" class="status-message">
     Loading recommendations...
   </div>
-  <div *ngIf="error" class="mt-6 text-center text-red-400">
+  <div *ngIf="error" class="error-message">
     {{ error }}
   </div>
 
-  <div *ngIf="suggestions.length > 0" class="mt-10">
-    <h3 class="text-xl font-bold text-kente-gold mb-4 text-center">
+  <div *ngIf="suggestions.length > 0" class="recommendations">
+    <h3>
       Recommended Foods
     </h3>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="recommendation-grid">
       <app-meal-card
         *ngFor="let meal of suggestions"
         [meal]="meal"
