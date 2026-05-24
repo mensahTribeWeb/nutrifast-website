@@ -1,3 +1,48 @@
+/*
+============================================================================
+Western Governors University
+Bachelor of Science in Computer Science
+
+C964 - Computer Science Capstone
+
+Project Title:
+NutriFast: AI-Powered Meal Planning & Fasting Assistant
+
+Project Description:
+A Data-Driven Approach to Personalized Nutrition and Fasting Optimization
+
+Author:
+Nicholas D. Mensah
+
+Student ID:
+010195113
+
+Capstone Advisor:
+Dr. Charlie Paddock
+
+Submission Date:
+May 22, 2026
+
+File Name:
+profile-settings.component.scss
+
+Purpose:
+This file is part of the NutriFast platform, an AI-powered nutrition,
+meal-planning, and fasting management application designed to provide
+personalized dietary recommendations, fasting guidance, and health-focused
+decision support through data-driven analysis and modern software
+engineering practices.
+
+Degree Program:
+Bachelor of Science in Computer Science
+
+Course:
+C964 - Computer Science Capstone
+
+Copyright (c) 2026 Nicholas D. Mensah
+============================================================================
+*/
+
 :host {
   background: #121212;
   color: #fff;
@@ -56,12 +101,27 @@
   top: 5.5rem;
   text-align: center;
 
-  img {
+  img,
+  .profile-avatar {
     border: 3px solid #fbc02d;
     border-radius: 999px;
     height: 120px;
-    object-fit: cover;
     width: 120px;
+  }
+
+  img {
+    object-fit: cover;
+  }
+
+  .profile-avatar {
+    align-items: center;
+    background: #153d27;
+    color: #e8ffe9;
+    display: flex;
+    font-size: 2rem;
+    font-weight: 900;
+    justify-content: center;
+    margin: 0 auto;
   }
 
   input[type='file'] {

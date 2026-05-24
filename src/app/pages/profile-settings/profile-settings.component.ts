@@ -1,3 +1,48 @@
+/*
+============================================================================
+Western Governors University
+Bachelor of Science in Computer Science
+
+C964 - Computer Science Capstone
+
+Project Title:
+NutriFast: AI-Powered Meal Planning & Fasting Assistant
+
+Project Description:
+A Data-Driven Approach to Personalized Nutrition and Fasting Optimization
+
+Author:
+Nicholas D. Mensah
+
+Student ID:
+010195113
+
+Capstone Advisor:
+Dr. Charlie Paddock
+
+Submission Date:
+May 22, 2026
+
+File Name:
+profile-settings.component.ts
+
+Purpose:
+This file is part of the NutriFast platform, an AI-powered nutrition,
+meal-planning, and fasting management application designed to provide
+personalized dietary recommendations, fasting guidance, and health-focused
+decision support through data-driven analysis and modern software
+engineering practices.
+
+Degree Program:
+Bachelor of Science in Computer Science
+
+Course:
+C964 - Computer Science Capstone
+
+Copyright (c) 2026 Nicholas D. Mensah
+============================================================================
+*/
+
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -17,11 +62,14 @@ import { UserProfile, UserService } from '../../services/user.service';
 })
 export class ProfileSettingsComponent implements OnInit {
   profileForm: FormGroup;
-  profileImageUrl = 'assets/images/bg-1.png';
+  profileImageUrl: string | null = null;
   imageUploadError: string | null = null;
   saveMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private userService: UserService) {
+  constructor(
+    private fb: FormBuilder,
+    private userService: UserService,
+  ) {
     this.profileForm = this.fb.group({
       userName: ['', Validators.required],
       age: [null, [Validators.required, Validators.min(1)]],
@@ -40,12 +88,24 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const profile = this.userService.getUserProfile() ?? this.userService.getDefaultProfile();
+    const profile =
+      this.userService.getUserProfile() ?? this.userService.getDefaultProfile();
     this.profileForm.patchValue(profile);
   }
 
   get activeUserName(): string {
-    return this.profileForm.get('userName')?.value || 'Nick Doe';
+    return this.profileForm.get('userName')?.value || 'NutriFast User';
+  }
+
+  get activeUserInitials(): string {
+    return (
+      this.activeUserName
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((name) => name[0]?.toUpperCase())
+        .join('') || 'NF'
+    );
   }
 
   get currentWeight(): number {
@@ -71,7 +131,7 @@ export class ProfileSettingsComponent implements OnInit {
 
     const reader = new FileReader();
     reader.onload = (readerEvent: ProgressEvent<FileReader>) => {
-      this.profileImageUrl = String(readerEvent.target?.result || this.profileImageUrl);
+      this.profileImageUrl = String(readerEvent.target?.result || '');
       this.imageUploadError = null;
     };
     reader.readAsDataURL(file);

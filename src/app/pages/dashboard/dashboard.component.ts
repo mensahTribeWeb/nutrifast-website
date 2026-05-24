@@ -1,3 +1,48 @@
+/*
+============================================================================
+Western Governors University
+Bachelor of Science in Computer Science
+
+C964 - Computer Science Capstone
+
+Project Title:
+NutriFast: AI-Powered Meal Planning & Fasting Assistant
+
+Project Description:
+A Data-Driven Approach to Personalized Nutrition and Fasting Optimization
+
+Author:
+Nicholas D. Mensah
+
+Student ID:
+010195113
+
+Capstone Advisor:
+Dr. Charlie Paddock
+
+Submission Date:
+May 22, 2026
+
+File Name:
+dashboard.component.ts
+
+Purpose:
+This file is part of the NutriFast platform, an AI-powered nutrition,
+meal-planning, and fasting management application designed to provide
+personalized dietary recommendations, fasting guidance, and health-focused
+decision support through data-driven analysis and modern software
+engineering practices.
+
+Degree Program:
+Bachelor of Science in Computer Science
+
+Course:
+C964 - Computer Science Capstone
+
+Copyright (c) 2026 Nicholas D. Mensah
+============================================================================
+*/
+
 import {
   AfterViewInit,
   Component,
@@ -8,6 +53,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../services/user.service';
 
 type StatCard = {
   label: string;
@@ -33,7 +80,7 @@ type FeatureCard = {
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
-  userName = 'Nick Doe';
+  userName = 'NutriFast User';
   currentWeight = 159.4;
   startingWeight = 162.4;
   isWeightEditorOpen = false;
@@ -107,13 +154,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       route: '/settings',
       status: 'Profile active',
     },
-    {
-      title: 'Alerts & Notifications',
-      description: 'Check hydration, fasting, and meal reminder alerts.',
-      action: 'View Alerts',
-      route: '/alert',
-      status: 'No urgent alerts',
-    },
   ];
 
   get insightItems(): string[] {
@@ -124,13 +164,26 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     ];
   }
 
+  get userInitials(): string {
+    return this.userName
+      .split(/\s+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((name) => name[0]?.toUpperCase())
+      .join('') || 'NF';
+  }
+
   @ViewChildren('featureCard') featureCardsRef!: ElementRef[];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
-    this.userName = localStorage.getItem('userName') || 'Nick Doe';
-    this.currentWeight = this.loadCurrentWeight();
+    this.userName = localStorage.getItem('userName') || 'NutriFast User';
+    this.currentWeight = this.userService.getCurrentWeight(this.currentWeight);
     this.weightInput = this.currentWeight;
   }
 
@@ -146,8 +199,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.featureCardsRef.forEach((card) => observer.observe(card.nativeElement));
   }
 
-  logout(): void {
+  async logout(): Promise<void> {
+    await this.authService.logout();
     localStorage.removeItem('userName');
+    localStorage.removeItem('nutrifastUserKey');
     this.router.navigate(['/login']);
   }
 
@@ -169,8 +224,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
 
     this.currentWeight = Math.round(this.weightInput * 10) / 10;
-    localStorage.setItem('currentWeight', this.currentWeight.toString());
-    this.syncProfileWeight(this.currentWeight);
+    this.userService.saveCurrentWeight(this.currentWeight);
     this.weightMessage = 'Weight updated.';
     this.isWeightEditorOpen = false;
   }
@@ -184,41 +238,5 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
 
     return delta < 0 ? `Down ${absDelta} lbs this week` : `Up ${absDelta} lbs this week`;
-  }
-
-  private loadCurrentWeight(): number {
-    const storedWeight = Number(localStorage.getItem('currentWeight'));
-    if (storedWeight > 0) {
-      return storedWeight;
-    }
-
-    const storedProfile = localStorage.getItem('userProfile');
-    if (storedProfile) {
-      try {
-        const profile = JSON.parse(storedProfile);
-        const profileWeight = Number(profile?.weight);
-        if (profileWeight > 0) {
-          return profileWeight;
-        }
-      } catch {
-        return this.currentWeight;
-      }
-    }
-
-    return this.currentWeight;
-  }
-
-  private syncProfileWeight(weight: number): void {
-    const storedProfile = localStorage.getItem('userProfile');
-    if (!storedProfile) {
-      return;
-    }
-
-    try {
-      const profile = JSON.parse(storedProfile);
-      localStorage.setItem('userProfile', JSON.stringify({ ...profile, weight }));
-    } catch {
-      localStorage.setItem('currentWeight', weight.toString());
-    }
   }
 }

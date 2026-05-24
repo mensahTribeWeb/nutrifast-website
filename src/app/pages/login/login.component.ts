@@ -1,12 +1,58 @@
+/*
+============================================================================
+Western Governors University
+Bachelor of Science in Computer Science
+
+C964 - Computer Science Capstone
+
+Project Title:
+NutriFast: AI-Powered Meal Planning & Fasting Assistant
+
+Project Description:
+A Data-Driven Approach to Personalized Nutrition and Fasting Optimization
+
+Author:
+Nicholas D. Mensah
+
+Student ID:
+010195113
+
+Capstone Advisor:
+Dr. Charlie Paddock
+
+Submission Date:
+May 22, 2026
+
+File Name:
+login.component.ts
+
+Purpose:
+This file is part of the NutriFast platform, an AI-powered nutrition,
+meal-planning, and fasting management application designed to provide
+personalized dietary recommendations, fasting guidance, and health-focused
+decision support through data-driven analysis and modern software
+engineering practices.
+
+Degree Program:
+Bachelor of Science in Computer Science
+
+Course:
+C964 - Computer Science Capstone
+
+Copyright (c) 2026 Nicholas D. Mensah
+============================================================================
+*/
+
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
-  Validators,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,42 +64,52 @@ import { Router, RouterModule } from '@angular/router';
 export class LoginComponent {
   form: FormGroup;
   error: string | null = null;
-  showModal = true; // Modal is visible by default, can be toggled off
+  showModal = true;
 
-  constructor(private fb: FormBuilder, private router: Router) {
-    // Initialize form with email + password fields and validation
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
   }
 
-  // Called when the user clicks the login button
-  login() {
-    if (this.form.valid) {
-      console.log('Login successful!');
-
-      // Call helper to handle post-login actions
-      this.onLoginSuccess();
-    } else {
+  async login(): Promise<void> {
+    if (this.form.invalid) {
       this.error = 'Please fill in valid details.';
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    const { email, password } = this.form.getRawValue();
+
+    try {
+      const credential = await this.authService.login(email, password);
+      this.onLoginSuccess(
+        credential.user.displayName,
+        credential.user.email,
+        credential.user.uid
+      );
+    } catch {
+      this.error = 'Login failed. Check your email and password.';
     }
   }
 
-  // Handles actions after successful login
-  onLoginSuccess() {
-    // Mock user data — in real app, replace with API response
-    const user = { name: 'Nick Doe' };
-
-    // Save user name to localStorage for dashboard access
-    localStorage.setItem('userName', user.name);
-
-    // Redirect user to dashboard after login
+  onLoginSuccess(
+    displayName: string | null,
+    email: string | null,
+    userKey: string
+  ): void {
+    const fallbackName = email?.split('@')[0] || 'NutriFast User';
+    localStorage.setItem('userName', displayName || fallbackName);
+    localStorage.setItem('nutrifastUserKey', userKey);
     this.router.navigate(['/dashboard']);
   }
 
-  // Optional: closes modal if you are using it in the template
-  closeModal() {
+  closeModal(): void {
     this.showModal = false;
   }
 }

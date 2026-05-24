@@ -1,3 +1,48 @@
+<!--
+============================================================================
+Western Governors University
+Bachelor of Science in Computer Science
+
+C964 - Computer Science Capstone
+
+Project Title:
+NutriFast: AI-Powered Meal Planning & Fasting Assistant
+
+Project Description:
+A Data-Driven Approach to Personalized Nutrition and Fasting Optimization
+
+Author:
+Nicholas D. Mensah
+
+Student ID:
+010195113
+
+Capstone Advisor:
+Dr. Charlie Paddock
+
+Submission Date:
+May 22, 2026
+
+File Name:
+meal-log-form.component.html
+
+Purpose:
+This file is part of the NutriFast platform, an AI-powered nutrition,
+meal-planning, and fasting management application designed to provide
+personalized dietary recommendations, fasting guidance, and health-focused
+decision support through data-driven analysis and modern software
+engineering practices.
+
+Degree Program:
+Bachelor of Science in Computer Science
+
+Course:
+C964 - Computer Science Capstone
+
+Copyright (c) 2026 Nicholas D. Mensah
+============================================================================
+-->
+
 <div class="max-w-3xl mx-auto mt-24 px-4 sm:px-6 lg:px-8 text-white">
   <h2 class="text-2xl font-bold text-kente-gold mb-6 text-center">
     Log a New Meal
@@ -131,4 +176,47 @@
   <div *ngIf="errorMessage" class="mt-4 text-red-400 text-center">
     {{ errorMessage }}
   </div>
+
+  <section
+    *ngIf="savedMeals.length > 0"
+    class="mt-8 rounded-lg border border-gray-700 bg-gray-800 p-6 shadow-md"
+  >
+    <div class="mb-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h3 class="text-xl font-bold text-kente-gold">Saved Meal Log</h3>
+        <p class="text-sm text-gray-300">
+          Saved for the currently signed-in prototype user.
+        </p>
+      </div>
+      <span class="text-sm text-gray-300">{{ savedMeals.length }} saved</span>
+    </div>
+
+    <div class="grid grid-cols-1 gap-3">
+      <article
+        *ngFor="let savedMeal of savedMeals"
+        class="rounded border border-gray-700 bg-gray-900 p-4"
+      >
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <h4 class="font-semibold text-white">{{ savedMeal.name }}</h4>
+            <p class="text-sm text-gray-400">{{ loggedAtLabel(savedMeal.loggedAt) }}</p>
+          </div>
+          <button
+            type="button"
+            class="rounded-full bg-red-500 px-3 py-1 text-sm font-semibold text-white hover:bg-red-600"
+            (click)="deleteSavedMeal(savedMeal.logId)"
+          >
+            Remove
+          </button>
+        </div>
+
+        <div class="mt-3 grid grid-cols-2 gap-2 text-sm text-gray-200 md:grid-cols-4">
+          <span>{{ savedMeal.calories | number : '1.0-0' }} kcal</span>
+          <span>{{ savedMeal.protein || 0 | number : '1.0-1' }}g protein</span>
+          <span>{{ savedMeal.carbs || 0 | number : '1.0-1' }}g carbs</span>
+          <span>{{ savedMeal.fat || 0 | number : '1.0-1' }}g fat</span>
+        </div>
+      </article>
+    </div>
+  </section>
 </div>

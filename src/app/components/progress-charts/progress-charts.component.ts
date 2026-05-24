@@ -1,5 +1,51 @@
+/*
+============================================================================
+Western Governors University
+Bachelor of Science in Computer Science
+
+C964 - Computer Science Capstone
+
+Project Title:
+NutriFast: AI-Powered Meal Planning & Fasting Assistant
+
+Project Description:
+A Data-Driven Approach to Personalized Nutrition and Fasting Optimization
+
+Author:
+Nicholas D. Mensah
+
+Student ID:
+010195113
+
+Capstone Advisor:
+Dr. Charlie Paddock
+
+Submission Date:
+May 22, 2026
+
+File Name:
+progress-charts.component.ts
+
+Purpose:
+This file is part of the NutriFast platform, an AI-powered nutrition,
+meal-planning, and fasting management application designed to provide
+personalized dietary recommendations, fasting guidance, and health-focused
+decision support through data-driven analysis and modern software
+engineering practices.
+
+Degree Program:
+Bachelor of Science in Computer Science
+
+Course:
+C964 - Computer Science Capstone
+
+Copyright (c) 2026 Nicholas D. Mensah
+============================================================================
+*/
+
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../services/user.service';
 
 type ProgressDay = {
   day: string;
@@ -27,6 +73,8 @@ export class ProgressChartsComponent implements OnInit {
   progressDays: ProgressDay[] = [];
 
   readonly fastingMax = 18;
+
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.progressDays = this.buildProgressDays();
@@ -116,7 +164,7 @@ export class ProgressChartsComponent implements OnInit {
   }
 
   private buildProgressDays(): ProgressDay[] {
-    const currentWeight = this.loadCurrentWeight();
+    const currentWeight = this.userService.getCurrentWeight(159.4);
 
     return [
       { day: 'Mon', calories: 1420, fastingHours: 14, weight: currentWeight + 3.0, adherence: 82 },
@@ -129,25 +177,4 @@ export class ProgressChartsComponent implements OnInit {
     ];
   }
 
-  private loadCurrentWeight(): number {
-    const storedWeight = Number(localStorage.getItem('currentWeight'));
-    if (storedWeight > 0) {
-      return storedWeight;
-    }
-
-    const storedProfile = localStorage.getItem('userProfile');
-    if (storedProfile) {
-      try {
-        const profile = JSON.parse(storedProfile);
-        const profileWeight = Number(profile?.weight);
-        if (profileWeight > 0) {
-          return profileWeight;
-        }
-      } catch {
-        return 159.4;
-      }
-    }
-
-    return 159.4;
-  }
 }

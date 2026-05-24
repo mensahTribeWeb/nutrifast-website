@@ -1,12 +1,58 @@
+/*
+============================================================================
+Western Governors University
+Bachelor of Science in Computer Science
+
+C964 - Computer Science Capstone
+
+Project Title:
+NutriFast: AI-Powered Meal Planning & Fasting Assistant
+
+Project Description:
+A Data-Driven Approach to Personalized Nutrition and Fasting Optimization
+
+Author:
+Nicholas D. Mensah
+
+Student ID:
+010195113
+
+Capstone Advisor:
+Dr. Charlie Paddock
+
+Submission Date:
+May 22, 2026
+
+File Name:
+signup.component.ts
+
+Purpose:
+This file is part of the NutriFast platform, an AI-powered nutrition,
+meal-planning, and fasting management application designed to provide
+personalized dietary recommendations, fasting guidance, and health-focused
+decision support through data-driven analysis and modern software
+engineering practices.
+
+Degree Program:
+Bachelor of Science in Computer Science
+
+Course:
+C964 - Computer Science Capstone
+
+Copyright (c) 2026 Nicholas D. Mensah
+============================================================================
+*/
+
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
-  Validators,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -17,8 +63,13 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class SignupComponent {
   signupForm: FormGroup;
+  error: string | null = null;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) {
     this.signupForm = this.fb.group({
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -27,14 +78,28 @@ export class SignupComponent {
     });
   }
 
-  onSubmit(): void {
-    if (this.signupForm.valid) {
-      console.log('Form Submitted', this.signupForm.value);
+  async onSubmit(): Promise<void> {
+    if (this.signupForm.invalid) {
+      this.error = 'Complete every field with a valid email address.';
+      this.signupForm.markAllAsTouched();
+      return;
+    }
 
-      // ✅ Redirect to dashboard after successful signup
+    const { fullName, email, password, confirmPassword } =
+      this.signupForm.getRawValue();
+
+    if (password !== confirmPassword) {
+      this.error = 'Passwords must match.';
+      return;
+    }
+
+    try {
+      const credential = await this.authService.signup(email, password, fullName);
+      localStorage.setItem('userName', fullName);
+      localStorage.setItem('nutrifastUserKey', credential.user.uid);
       this.router.navigate(['/dashboard']);
-    } else {
-      console.warn('Form is invalid');
+    } catch {
+      this.error = 'Account creation failed. Try another email or password.';
     }
   }
 }
