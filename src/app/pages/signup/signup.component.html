@@ -54,18 +54,88 @@ Copyright (c) 2026 Nicholas D. Mensah
 
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
       <div class="space-y-4">
-        <input type="text" placeholder="Full Name" class="input" formControlName="fullName" />
-        <input type="email" placeholder="Email" class="input" formControlName="email" />
-        <input type="password" placeholder="Password" class="input" formControlName="password" />
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          class="input"
-          formControlName="confirmPassword"
-        />
+        <div>
+          <input
+            type="text"
+            placeholder="Full Name"
+            class="input"
+            formControlName="fullName"
+            [class.input-error]="shouldShowError('fullName')"
+            autocomplete="name"
+          />
+          <p *ngIf="shouldShowError('fullName')" class="field-error">
+            Full name is required.
+          </p>
+        </div>
+
+        <div>
+          <input
+            type="email"
+            placeholder="Email"
+            class="input"
+            formControlName="email"
+            [class.input-error]="shouldShowError('email')"
+            autocomplete="email"
+          />
+          <p
+            *ngIf="shouldShowError('email') && signupForm.get('email')?.hasError('required')"
+            class="field-error"
+          >
+            Email is required.
+          </p>
+          <p
+            *ngIf="shouldShowError('email') && signupForm.get('email')?.hasError('email')"
+            class="field-error"
+          >
+            Enter a valid email address.
+          </p>
+        </div>
+
+        <div>
+          <input
+            type="password"
+            placeholder="Password"
+            class="input"
+            formControlName="password"
+            [class.input-error]="shouldShowError('password')"
+            autocomplete="new-password"
+          />
+          <p
+            *ngIf="shouldShowError('password') && signupForm.get('password')?.hasError('required')"
+            class="field-error"
+          >
+            Password is required.
+          </p>
+          <p
+            *ngIf="shouldShowError('password') && signupForm.get('password')?.hasError('minlength')"
+            class="field-error"
+          >
+            Password must be at least 6 characters.
+          </p>
+        </div>
+
+        <div>
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            class="input"
+            formControlName="confirmPassword"
+            [class.input-error]="shouldShowError('confirmPassword') || (submitted && signupForm.hasError('passwordMismatch'))"
+            autocomplete="new-password"
+          />
+          <p *ngIf="shouldShowError('confirmPassword')" class="field-error">
+            Confirm your password.
+          </p>
+          <p
+            *ngIf="signupForm.hasError('passwordMismatch') && (signupForm.get('confirmPassword')?.touched || submitted)"
+            class="field-error"
+          >
+            Passwords do not match.
+          </p>
+        </div>
       </div>
 
-      <button type="submit" class="btn mt-6" [disabled]="signupForm.invalid">Sign Up</button>
+      <button type="submit" class="btn mt-6">Sign Up</button>
 
       <p *ngIf="error" class="text-sm text-center mt-4 text-kente-red">
         {{ error }}
