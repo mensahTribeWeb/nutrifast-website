@@ -205,7 +205,7 @@ Copyright (c) 2026 Nicholas D. Mensah
           <div class="goal-note-grid">
             <p>
               <span>Weekly trend</span>
-              <strong>{{ weightDelta }} lbs</strong>
+              <strong>{{ weightTrendLabel }}</strong>
             </p>
             <p>
               <span>Estimated goal date</span>
@@ -220,44 +220,50 @@ Copyright (c) 2026 Nicholas D. Mensah
       <div class="panel-header">
         <div>
           <h3>Weight Trend</h3>
-          <p>Daily weigh-ins across the last seven days.</p>
+          <p>Saved weigh-ins across the last seven days.</p>
         </div>
-        <strong>{{ weightDelta }} lbs</strong>
+        <strong>{{ weightTrendLabel }}</strong>
       </div>
 
       <div class="weight-strip" aria-label="Weight trend by day">
         <button
           *ngFor="let day of progressDays"
           class="weight-day"
+          [class.no-entry]="!day.hasSavedEntry"
           type="button"
           (click)="selectProgressDay(day)"
         >
           <span class="day-label">{{ day.day }}</span>
-          <strong>{{ day.weight.toFixed(1) }}</strong>
+          <strong>{{ day.hasSavedEntry ? day.weight.toFixed(1) : '--' }}</strong>
           <span class="unit">lbs</span>
           <span class="entry-state" [class.saved]="day.hasSavedEntry">
-            {{ day.hasSavedEntry ? 'Saved' : 'Starter' }}
+            {{ day.hasSavedEntry ? 'Saved' : 'No entry' }}
           </span>
           <div class="weight-meter">
-            <span [style.height.%]="weightPosition(day.weight)"></span>
+            <span [style.height.%]="day.hasSavedEntry ? weightPosition(day.weight) : 0"></span>
           </div>
         </button>
       </div>
+
+      <p *ngIf="savedEntryCount === 0" class="chart-empty-message">
+        Save daily progress entries to populate the weight trend.
+      </p>
     </section>
 
     <section class="trend-panel">
       <div class="panel-header">
         <div>
           <h3>Calories</h3>
-          <p>Daily intake against your weekly pattern.</p>
+          <p>Daily intake from saved progress entries.</p>
         </div>
-        <strong>{{ averageCalories }} avg</strong>
+        <strong>{{ savedEntryCount > 0 ? averageCalories + ' avg' : 'No entries' }}</strong>
       </div>
 
       <div class="bar-chart calories">
         <button
           *ngFor="let day of progressDays"
           class="bar-column"
+          [class.no-entry]="!day.hasSavedEntry"
           type="button"
           (click)="selectProgressDay(day)"
         >
@@ -267,21 +273,26 @@ Copyright (c) 2026 Nicholas D. Mensah
           <small>{{ day.day }}</small>
         </button>
       </div>
+
+      <p *ngIf="savedEntryCount === 0" class="chart-empty-message">
+        Save daily progress entries to populate calorie bars.
+      </p>
     </section>
 
     <section class="trend-panel">
       <div class="panel-header">
         <div>
           <h3>Fasting Hours</h3>
-          <p>How consistently you hit your fasting window.</p>
+          <p>Saved fasting hours by day.</p>
         </div>
-        <strong>{{ averageFasting }} avg</strong>
+        <strong>{{ savedEntryCount > 0 ? averageFasting + ' avg' : 'No entries' }}</strong>
       </div>
 
       <div class="bar-chart fasting">
         <button
           *ngFor="let day of progressDays"
           class="bar-column"
+          [class.no-entry]="!day.hasSavedEntry"
           type="button"
           (click)="selectProgressDay(day)"
         >
@@ -291,6 +302,10 @@ Copyright (c) 2026 Nicholas D. Mensah
           <small>{{ day.day }}</small>
         </button>
       </div>
+
+      <p *ngIf="savedEntryCount === 0" class="chart-empty-message">
+        Save daily progress entries to populate fasting bars.
+      </p>
     </section>
 
     <aside class="trend-panel insights-panel">
@@ -300,7 +315,7 @@ Copyright (c) 2026 Nicholas D. Mensah
           Best fasting consistency was {{ bestFastingDay.day }} with a
           {{ bestFastingDay.fastingHours }} hour window.
         </li>
-        <li>Average intake stayed near your target at {{ averageCalories }} kcal.</li>
+        <li *ngIf="savedEntryCount > 0">Average intake is {{ averageCalories }} kcal from saved entries.</li>
         <li>{{ weeklyWeightInsight }}</li>
         <li>{{ savedEntryCount }} daily entries are saved for this week.</li>
       </ul>

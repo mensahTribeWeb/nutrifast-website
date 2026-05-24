@@ -456,6 +456,14 @@ Copyright (c) 2026 Nicholas D. Mensah
     transform: translateY(-1px);
   }
 
+  &.no-entry {
+    opacity: 0.55;
+
+    .weight-meter span {
+      min-height: 0;
+    }
+  }
+
   .day-label {
     color: #bfc5d2;
     font-size: 0.85rem;
@@ -533,6 +541,14 @@ Copyright (c) 2026 Nicholas D. Mensah
   &:hover .bar-track {
     outline: 2px solid rgba(251, 192, 45, 0.35);
   }
+
+  &.no-entry {
+    opacity: 0.45;
+
+    .bar-track span {
+      min-height: 0;
+    }
+  }
 }
 
 .bar-track {
@@ -563,6 +579,14 @@ Copyright (c) 2026 Nicholas D. Mensah
 
 small {
   color: #bfc5d2;
+}
+
+.chart-empty-message {
+  background: #111827;
+  border-radius: 0.6rem;
+  color: #d6d6d6;
+  margin: 1rem 0 0;
+  padding: 0.9rem;
 }
 
 .insights-panel {

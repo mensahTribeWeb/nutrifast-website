@@ -109,40 +109,44 @@ export class ProgressChartsComponent implements OnInit {
   }
 
   get averageCalories(): number {
-    if (this.progressDays.length === 0) {
+    const savedDays = this.progressDays.filter((day) => day.hasSavedEntry);
+    if (savedDays.length === 0) {
       return 0;
     }
 
     return Math.round(
-      this.progressDays.reduce((sum, day) => sum + day.calories, 0) / this.progressDays.length
+      savedDays.reduce((sum, day) => sum + day.calories, 0) / savedDays.length
     );
   }
 
   get averageFasting(): string {
-    if (this.progressDays.length === 0) {
+    const savedDays = this.progressDays.filter((day) => day.hasSavedEntry);
+    if (savedDays.length === 0) {
       return '0.0';
     }
 
     return (
-      this.progressDays.reduce((sum, day) => sum + day.fastingHours, 0) /
-      this.progressDays.length
+      savedDays.reduce((sum, day) => sum + day.fastingHours, 0) /
+      savedDays.length
     ).toFixed(1);
   }
 
   get averageAdherence(): number {
-    if (this.progressDays.length === 0) {
+    const savedDays = this.progressDays.filter((day) => day.hasSavedEntry);
+    if (savedDays.length === 0) {
       return 0;
     }
 
     return Math.round(
-      this.progressDays.reduce((sum, day) => sum + day.adherence, 0) / this.progressDays.length
+      savedDays.reduce((sum, day) => sum + day.adherence, 0) / savedDays.length
     );
   }
 
   get weightDelta(): string {
-    const firstDay = this.progressDays[0];
-    const lastDay = this.progressDays[this.progressDays.length - 1];
-    if (!firstDay || !lastDay) {
+    const savedDays = this.progressDays.filter((day) => day.hasSavedEntry);
+    const firstDay = savedDays[0];
+    const lastDay = savedDays[savedDays.length - 1];
+    if (!firstDay || !lastDay || savedDays.length < 2) {
       return '0.0';
     }
 
@@ -153,16 +157,29 @@ export class ProgressChartsComponent implements OnInit {
     return this.progressDays.filter((day) => day.hasSavedEntry).length;
   }
 
+  get weightTrendLabel(): string {
+    if (this.savedEntryCount === 0) {
+      return 'No entries';
+    }
+
+    if (this.savedEntryCount === 1) {
+      return 'Need 2 entries';
+    }
+
+    return `${this.weightDelta} lbs`;
+  }
+
   get weeklySavedEntries(): ProgressDay[] {
     return this.progressDays.filter((day) => day.hasSavedEntry).slice().reverse();
   }
 
   get bestFastingDay(): ProgressDay | null {
-    if (this.progressDays.length === 0) {
+    const savedDays = this.progressDays.filter((day) => day.hasSavedEntry);
+    if (savedDays.length === 0) {
       return null;
     }
 
-    return this.progressDays.reduce((bestDay, currentDay) =>
+    return savedDays.reduce((bestDay, currentDay) =>
       currentDay.fastingHours > bestDay.fastingHours ? currentDay : bestDay
     );
   }
@@ -191,6 +208,10 @@ export class ProgressChartsComponent implements OnInit {
   get estimatedGoalDate(): string {
     if (this.weightRemaining <= 0) {
       return 'Goal reached';
+    }
+
+    if (this.savedEntryCount < 2) {
+      return 'Needs more weigh-ins';
     }
 
     const weeklyLoss = Number(this.weightDeltaAbs);
@@ -239,6 +260,14 @@ export class ProgressChartsComponent implements OnInit {
   }
 
   get weeklyWeightInsight(): string {
+    if (this.savedEntryCount === 0) {
+      return 'Save daily progress entries to calculate a real weight trend.';
+    }
+
+    if (this.savedEntryCount === 1) {
+      return 'Add one more weigh-in to calculate a real weight trend.';
+    }
+
     const weeklyChange = Number(this.weightDelta);
 
     if (weeklyChange < 0) {
@@ -261,7 +290,13 @@ export class ProgressChartsComponent implements OnInit {
   }
 
   weightPosition(weight: number): number {
-    const weights = this.progressDays.map((day) => day.weight);
+    const weights = this.progressDays
+      .filter((day) => day.hasSavedEntry)
+      .map((day) => day.weight);
+    if (weights.length === 0 || weight <= 0) {
+      return 0;
+    }
+
     const min = Math.min(...weights);
     const max = Math.max(...weights);
     const range = Math.max(max - min, 1);
@@ -319,22 +354,18 @@ export class ProgressChartsComponent implements OnInit {
     const savedEntries = new Map(
       this.userService.getProgressEntries().map((entry) => [entry.date, entry])
     );
-    const weeklyChange = this.currentWeight - this.startWeight;
-    const starterCalories = [1420, 1360, 1280, 1325, 1210, 1490, 1235];
-    const starterFastingHours = [14, 15, 16, 16, 17, 14, 16];
 
     return dates.map((date, index) => {
       const savedEntry = savedEntries.get(date);
-      const estimatedWeight = this.startWeight + weeklyChange * (index / Math.max(dates.length - 1, 1));
-      const calories = savedEntry?.calories ?? starterCalories[index];
-      const fastingHours = savedEntry?.fastingHours ?? starterFastingHours[index];
+      const calories = savedEntry?.calories ?? 0;
+      const fastingHours = savedEntry?.fastingHours ?? 0;
 
       return {
         date,
         day: this.formatDayLabel(date),
         calories,
         fastingHours,
-        weight: this.roundOneDecimal(savedEntry?.weight ?? estimatedWeight),
+        weight: this.roundOneDecimal(savedEntry?.weight ?? 0),
         adherence: this.calculateAdherence(calories, fastingHours),
         hasSavedEntry: Boolean(savedEntry),
       };
