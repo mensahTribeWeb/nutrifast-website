@@ -95,17 +95,26 @@ Copyright (c) 2026 Nicholas D. Mensah
             form.controls['password'].touched
           "
         >
-          <small class="text-kente-red">Password is required.</small>
+          <small
+            *ngIf="form.controls['password'].hasError('required')"
+            class="text-kente-red"
+            >Password is required.</small
+          >
+          <small
+            *ngIf="form.controls['password'].hasError('minlength')"
+            class="text-kente-red"
+            >Password must be at least 6 characters.</small
+          >
         </div>
       </div>
 
       <!-- Submit -->
       <button
         type="submit"
-        [disabled]="form.invalid"
+        [disabled]="form.invalid || isSubmitting"
         class="w-full py-2 px-4 bg-kente-gold text-white font-semibold rounded-lg hover:bg-kente-red disabled:opacity-50"
       >
-        Login
+        {{ isSubmitting ? "Checking..." : "Login" }}
       </button>
 
       <!-- Error Message -->
@@ -124,6 +133,7 @@ Copyright (c) 2026 Nicholas D. Mensah
     <!-- Close Button -->
     <button
       (click)="closeModal()"
+      aria-label="Close login"
       class="absolute top-4 right-4 text-kente-red text-xl"
     >
       &times;

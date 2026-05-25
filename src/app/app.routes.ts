@@ -66,6 +66,8 @@ export const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordPageComponent },
   { path: 'signup', component: SignupComponent },
+  { path: 'register', redirectTo: '/signup', pathMatch: 'full' },
+  { path: 'signin', redirectTo: '/login', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'user-stats', component: UserStatsComponent, canActivate: [AuthGuard] },
   {

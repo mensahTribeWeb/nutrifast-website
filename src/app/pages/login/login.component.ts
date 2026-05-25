@@ -44,7 +44,7 @@ Copyright (c) 2026 Nicholas D. Mensah
 */
 
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -61,10 +61,11 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   form: FormGroup;
   error: string | null = null;
   showModal = true;
+  isSubmitting = false;
 
   constructor(
     private fb: FormBuilder,
@@ -77,7 +78,16 @@ export class LoginComponent {
     });
   }
 
+  async ngOnInit(): Promise<void> {
+    await this.authService.logout().catch(() => undefined);
+    this.clearLoginSession();
+  }
+
   async login(): Promise<void> {
+    if (this.isSubmitting) {
+      return;
+    }
+
     this.error = null;
 
     if (this.form.invalid) {
@@ -89,6 +99,7 @@ export class LoginComponent {
     const { email, password } = this.form.getRawValue();
 
     try {
+      this.isSubmitting = true;
       await this.authService.logout().catch(() => undefined);
       this.clearLoginSession();
 
@@ -101,6 +112,8 @@ export class LoginComponent {
     } catch (error: unknown) {
       this.clearLoginSession();
       this.error = this.getLoginErrorMessage(error);
+    } finally {
+      this.isSubmitting = false;
     }
   }
 
@@ -146,6 +159,7 @@ export class LoginComponent {
   }
 
   closeModal(): void {
-    this.showModal = false;
+    this.clearLoginSession();
+    this.router.navigate(['/home']);
   }
 }

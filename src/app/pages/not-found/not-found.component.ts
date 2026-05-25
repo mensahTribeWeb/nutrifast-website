@@ -44,10 +44,11 @@ Copyright (c) 2026 Nicholas D. Mensah
 */
 
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-not-found',
-  imports: [],
+  imports: [RouterModule],
   standalone: true,
   templateUrl: './not-found.component.html',
   styleUrl: './not-found.component.scss',

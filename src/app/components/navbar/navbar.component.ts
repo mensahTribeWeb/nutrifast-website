@@ -44,8 +44,10 @@ Copyright (c) 2026 Nicholas D. Mensah
 */
 
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Auth, authState } from '@angular/fire/auth';
 import { Router, RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -55,7 +57,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./navbar.component.scss'],
   imports: [CommonModule, RouterModule],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   closeMenu() {
     this.showMobileMenu = false;
   }
@@ -64,11 +66,27 @@ export class NavbarComponent implements OnInit {
   lastScrollTop = 0;
   userLoggedIn = false;
   showMobileMenu = false;
+  private authSubscription?: Subscription;
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private auth: Auth
+  ) {}
 
   ngOnInit(): void {
-    this.userLoggedIn = !!localStorage.getItem('userName');
+    this.authSubscription = authState(this.auth).subscribe((user) => {
+      this.userLoggedIn = !!user;
+
+      if (!user) {
+        localStorage.removeItem('userName');
+        localStorage.removeItem('nutrifastUserKey');
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.authSubscription?.unsubscribe();
   }
 
   @HostListener('window:scroll', ['$event'])
