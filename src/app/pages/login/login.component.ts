@@ -73,11 +73,13 @@ export class LoginComponent {
   ) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
   async login(): Promise<void> {
+    this.error = null;
+
     if (this.form.invalid) {
       this.error = 'Please fill in valid details.';
       this.form.markAllAsTouched();
@@ -87,14 +89,18 @@ export class LoginComponent {
     const { email, password } = this.form.getRawValue();
 
     try {
+      await this.authService.logout().catch(() => undefined);
+      this.clearLoginSession();
+
       const credential = await this.authService.login(email, password);
       this.onLoginSuccess(
         credential.user.displayName,
         credential.user.email,
         credential.user.uid
       );
-    } catch {
-      this.error = 'Login failed. Check your email and password.';
+    } catch (error: unknown) {
+      this.clearLoginSession();
+      this.error = this.getLoginErrorMessage(error);
     }
   }
 
@@ -107,6 +113,36 @@ export class LoginComponent {
     localStorage.setItem('userName', displayName || fallbackName);
     localStorage.setItem('nutrifastUserKey', userKey);
     this.router.navigate(['/dashboard']);
+  }
+
+  private clearLoginSession(): void {
+    localStorage.removeItem('userName');
+    localStorage.removeItem('nutrifastUserKey');
+  }
+
+  private getLoginErrorMessage(error: unknown): string {
+    const code =
+      typeof error === 'object' && error !== null && 'code' in error
+        ? String((error as { code?: unknown }).code)
+        : '';
+
+    if (code.includes('invalid-email')) {
+      return 'Enter a valid email address.';
+    }
+
+    if (
+      code.includes('invalid-credential') ||
+      code.includes('user-not-found') ||
+      code.includes('wrong-password')
+    ) {
+      return 'Login failed. Check your email and password.';
+    }
+
+    if (code.includes('too-many-requests')) {
+      return 'Too many login attempts. Please wait and try again.';
+    }
+
+    return 'Login failed. Please try again.';
   }
 
   closeModal(): void {

@@ -62,6 +62,8 @@ export class AuthGuard implements CanActivate {
         if (user) {
           return true;
         } else {
+          localStorage.removeItem('userName');
+          localStorage.removeItem('nutrifastUserKey');
           this.router.navigate(['/login']);
           return false;
         }
