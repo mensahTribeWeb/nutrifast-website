@@ -62,12 +62,14 @@ export class FastingTrackerComponent implements OnInit, OnDestroy {
   endTime: Date | null = null;
   lastFastEndedAt: Date | null = null;
   lastFastDurationMs: number | null = null;
+  scheduledWeight: number | null = null;
   now = Date.now();
   private timerId: ReturnType<typeof setInterval> | null = null;
 
   ngOnInit(): void {
     this.timerId = setInterval(() => {
       this.now = Date.now();
+      this.syncFastState();
     }, 1000);
   }
 
@@ -83,16 +85,23 @@ export class FastingTrackerComponent implements OnInit, OnDestroy {
     this.endTime = new Date(this.startTime.getTime() + this.targetHours * 60 * 60 * 1000);
     this.isFasting = true;
     this.lastFastDurationMs = null;
+    this.scheduledWeight = null;
   }
 
   stopFasting(): void {
     this.now = Date.now();
-    if (this.startTime) {
+    const started = this.startTime && this.now >= this.startTime.getTime();
+
+    if (this.startTime && started) {
       this.lastFastDurationMs = Math.max(0, this.now - this.startTime.getTime());
+      this.lastFastEndedAt = new Date(this.now);
+    } else {
+      this.lastFastDurationMs = null;
+      this.lastFastEndedAt = null;
+      this.scheduledWeight = null;
     }
 
     this.isFasting = false;
-    this.lastFastEndedAt = new Date(this.now);
     this.startTime = null;
     this.endTime = null;
   }
@@ -114,12 +123,14 @@ export class FastingTrackerComponent implements OnInit, OnDestroy {
       Math.round((this.endTime.getTime() - this.startTime.getTime()) / 36_000) / 100
     );
     this.isFasting = true;
+    this.scheduledWeight = fast.weight;
     this.lastFastDurationMs = null;
     this.isModalVisible = false;
+    this.syncFastState();
   }
 
   calculateProgressPercentage(): number {
-    if (!this.isFasting || !this.startTime || !this.endTime) {
+    if (!this.isActiveFast() || !this.startTime || !this.endTime) {
       return 0;
     }
 
@@ -134,7 +145,7 @@ export class FastingTrackerComponent implements OnInit, OnDestroy {
   }
 
   formatElapsedTime(): string {
-    if (this.isFasting && this.startTime) {
+    if (this.isActiveFast() && this.startTime) {
       return this.formatClockTime(this.now - this.startTime.getTime());
     }
 
@@ -142,11 +153,67 @@ export class FastingTrackerComponent implements OnInit, OnDestroy {
   }
 
   formatRemainingTime(): string {
-    if (!this.isFasting || !this.endTime) {
+    if (this.isScheduledFast()) {
+      return `${this.targetHours} hour window`;
+    }
+
+    if (!this.isActiveFast() || !this.endTime) {
       return `${this.targetHours} hour target`;
     }
 
     return this.formatClockTime(Math.max(0, this.endTime.getTime() - this.now));
+  }
+
+  formatRingTime(): string {
+    if (this.isScheduledFast() && this.startTime) {
+      return this.formatClockTime(this.startTime.getTime() - this.now);
+    }
+
+    return this.formatElapsedTime();
+  }
+
+  getHeading(): string {
+    if (this.isScheduledFast()) {
+      return 'Fast Scheduled';
+    }
+
+    if (this.isActiveFast()) {
+      return "You're Fasting";
+    }
+
+    if (this.lastFastDurationMs !== null) {
+      return 'Fast Complete';
+    }
+
+    return 'Get Ready to Fast';
+  }
+
+  getSubheading(): string {
+    if (this.isScheduledFast()) {
+      return 'Your custom fasting window is saved and ready to start.';
+    }
+
+    if (this.isActiveFast()) {
+      return 'Stay hydrated and keep an eye on your remaining window.';
+    }
+
+    return 'Start a standard fast or create a custom schedule.';
+  }
+
+  getRingLabel(): string {
+    if (this.isScheduledFast()) {
+      return 'Starts in';
+    }
+
+    if (this.isActiveFast()) {
+      return 'Elapsed';
+    }
+
+    if (this.lastFastDurationMs !== null) {
+      return 'Complete';
+    }
+
+    return 'Ready';
   }
 
   formatLastFastDuration(): string {
@@ -157,19 +224,35 @@ export class FastingTrackerComponent implements OnInit, OnDestroy {
     return `${this.formatClockTime(this.lastFastDurationMs)} completed`;
   }
 
-  formatTimeLabel(time: Date | null): string {
+  formatDateTimeLabel(time: Date | null): string {
     if (!time) {
       return 'Not started';
     }
 
-    return time.toLocaleTimeString([], {
+    return time.toLocaleString([], {
+      month: 'short',
+      day: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
     });
   }
 
+  formatWeightLabel(): string {
+    if (this.scheduledWeight === null) {
+      return 'Not entered';
+    }
+
+    return `${this.scheduledWeight.toLocaleString(undefined, {
+      maximumFractionDigits: 1,
+    })} lbs`;
+  }
+
   getStatusLabel(): string {
-    if (this.isFasting) {
+    if (this.isScheduledFast()) {
+      return 'Scheduled fast';
+    }
+
+    if (this.isActiveFast()) {
       return 'Active fast';
     }
 
@@ -178,6 +261,53 @@ export class FastingTrackerComponent implements OnInit, OnDestroy {
     }
 
     return 'Not fasting';
+  }
+
+  getPrimaryActionLabel(): string {
+    if (this.isScheduledFast()) {
+      return 'Cancel Schedule';
+    }
+
+    if (this.isActiveFast()) {
+      return 'End Fast';
+    }
+
+    return 'Start Fast';
+  }
+
+  isScheduledFast(): boolean {
+    return Boolean(this.isFasting && this.startTime && this.now < this.startTime.getTime());
+  }
+
+  isActiveFast(): boolean {
+    return Boolean(
+      this.isFasting &&
+        this.startTime &&
+        this.endTime &&
+        this.now >= this.startTime.getTime() &&
+        this.now < this.endTime.getTime()
+    );
+  }
+
+  private syncFastState(): void {
+    if (!this.isFasting || !this.startTime || !this.endTime) {
+      return;
+    }
+
+    if (this.now >= this.endTime.getTime()) {
+      this.completeFast(this.endTime.getTime());
+    }
+  }
+
+  private completeFast(completedAtMs: number): void {
+    if (this.startTime) {
+      this.lastFastDurationMs = Math.max(0, completedAtMs - this.startTime.getTime());
+    }
+
+    this.lastFastEndedAt = new Date(completedAtMs);
+    this.isFasting = false;
+    this.startTime = null;
+    this.endTime = null;
   }
 
   private formatClockTime(ms: number): string {

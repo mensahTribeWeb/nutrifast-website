@@ -47,18 +47,16 @@ Copyright (c) 2026 Nicholas D. Mensah
   <div class="tracker-shell">
     <header class="tracker-header">
       <p class="eyebrow">Fasting Tracker</p>
-      <h2>{{ isFasting ? "You're Fasting" : "Get Ready to Fast" }}</h2>
-      <p>
-        {{ isFasting ? "Stay hydrated and keep an eye on your remaining window." : "Start a standard fast or create a custom schedule." }}
-      </p>
+      <h2>{{ getHeading() }}</h2>
+      <p>{{ getSubheading() }}</p>
     </header>
 
     <div class="tracker-grid">
       <div class="timer-panel">
         <div class="ring" [style.background]="getProgressBackground()">
           <div class="ring-center">
-            <span>{{ isFasting ? "Elapsed" : "Ready" }}</span>
-            <strong>{{ formatElapsedTime() }}</strong>
+            <span>{{ getRingLabel() }}</span>
+            <strong>{{ formatRingTime() }}</strong>
           </div>
         </div>
 
@@ -68,16 +66,20 @@ Copyright (c) 2026 Nicholas D. Mensah
             <strong>{{ getStatusLabel() }}</strong>
           </div>
           <div>
-            <span>{{ isFasting ? "Remaining" : "Default goal" }}</span>
+            <span>{{ isActiveFast() ? "Remaining" : isScheduledFast() ? "Window" : "Default goal" }}</span>
             <strong>{{ formatRemainingTime() }}</strong>
           </div>
           <div *ngIf="isFasting">
-            <span>Started</span>
-            <strong>{{ formatTimeLabel(startTime) }}</strong>
+            <span>Start date</span>
+            <strong>{{ formatDateTimeLabel(startTime) }}</strong>
           </div>
           <div *ngIf="isFasting">
-            <span>Target end</span>
-            <strong>{{ formatTimeLabel(endTime) }}</strong>
+            <span>End date</span>
+            <strong>{{ formatDateTimeLabel(endTime) }}</strong>
+          </div>
+          <div *ngIf="scheduledWeight !== null">
+            <span>{{ isFasting ? "Entered weight" : "Last entered weight" }}</span>
+            <strong>{{ formatWeightLabel() }}</strong>
           </div>
           <div *ngIf="!isFasting && lastFastDurationMs !== null">
             <span>Last fast duration</span>
@@ -102,7 +104,7 @@ Copyright (c) 2026 Nicholas D. Mensah
         class="primary-action"
         (click)="isFasting ? stopFasting() : startFasting()"
       >
-        {{ isFasting ? "End Fast" : "Start Fast" }}
+        {{ getPrimaryActionLabel() }}
       </button>
       <button type="button" class="secondary-action" (click)="showModal()">
         Custom Schedule
