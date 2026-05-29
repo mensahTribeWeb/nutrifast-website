@@ -154,6 +154,12 @@ button[type='submit']:hover {
   transform: translateY(-1px);
 }
 
+button[type='submit']:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+
 form button[type='button'] {
   width: 100%;
   padding: 0.85rem 1rem;
