@@ -61,6 +61,7 @@ export class FastingTrackerComponent implements OnInit, OnDestroy {
   startTime: Date | null = null;
   endTime: Date | null = null;
   lastFastEndedAt: Date | null = null;
+  lastFastDurationMs: number | null = null;
   now = Date.now();
   private timerId: ReturnType<typeof setInterval> | null = null;
 
@@ -77,14 +78,21 @@ export class FastingTrackerComponent implements OnInit, OnDestroy {
   }
 
   startFasting(): void {
-    this.startTime = new Date();
+    this.now = Date.now();
+    this.startTime = new Date(this.now);
     this.endTime = new Date(this.startTime.getTime() + this.targetHours * 60 * 60 * 1000);
     this.isFasting = true;
+    this.lastFastDurationMs = null;
   }
 
   stopFasting(): void {
+    this.now = Date.now();
+    if (this.startTime) {
+      this.lastFastDurationMs = Math.max(0, this.now - this.startTime.getTime());
+    }
+
     this.isFasting = false;
-    this.lastFastEndedAt = new Date();
+    this.lastFastEndedAt = new Date(this.now);
     this.startTime = null;
     this.endTime = null;
   }
@@ -100,11 +108,13 @@ export class FastingTrackerComponent implements OnInit, OnDestroy {
   handleCustomFasting(fast: { startTime: string; endTime: string; weight: number }): void {
     this.startTime = new Date(fast.startTime);
     this.endTime = new Date(fast.endTime);
+    this.now = Date.now();
     this.targetHours = Math.max(
       1,
       Math.round((this.endTime.getTime() - this.startTime.getTime()) / 36_000) / 100
     );
     this.isFasting = true;
+    this.lastFastDurationMs = null;
     this.isModalVisible = false;
   }
 
@@ -128,10 +138,6 @@ export class FastingTrackerComponent implements OnInit, OnDestroy {
       return this.formatClockTime(this.now - this.startTime.getTime());
     }
 
-    if (this.lastFastEndedAt) {
-      return this.formatClockTime(this.now - this.lastFastEndedAt.getTime());
-    }
-
     return '00:00:00';
   }
 
@@ -141,6 +147,37 @@ export class FastingTrackerComponent implements OnInit, OnDestroy {
     }
 
     return this.formatClockTime(Math.max(0, this.endTime.getTime() - this.now));
+  }
+
+  formatLastFastDuration(): string {
+    if (this.lastFastDurationMs === null) {
+      return 'No fast saved yet';
+    }
+
+    return `${this.formatClockTime(this.lastFastDurationMs)} completed`;
+  }
+
+  formatTimeLabel(time: Date | null): string {
+    if (!time) {
+      return 'Not started';
+    }
+
+    return time.toLocaleTimeString([], {
+      hour: 'numeric',
+      minute: '2-digit',
+    });
+  }
+
+  getStatusLabel(): string {
+    if (this.isFasting) {
+      return 'Active fast';
+    }
+
+    if (this.lastFastDurationMs !== null) {
+      return 'Fast complete';
+    }
+
+    return 'Not fasting';
   }
 
   private formatClockTime(ms: number): string {

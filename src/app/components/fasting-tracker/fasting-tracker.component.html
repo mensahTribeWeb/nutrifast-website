@@ -65,11 +65,23 @@ Copyright (c) 2026 Nicholas D. Mensah
         <div class="timer-details">
           <div>
             <span>Status</span>
-            <strong>{{ isFasting ? "Active fast" : "Not fasting" }}</strong>
+            <strong>{{ getStatusLabel() }}</strong>
           </div>
           <div>
             <span>{{ isFasting ? "Remaining" : "Default goal" }}</span>
             <strong>{{ formatRemainingTime() }}</strong>
+          </div>
+          <div *ngIf="isFasting">
+            <span>Started</span>
+            <strong>{{ formatTimeLabel(startTime) }}</strong>
+          </div>
+          <div *ngIf="isFasting">
+            <span>Target end</span>
+            <strong>{{ formatTimeLabel(endTime) }}</strong>
+          </div>
+          <div *ngIf="!isFasting && lastFastDurationMs !== null">
+            <span>Last fast duration</span>
+            <strong>{{ formatLastFastDuration() }}</strong>
           </div>
         </div>
       </div>
