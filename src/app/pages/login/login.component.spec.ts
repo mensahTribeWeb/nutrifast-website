@@ -27,11 +27,8 @@ File Name:
 login.component.spec.ts
 
 Purpose:
-This file is part of the NutriFast platform, an AI-powered nutrition,
-meal-planning, and fasting management application designed to provide
-personalized dietary recommendations, fasting guidance, and health-focused
-decision support through data-driven analysis and modern software
-engineering practices.
+This file verifies that the NutriFast login component compiles with the
+production template and component class used by the application.
 
 Degree Program:
 Bachelor of Science in Computer Science
@@ -43,44 +40,47 @@ Copyright (c) 2026 Nicholas D. Mensah
 ============================================================================
 */
 
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
-@Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  imports: [CommonModule, ReactiveFormsModule],
-  standalone: true,
-})
-export class LoginComponent {
-  closeModal: any;
-  [x: string]: any;
-  // Removed duplicate closeModal method
-  form: FormGroup;
-  error: string | null = null;
-  showModal = true; // Modal will be visible by default, can be toggled
+import { AuthService } from '../../services/auth.service';
+import { LoginComponent } from './login.component';
 
-  constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-    });
-  }
+describe('LoginComponent', () => {
+  let component: LoginComponent;
+  let fixture: ComponentFixture<LoginComponent>;
+  let authServiceMock: jasmine.SpyObj<AuthService>;
+  let routerMock: jasmine.SpyObj<Router>;
 
-  login() {
-    if (this.form.valid) {
-      // Your login logic here
-      console.log('Login successful!');
-      this.closeModal(); // Close the modal after login
-    } else {
-      this.error = 'Please fill in valid details.';
-    }
-  }
-}
+  beforeEach(async () => {
+    authServiceMock = jasmine.createSpyObj<AuthService>('AuthService', [
+      'login',
+      'logout',
+      'signup',
+    ]);
+    authServiceMock.logout.and.returnValue(Promise.resolve());
+
+    routerMock = jasmine.createSpyObj<Router>('Router', ['navigate']);
+    routerMock.navigate.and.returnValue(Promise.resolve(true));
+
+    await TestBed.configureTestingModule({
+      imports: [LoginComponent],
+      providers: [
+        { provide: AuthService, useValue: authServiceMock },
+        { provide: Router, useValue: routerMock },
+      ],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(LoginComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should expose login submission state used by the template', () => {
+    expect(component.isSubmitting).toBeFalse();
+  });
+});
