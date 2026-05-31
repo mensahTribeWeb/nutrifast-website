@@ -4,6 +4,20 @@ NutriFast is a data-driven wellness application that helps users search nutritio
 
 Live prototype: https://nutrifast.dev/home
 
+## Product Preview
+
+The frontend connects the user-facing wellness workflows: account access, dashboard summaries, meal recommendations, meal logging, fasting, progress tracking, analytics, and settings.
+
+<img src="https://raw.githubusercontent.com/mensahTribeWeb/nutrifast-capstone-docs/main/figures/00_system_architecture.png" alt="NutriFast system architecture" width="100%">
+
+| Dashboard | Meal Recommendations |
+| --- | --- |
+| <img src="https://raw.githubusercontent.com/mensahTribeWeb/nutrifast-capstone-docs/main/figures/frontend_screenshot/07_dashboard_summary.png" alt="NutriFast dashboard summary" width="100%"> | <img src="https://raw.githubusercontent.com/mensahTribeWeb/nutrifast-capstone-docs/main/figures/frontend_screenshot/09_meal_ai_results.png" alt="NutriFast meal recommendation results" width="100%"> |
+
+| Progress Visualizations | Analytics Summary |
+| --- | --- |
+| <img src="https://raw.githubusercontent.com/mensahTribeWeb/nutrifast-capstone-docs/main/figures/frontend_screenshot/18_progress_visualizations.png" alt="NutriFast progress visualizations" width="100%"> | <img src="https://raw.githubusercontent.com/mensahTribeWeb/nutrifast-capstone-docs/main/figures/frontend_screenshot/19_analytics_summary.png" alt="NutriFast analytics summary" width="100%"> |
+
 Suggested GitHub repository description:
 
 ```text
