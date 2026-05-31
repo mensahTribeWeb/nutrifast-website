@@ -1,140 +1,118 @@
+# NutriFast: AI-Powered Meal Planning and Fasting Assistant
 
+NutriFast is a data-driven wellness application that helps users search nutrition data, request meal recommendations, track fasting activity, log progress, and review dashboard analytics. This repository contains the Angular frontend for the WGU C964 Computer Science Capstone implementation.
 
-# 🌿 NutriFast: AI-Powered Meal Planning & Fasting Assistant
+Live prototype: https://nutrifast.dev/home
 
-**NutriFast** is an AI-driven, data-powered web application designed to optimize personalized nutrition, fasting schedules, and health tracking. Combining machine learning, rich data visualizations, and cloud scalability, NutriFast empowers users to take control of their health journey with actionable insights and recommendations.
+Suggested GitHub repository description:
 
-
-
-## 🚀 Features
-- 🧠 **AI-Powered Meal Recommendations** (Keto, Vegan Keto, and more)
-- ⏳ **Fasting Tracker with Streaks & Analytics**
-- 📊 **Health Metrics**: Weight, BMI, Hydration, and Glucose Tracking
-- 📈 **Interactive Visualizations**: Fasting trends, weight progress, and macronutrient breakdowns
-- ☁️ **Cloud-Hosted** on AWS with PostgreSQL (RDS) and Firebase Authentication
-- 🔒 **Secure Authentication** and role-based access control
-- 🤖 Machine Learning: Descriptive and Predictive models with Scikit-learn and TensorFlow
-
----
-
-## 🏗️ Project Structure
-```plaintext
-nutrifast-capstone/
-│
-├── backend/                # Flask/FastAPI Backend (API, Auth, ML endpoints)
-├── frontend/               # Angular Frontend (UI, visualizations)
-├── ml/                     # Machine Learning (data, models, training)
-├── docs/                   # Documentation (Thesis, Wireframes)
-├── infra/                  # Infrastructure (AWS, Terraform)
-├── .github/                # GitHub Actions (CI/CD workflows)
-├── .gitignore
-├── LICENSE
-└── README.md
-
-nutrifast-capstone/
-│
-├── backend/                # Flask/FastAPI Backend
-│   ├── app.py
-│   ├── models/
-│   ├── routes/
-│   ├── services/
-│   ├── tests/
-│   ├── config.py
-│   └── requirements.txt
-│
-├── frontend/               # Angular Frontend
-│   ├── src/
-│   ├── angular.json
-│   ├── package.json
-│   └── README.md
-│
-├── ml/                     # Machine Learning
-│   ├── data/
-│   ├── notebooks/
-│   ├── model_training.py
-│   ├── prediction_service.py
-│   └── requirements.txt
-│
-├── docs/                   # Documentation
-│   ├── thesis/
-│   │   ├── nutrifast-thesis.tex
-│   │   ├── references.bib
-│   │   └── images/
-│   ├── wireframes/
-│   └── notes.md
-│
-├── infra/                  # Infrastructure (AWS/Terraform/etc.)
-│
-├── .github/                # GitHub Actions
-│   └── workflows/
-│
-├── .gitignore
-├── README.md
-└── LICENSE
-
+```text
+Angular frontend for NutriFast, an AI-powered meal planning and fasting assistant with meal recommendations, fasting tracking, progress dashboards, and wellness analytics.
 ```
 
----
+## Capstone Context
 
-## 🛠️ Tech Stack
-| Layer            | Tools                             |
-|-----------------|-----------------------------------|
-| **Frontend**   | Angular, TypeScript, D3.js       |
-| **Backend**    | Flask, FastAPI, Python           |
-| **Database**   | PostgreSQL (AWS RDS), Firebase   |
-| **ML Models**  | Scikit-learn, TensorFlow         |
-| **Cloud**     | AWS EC2, AWS Lambda, Firebase    |
-| **Deployment** | Docker, GitHub Actions (CI/CD)   |
+| Field | Value |
+| --- | --- |
+| University | Western Governors University |
+| Degree Program | Bachelor of Science in Computer Science |
+| Course | C964 - Computer Science Capstone |
+| Project | NutriFast: AI-Powered Meal Planning and Fasting Assistant |
+| Author | Nicholas D. Mensah |
+| Capstone Advisor | Dr. Charlie Paddock |
+| Submission Date | May 22, 2026 |
 
----
+## Frontend Features
 
-## 📊 Visualizations
-- Macronutrient Breakdown (Pie Charts)
-- Fasting History (Line Graphs)
-- Weight & BMI Progress (Bar and Line Charts)
+- Firebase Authentication signup, login, logout, and protected-route workflow
+- Food search and meal logging user interface
+- Meal AI page for calorie and macronutrient recommendation queries
+- Dashboard summary cards for user progress and feature navigation
+- Fasting tracker with standard and custom fasting schedule workflows
+- Progress page for daily weight, calories, and fasting-hour entries
+- Saved-entry review with delete support for accidental entries
+- Analytics summary generated from saved user progress and meal-log data
+- Profile/settings page for wellness preferences and user configuration
 
----
+## Technology Stack
 
-## 📚 Documentation
-- 📝 [Thesis Draft (LaTeX)]()
-- 🗂️ Wireframes and Design Notes
-- 📑 API Documentation (Coming Soon)
+| Area | Tools |
+| --- | --- |
+| Framework | Angular 19 |
+| Language | TypeScript |
+| Authentication | Firebase Authentication through AngularFire |
+| Visualization | Chart.js and ng2-charts |
+| Styling | SCSS and Tailwind utility support |
+| Backend Integration | FastAPI REST endpoints |
+| Prototype Persistence | User-scoped browser storage for profile, meals, progress, and settings |
 
----
+## Main Routes
 
-## 📅 Roadmap
-- [] Backend API Setup
-- [] Angular Frontend
-- [] Initial Machine Learning Models
-- [ ] Deployment to AWS
-- [ ] Advanced ML for personalized meal optimization
-- [ ] Mobile App Extension
-- [ ] Community Features (Future)
+| Route | Purpose |
+| --- | --- |
+| `/home` | Public landing page |
+| `/signup` | Account creation with validation |
+| `/login` | User login |
+| `/dashboard` | Authenticated dashboard |
+| `/meal-ai` | Meal recommendation query and results |
+| `/meal-log-form` | Food search and meal logging |
+| `/fasting-tracker` | Fasting timer and custom schedule |
+| `/progress` | Daily progress entries and visualizations |
+| `/analytics-summary` | Analytics generated from saved entries |
+| `/settings` | Profile and wellness settings |
 
----
+## Local Development
 
-## 🛡️ License
-NutriFast is licensed under the **[Business Source License (BSL) 1.1](LICENSE)**.
+Install dependencies:
 
-- 🛑 **Non-commercial use only** until **May 1, 2028**.
-- 🔒 Commercial use requires a separate license from the author.
-- 🔓 Will automatically convert to **Apache 2.0** on **May 1, 2028**.
-
----
-
-## 💬 Contact
-For business inquiries, licensing, or support:
+```bash
+npm install
 ```
-Nicholas Mensah
-Email: ndm.acct85.com
-Website: https://nutrifast.dev (Coming Soon)
-Company: Nokore.dev
+
+Start the Angular development server:
+
+```bash
+npm start
 ```
 
----
+Open the application:
 
-## 🌟 Contributing
-Currently, NutriFast is in early development. Contributions will be considered for non-commercial improvements. Please open an issue or submit a pull request.
+```text
+http://127.0.0.1:4200
+```
 
----
+The local frontend expects the backend API to be available at:
 
+```text
+http://127.0.0.1:8000
+```
+
+Run a production build:
+
+```bash
+npm run build
+```
+
+## Backend Dependency
+
+Meal search and recommendation workflows call the NutriFast FastAPI backend. The deployed frontend points to the hosted backend, while local development uses the local FastAPI server. Start the backend before testing local food search or recommendation workflows.
+
+## Capstone Evidence
+
+This frontend demonstrates the user-facing portion of the data product required by the WGU C964 rubric:
+
+- Interactive queries through meal search and meal AI recommendation pages
+- User-friendly dashboard with multiple visualization types
+- Authentication and route protection
+- Progress entry and analytics workflows
+- Screenshots and source code evidence for final report documentation
+
+## Related Repositories
+
+- Frontend: https://github.com/mensahTribeWeb/nutrifast-website
+- Backend: https://github.com/mensahTribeWeb/nutrifast-backend
+- Documentation: https://github.com/mensahTribeWeb/nutrifast-capstone-docs
+
+## Responsible Use
+
+NutriFast is a wellness decision-support prototype. It is not medical advice, diagnosis, or treatment guidance. Users should consult qualified healthcare professionals for medical conditions, dietary restrictions, or treatment decisions.
