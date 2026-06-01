@@ -43,43 +43,108 @@ Copyright (c) 2026 Nicholas D. Mensah
 ============================================================================
 -->
 
-<section class="gallery-section bg-gray-100 py-16 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-7xl mx-auto">
-    <h2 class="text-3xl sm:text-4xl font-bold text-center text-kente-blue mb-8">
-      Explore NutriFast Moments
-    </h2>
+<section class="gallery-section py-16 px-4 sm:px-6 lg:px-8" aria-labelledby="nutrifast-moments-title">
+  <div class="mx-auto max-w-7xl">
+    <div class="mx-auto mb-10 max-w-3xl text-center">
+      <p class="text-sm font-semibold uppercase tracking-wide text-kente-red">Real food, real routines</p>
+      <h2 id="nutrifast-moments-title" class="mt-2 text-3xl font-bold text-kente-blue sm:text-4xl">
+        Explore NutriFast Moments
+      </h2>
+      <p class="mt-4 text-base text-slate-700">
+        A look at the fresh ingredients, prepared meals, and wellness spaces that inspired the NutriFast experience.
+      </p>
+    </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      <img
-        src="https://placehold.co/600x400/png"
-        alt="Healthy meal"
-        class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300"
-      />
-      <img
-        src="https://placehold.co/600x400/png"
-        alt="Progress chart"
-        class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300"
-      />
-      <img
-        src="https://placehold.co/600x400/png"
-        alt="Happy user"
-        class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300"
-      />
-      <img
-        src="https://placehold.co/600x400/png"
-        alt="Meal prep"
-        class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300"
-      />
-      <img
-        src="https://placehold.co/600x400/png"
-        alt="Fitness routine"
-        class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300"
-      />
-      <img
-        src="https://placehold.co/600x400/png"
-        alt="Community support"
-        class="w-full rounded-lg shadow-md hover:scale-105 transition-transform duration-300"
-      />
+    <div class="moment-grid">
+      <figure class="moment-card moment-card--tall">
+        <img
+          #galleryImage
+          src="assets/images/gallary/okra.jpeg"
+          alt="Fresh okra growing in a garden"
+          class="gallery-img"
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption class="moment-overlay">
+          <span>Garden Harvest</span>
+          <strong>Whole foods begin close to the source.</strong>
+        </figcaption>
+      </figure>
+
+      <figure class="moment-card">
+        <img
+          #galleryImage
+          src="assets/images/gallary/cucumber_guava.jpeg"
+          alt="Fresh fruit and cucumber salad in a wooden bowl"
+          class="gallery-img"
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption class="moment-overlay">
+          <span>Hydration Bowl</span>
+          <strong>Light meals with color, fiber, and crunch.</strong>
+        </figcaption>
+      </figure>
+
+      <figure class="moment-card">
+        <img
+          #galleryImage
+          src="assets/images/gallary/dragon_fruit_berry.jpeg"
+          alt="Dragon fruit, pineapple, and berries prepared in a bowl"
+          class="gallery-img"
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption class="moment-overlay">
+          <span>Fruit Prep</span>
+          <strong>Portions that are easy to see and track.</strong>
+        </figcaption>
+      </figure>
+
+      <figure class="moment-card">
+        <img
+          #galleryImage
+          src="assets/images/gallary/ghana_cocoa.jpeg"
+          alt="Close-up of Ghana cocoa beans"
+          class="gallery-img"
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption class="moment-overlay">
+          <span>Ghana Cocoa</span>
+          <strong>Cultural ingredients tracked with care.</strong>
+        </figcaption>
+      </figure>
+
+      <figure class="moment-card">
+        <img
+          #galleryImage
+          src="assets/images/gallary/okra_stew.jpeg"
+          alt="Prepared okra stew with peppers and tomatoes"
+          class="gallery-img"
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption class="moment-overlay">
+          <span>Okra Stew</span>
+          <strong>A warm plate built from familiar ingredients.</strong>
+        </figcaption>
+      </figure>
+
+      <figure class="moment-card moment-card--wide">
+        <img
+          #galleryImage
+          src="assets/images/gallary/wet_lands_2.jpeg"
+          alt="Sunset over a green wetland trail"
+          class="gallery-img"
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption class="moment-overlay">
+          <span>Wellness Reset</span>
+          <strong>Progress also happens between meals.</strong>
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>
