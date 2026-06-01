@@ -44,12 +44,21 @@ Copyright (c) 2026 Nicholas D. Mensah
 -->
 
 <section class="not-found-page" aria-labelledby="not-found-title">
+  <img
+    src="assets/images/gallary/wet_lands.jpeg"
+    alt=""
+    class="not-found-backdrop"
+    aria-hidden="true"
+    loading="eager"
+    decoding="async"
+  />
+
   <div class="not-found-shell">
-    <div class="not-found-copy">
+    <article class="not-found-copy">
       <p class="eyebrow">404 page not found</p>
       <h1 id="not-found-title">This route is not on the meal plan.</h1>
       <p class="not-found-lede">
-        The page may have moved, expired, or been mistyped. Return to a working NutriFast path and keep your wellness flow moving.
+        The page may have moved, expired, or been mistyped. Step back into NutriFast and continue with meal planning, fasting, and progress tracking.
       </p>
 
       <div class="not-found-actions" aria-label="Page recovery links">
@@ -62,18 +71,38 @@ Copyright (c) 2026 Nicholas D. Mensah
         <a routerLink="/signup">Create Account</a>
         <a routerLink="/dashboard">Dashboard</a>
       </nav>
-    </div>
+    </article>
 
-    <figure class="not-found-visual">
-      <img
-        src="assets/images/gallary/wet_lands_2.jpeg"
-        alt="Sunset over a quiet wetland path"
-        loading="eager"
-        decoding="async"
-      />
-      <figcaption>
-        Reset the path, then continue with meal planning, fasting, and progress tracking.
-      </figcaption>
-    </figure>
+    <aside class="not-found-gallery" aria-label="NutriFast food and wellness images">
+      <figure class="photo-card photo-card--large">
+        <img
+          src="assets/images/gallary/okra_stew.jpeg"
+          alt="Prepared okra stew with tomatoes and peppers"
+          loading="eager"
+          decoding="async"
+        />
+        <figcaption>Find your next meal</figcaption>
+      </figure>
+
+      <figure class="photo-card">
+        <img
+          src="assets/images/gallary/dragon_fruit_berry.jpeg"
+          alt="Dragon fruit, pineapple, and berries in a bowl"
+          loading="eager"
+          decoding="async"
+        />
+        <figcaption>Track fresh choices</figcaption>
+      </figure>
+
+      <figure class="photo-card">
+        <img
+          src="assets/images/gallary/ginger_delight.jpeg"
+          alt="Fresh ginger with green produce"
+          loading="eager"
+          decoding="async"
+        />
+        <figcaption>Build better routines</figcaption>
+      </figure>
+    </aside>
   </div>
 </section>
