@@ -116,5 +116,5 @@ export const appRoutes: Routes = [
   },
 
   // Wildcard route (404 fallback)
-  { path: '**', component: NotFoundComponent },
+  { path: '**', component: NotFoundComponent, title: 'Page Not Found | NutriFast' },
 ];
